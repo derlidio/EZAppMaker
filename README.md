@@ -151,7 +151,7 @@ public static class MauiProgram
                   xmlns:resource="clr-namespace:EZAppMaker.Resources;assembly=EZAppMaker"
                   xmlns:view="clr-namespace:Your_App"
                   x:DataType="view:MainPage"
-                  x:Class="EZTemplate.MainPage"
+                  x:Class="Your_App.MainPage"
                   ItemId="MainPage"
                   Title="Main Page">
 </ez:EZContentView>            
