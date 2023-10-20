@@ -135,7 +135,7 @@ namespace EZAppMaker.Support
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine($"Path Data do not exist: {resource}");
+                System.Diagnostics.Debug.WriteLine($"Path Data not found: {resource}");
             }
 
             result = result.Replace("\r\n", "\n");

@@ -108,14 +108,7 @@ namespace EZAppMaker.Components
 
         public GeometryGroup PathData
         {
-            get
-            {
-                if (GetValue(PathDataProperty) == null)
-                {
-                    return EZEmbedded.GetPath("?");
-                }
-                return (GeometryGroup)GetValue(PathDataProperty);
-            }
+            get => (GeometryGroup)GetValue(PathDataProperty);
             set => SetValue(PathDataProperty, value);
         }
 

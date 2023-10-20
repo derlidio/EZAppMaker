@@ -94,4 +94,12 @@
 	  <EmbeddedResource Include="Assets\Paths\keyboard_hide.txt" />
 	  <EmbeddedResource Include="Defaults\Data\dark.json" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Include="..\README.md">
+	    <Link>README.md</Link>
+	  </None>
+	  <None Include="..\LICENSE">
+	    <Link>LICENSE</Link>
+	  </None>
+	</ItemGroup>
 </Project>

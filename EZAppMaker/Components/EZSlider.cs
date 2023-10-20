@@ -67,7 +67,7 @@ namespace EZAppMaker.Components
         private void Track_SizeChanged(object sender, EventArgs e)
         {
             track_max.WidthRequest = track_min.Width * slider.Value + 1; // + 1 -> iOS WORKAROUND
-            pointer.TranslationX = (grid.Width - pointer.Width) * slider.Value;
+            pointer.TranslationX = (grid.Width - pointer.WidthRequest) * slider.Value;
         }
 
         public void ThemeChanged()
