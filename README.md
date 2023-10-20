@@ -102,14 +102,13 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();
-
-		builder
+        var builder = MauiApp.CreateBuilder();
+        builder
 		.UseMauiApp<App>()
         .ConfigureMauiHandlers(handlers =>
         {
 #if ANDROID
-            handlers.AddHandler(typeof(EZScrollBridge), typeof(EZScrollViewHandler));
+        handlers.AddHandler(typeof(EZScrollBridge), typeof(EZScrollViewHandler));
 #endif
         })
         .ConfigureEffects
@@ -150,7 +149,7 @@ public static class MauiProgram
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:ez="clr-namespace:EZAppMaker.Components;assembly=EZAppMaker"
                   xmlns:resource="clr-namespace:EZAppMaker.Resources;assembly=EZAppMaker"
-                  xmlns:view="clr-namespace:EZTemplate"
+                  xmlns:view="clr-namespace:Your_App"
                   x:DataType="view:MainPage"
                   x:Class="EZTemplate.MainPage"
                   ItemId="MainPage"
@@ -179,7 +178,7 @@ using EZAppMaker.Components;
 using EZAppMaker.Support;
 using EZForms;
 
-namespace EZTemplate
+namespace Your_App
 {
     public class Builder: EZBuilder
     {
@@ -340,7 +339,6 @@ namespace EZTemplate
     }
 }
 ```
-9. Run Your App.
 ## Notes
 On Android Emulator your phisical keyboard (desktop keyboard) will enter text
 as expected on entry and combo fields, but the `return` key may behave strange.
