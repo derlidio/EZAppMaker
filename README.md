@@ -96,7 +96,7 @@ using EZAppMaker;
 using EZAppMaker.Effects;
 using EZAppMaker.Bridges;
 
-namespace EZTemplate;
+namespace Your_App;
 
 public static class MauiProgram
 {
