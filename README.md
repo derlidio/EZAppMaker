@@ -18,6 +18,10 @@ to use EZAppMaker and EZForms, please follow the link below:
 
 Note: You must clone EZAppMaker and [EZForms](https://github.com/derlidio/EZForms) in order to run EZTemplate.
 
+The following sections contains an overview of what you should change in your solution
+in order to enable EZAppMaker, but I highly reccomend you to download the 3 repositories
+and inspect the code. This will give you a better grasp of the framework.
+
 ## EZForms
 EZForms is a basic set of helper classes that integrates with EZAppMaker. It works with
 SQLite and will take care of all your needs on the CRUD regard. You won't have
@@ -62,10 +66,11 @@ C:\
        .      +----> [EZAppMaker.sln]
        .
 ```
-3. On your app's project, add a reference to EZAppMaker;
+3. Add EZAppMaker.csproj to your solution and then a reference to EZAppMaker on your app's project;
 4. Change your `App.xaml.cs` file following the example below:
 ```csharp
 using Microsoft.Maui.Handlers;
+
 using EZAppMaker;
 using EZAppMaker.Support;
 
@@ -88,7 +93,7 @@ public partial class App : Application
 ```
 5. Change your MauiProgram.cs following the example below. You'll notice that there are several
 font files being added. You may have to download the extra fonts and place them at the `/Resources/Fonts`
-folder of your solution.
+folder of your app's project. Tip: [EZTemplate](https://github.com/derlidio/EZTemplate) has all those fonts.
 ```csharp
 using Microsoft.Extensions.Logging;
 
@@ -171,7 +176,23 @@ your views using `EZContentView` derived class so `EZContainer` can handle them.
 
     </ContentView.Content>
 ```
-8. Create a new Class File, name it Builder.cs, and copy the following code:
+8. Update your `MainPage.xaml.cs` file to match the changes made to the XAML counterpart:
+```csharp
+using EZAppMaker.Components;
+using EZAppMaker.Support;
+
+namespace Your_App
+{
+    public partial class MainPage : EZContentView
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+    }
+}
+```
+9. Create a new Class File, name it Builder.cs, and copy the following code:
 ```csharp
 using EZAppMaker;
 using EZAppMaker.Components;
@@ -257,7 +278,7 @@ namespace Your_App
 
         public override EZContentView BuildContentView(string id)
         {
-            // Here you must return the ContentView wich corresponds to the given id.
+            // Here you must return the EZContentView wich corresponds to the given id.
             // EZAppMaker will put the view on the top of the ContentView stack (make
             // the page visible). If it already exists on the stack but is not at the
             // top, EZAppMaker will just raise it and this method will not be called.
