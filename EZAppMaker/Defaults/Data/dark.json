@@ -1,0 +1,359 @@
+﻿{
+    "screen_background": {
+        "Color": "#FF000000"
+    },
+    "ezmenu_fill": {
+        "Color": "#FF202020"
+    },
+    "ezmenu_iconfill": {
+        "Color": "#FF404040"
+    },
+    "ezmenu_iconstroke": {
+        "Color": "#00FFFFFF"
+    },
+    "ezmenu_border": {
+        "Color": "#FF404040"
+    },
+    "ezmenu_items_background": {
+        "Color": "#FF808080"
+    },
+    "ezmenu_items": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezmodal_fill": {
+        "Color": "#FF202020"
+    },
+    "ezmodal_border": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezmodal_title": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezmodal_text": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezframe_fill": {
+        "Gradient": {
+            "StartPoint": {
+                "X": 0,
+                "Y": 0
+            },
+            "EndPoint": {
+                "X": 1,
+                "Y": 1
+            },
+            "Stops": [
+                {
+                    "Color": "#40000040",
+                    "Offset": 0.5
+                },
+                {
+                    "Color": "#20000040",
+                    "Offset": 1.0
+                }
+            ]
+        }
+    },
+    "ezframe_border": {
+        "Color": "#FF404040"
+    },
+    "ezframe_tag_fill": {
+        "Gradient": {
+            "StartPoint": {
+                "X": 0,
+                "Y": 0.5
+            },
+            "EndPoint": {
+                "X": 1,
+                "Y": 0.5
+            },
+            "Stops": [
+                {
+                    "Color": "#FF800000",
+                    "Offset": 0.5
+                },
+                {
+                    "Color": "#FF804000",
+                    "Offset": 1.0
+                }
+            ]
+        }
+    },
+    "ezframe_tag_shadow": {
+        "Color": "#00000000"
+    },
+    "ezframe_label": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezentry_back": {
+        "Color": "#00000000"
+    },
+    "ezentry_border": {
+        "Color": "#FF404040"
+    },
+    "ezentry_focused": {
+        "Color": "#FF202020"
+    },
+    "ezentry_flash": {
+        "Color": "#FF404040"
+    },
+    "ezentry_label": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezentry_text": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezentry_placeholder": {
+        "Color": "#FF404040"
+    },
+    "ezentry_icon": {
+        "Color": "#FF808080"
+    },
+    "ezcheckbox": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezcheckbox_label": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezradiobutton": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezradiobutton_label": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezrating_fill": {
+        "Color": "#FF808080"
+    },
+    "ezrating_stroke": {
+        "Color": "#FF404040"
+    },
+    "ezrating_background": {
+        "Color": "#FF202020"
+    },
+    "ezrating_border": {
+        "Color": "#FF808080"
+    },
+    "ezrating_label": {
+        "Color": "#FFF0F0F0"
+    },
+    "eztag_fill": {
+        "Gradient": {
+            "StartPoint": {
+                "X": 0,
+                "Y": 0.5
+            },
+            "EndPoint": {
+                "X": 1,
+                "Y": 0.5
+            },
+            "Stops": [
+                {
+                    "Color": "#FF800000",
+                    "Offset": 0.5
+                },
+                {
+                    "Color": "#FF804000",
+                    "Offset": 1.0
+                }
+            ]
+        }
+    },
+    "eztag_shadow": {
+        "Color": "#00000000"
+    },
+    "eztag_label": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezpathbutton_fill": {
+        "Color": "#FF808080"
+    },
+    "ezpathbutton_stroke": {
+        "Color": "#00FFFFFF"
+    },
+    "ezcombo_list_fill": {
+        "Color": "#FF000000"
+    },
+    "ezcombo_list_border": {
+        "Color": "#FF404040"
+    },
+    "ezcombo_header_background": {
+        "Color": "#FF00FFFF"
+    },
+    "ezcombo_header": {
+        "Color": "#FFFF8080"
+    },
+    "ezcombo_item": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezcombo_detail": {
+        "Color": "#FF808080"
+    },
+    "ezballoon_shadow": {
+        "Color": "#00000000"
+    },
+    "ezkeyboarddispatcher_shadow": {
+        "Color": "#00000000"
+    },
+    "ezbutton_primary": {
+        "Color": "#FF356FF5"
+    },
+    "ezbutton_primary_label": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezbutton_primary_tapped": {
+        "Color": "#FF457FFF"
+    },
+    "ezbutton_secondary": {
+        "Color": "#FF6E757C"
+    },
+    "ezbutton_secondary_label": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezbutton_secondary_tapped": {
+        "Color": "#FF7E858C"
+    },
+    "ezbutton_success": {
+        "Color": "#FF45A058"
+    },
+    "ezbutton_success_label": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezbutton_success_tapped": {
+        "Color": "#FF55B068"
+    },
+    "ezbutton_danger": {
+        "Color": "#FFC8454A"
+    },
+    "ezbutton_danger_label": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezbutton_danger_tapped": {
+        "Color": "#FFD8555A"
+    },
+    "ezbutton_warning": {
+        "Color": "#FFF5C545"
+    },
+    "ezbutton_warning_label": {
+        "Color": "#FF202020"
+    },
+    "ezbutton_warning_tapped": {
+        "Color": "#FFFFD555"
+    },
+    "ezbutton_info": {
+        "Color": "#FF65C8EC"
+    },
+    "ezbutton_info_label": {
+        "Color": "#FF202020"
+    },
+    "ezbutton_info_tapped": {
+        "Color": "#FF75D8FC"
+    },
+    "ezbutton_light": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezbutton_light_label": {
+        "Color": "#FF404040"
+    },
+    "ezbutton_light_tapped": {
+        "Color": "#FFFDFDFD"
+    },
+    "ezbutton_dark": {
+        "Color": "#FF404040"
+    },
+    "ezbutton_dark_label": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezbutton_dark_tapped": {
+        "Color": "#FF505050"
+    },
+    "ezbutton_link": {
+        "Color": "#00FFFFFF"
+    },
+    "ezbutton_link_label": {
+        "Color": "#FF0000FF"
+    },
+    "ezbutton_link_tapped": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezballoon_background": {
+        "Color": "#FFFFFFE0"
+    },
+    "ezballoon_border": {
+        "Color": "#FF808080"
+    },
+    "ezballoon_text": {
+        "Color": "#FF000000"
+    },
+    "ezkeyboarddispatcher_background": {
+        "Color": "#FFFFFFE0"
+    },
+    "ezkeyboarddispatcher_border": {
+        "Color": "#FF808080"
+    },
+    "ezkeyboarddispatcher_icon": {
+        "Color": "#FF202020"
+    },
+    "ezforms_navigationbar": {
+        "Color": "#FF101010"
+    },
+    "ezforms_navigationbarseparator": {
+        "Color": "#FF404040"
+    },
+    "ezforms_buttonbar": {
+        "Color": "#FF101010"
+    },
+    "ezforms_buttonbarseparator": {
+        "Color": "#FF404040"
+    },
+    "ezsearch_background": {
+        "Color": "#FF202020"
+    },
+    "ezsearch_border": {
+        "Color": "#FFFFFFFF"
+    },
+    "ezsignature_stroke": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezsignature_background": {
+        "Color": "#FF202020"
+    },
+    "ezsignature_border": {
+        "Color": "#FF808080"
+    },
+    "ezsignature_label": {
+        "Color": "#FF404040"
+    },
+    "ezphoto_background": {
+        "Color": "#FF202020"
+    },
+    "ezphoto_border": {
+        "Color": "#FF808080"
+    },
+    "ezphoto_label": {
+        "Color": "#FF404040"
+    },
+    "ezcolorpicker_background": {
+        "Color": "#FF202020"
+    },
+    "ezcolorpicker_border": {
+        "Color": "#FF808080"
+    },
+    "ezcolorpicker_label": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezslider_background": {
+        "Color": "#FF202020"
+    },
+    "ezslider_border": {
+        "Color": "#FF808080"
+    },
+    "ezslider_label": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezslider_min_track": {
+        "Color": "#FF808080"
+    },
+    "ezslider_max_track": {
+        "Color": "#FFF0F0F0"
+    }
+}

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ez:EZContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:ez="clr-namespace:EZAppMaker.Components"
+                  xmlns:resource="clr-namespace:EZAppMaker.Resources"
+                  xmlns:view="clr-namespace:EZAppMaker.PopUp"
+                  x:Class="EZAppMaker.PopUp.EZQuestionView"
+                  x:DataType="view:EZQuestionView">
+
+    <ContentView.Content>
+
+        <VerticalStackLayout StyleClass="EZVerticalStackStyle" VerticalOptions="Center">
+
+            <Frame Margin="25"
+                   Padding="10"
+                   CornerRadius="20"
+                   HasShadow="False"
+                   Background="{resource:BrushResource ezmodal_fill}"
+                   BorderColor="{resource:ColorResource ezmodal_border}">
+
+                <Grid StyleClass="EZGridStyle" VerticalOptions="Center" RowSpacing="5">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="48"/>
+                    </Grid.RowDefinitions>
+
+                    <Label x:Name="PopUpTitle"
+                           Text=""
+                           FontFamily="OpenSansSemibold"
+                           FontSize="16"
+                           TextColor="{resource:ColorResource ezmodal_title}"
+                           LineBreakMode="TailTruncation"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           InputTransparent="True"/>
+
+                    <ScrollView Grid.Row="1">
+                        <Label Text="{Binding Message}" TextColor="{resource:ColorResource ezmodal_text}" HorizontalTextAlignment="Center"/>
+                    </ScrollView>
+
+                    <BoxView BackgroundColor="Gray" HeightRequest="1" Grid.Row="2" VerticalOptions="Start"/>
+
+                    <Grid StyleClass="EZGridStyle" Padding="0,5,0,0" Grid.Row="2">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <ez:EZButton x:Name="ButtonYes"
+                                     ItemId="Yes"
+                                     Label="{resource:LocalizationResource ezquestion_yes}"
+                                     Type="success"
+                                     WidthRequest="50"
+                                     OnTap="Answer_OnTap"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Grid.Column="0"/>
+
+                        <ez:EZButton x:Name="ButtonNo"
+                                     ItemId="No"
+                                     Label="{resource:LocalizationResource ezquestion_no}"
+                                     Type="danger"
+                                     WidthRequest="50"
+                                     OnTap="Answer_OnTap"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Grid.Column="1"/>
+                    </Grid>
+
+                </Grid>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </ContentView.Content>
+
+</ez:EZContentView>

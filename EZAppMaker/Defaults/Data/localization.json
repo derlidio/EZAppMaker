@@ -1,0 +1,19 @@
+﻿{
+    "ezalert_ok": "OK",
+    "ezquestion_yes": "Yes",
+    "ezquestion_no": "No",
+    "ezstateform_change": "Change",
+    "ezstateform_cancel": "Cancel",
+    "ezstateform_apply": "Done",
+    "ezforms_delete": "Delete current record?",
+    "ezforms_record_changed":  "Current changes were not saved! Please, save or cancel them before leaving.",
+    "validate_required_entry": "Please, provide a value for '{1}' field.",
+    "validate_required_combo": "Please, select an item from '{1}' list.",
+    "validate_required_checkbox": "Please, check an item from the '{1}' group.",
+    "validate_required_radiobutton": "Please, select an item from the '{1}' group.",
+    "validate_required_signature": "Please, draw your signature here.",
+    "ezsearch_placeholder": " (type here to filter)",
+    "ezphoto_not_supported": "Taking photos is not supported on this device!",
+    "ezphoto_no_permission": "No permission to use the device's camera!",
+    "ezphoto_error":  "Oops! There was a problem taking the photo!"
+}

@@ -1,0 +1,1241 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resource="clr-namespace:EZAppMaker.Resources"
+             xmlns:bridge="clr-namespace:EZAppMaker.Bridges"
+             xmlns:ez="clr-namespace:EZAppMaker.Components"
+             xmlns:view="clr-namespace:EZAppMaker.Dictionary"             
+             x:DataType="view:EZDictionaryView"
+             x:Class="EZAppMaker.Dictionary.EZDictionaryView">
+
+    <ContentView.Resources>
+
+        <ResourceDictionary>
+
+            <!-- BoxView Workaround [ default background color is black! ] -->
+
+            <Style TargetType="BoxView">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+
+            <!-- Default Label -->
+
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansRegular"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}"/>
+            </Style>
+
+            <!-- Empty Grid -->
+
+            <Style TargetType="Grid" Class="EZGridStyle">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="RowSpacing" Value="0"/>
+                <Setter Property="ColumnSpacing" Value="0"/>
+            </Style>
+
+            <!-- Empty Frame -->
+
+            <Style TargetType="Frame" Class="EZFrameStyle">
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HasShadow" Value="False"/>
+            </Style>
+
+            <!-- Empty StackLayout -->
+
+            <Style TargetType="VerticalStackLayout" Class="EZVerticalStackStyle">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Spacing" Value="0"/>
+            </Style>
+
+            <!-- Empty Horizontal StackLayout -->
+
+            <Style TargetType="HorizontalStackLayout" Class="EZHorizontalStackStyle">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Spacing" Value="0"/>
+            </Style>
+
+            <!-- Empty ScrollView -->
+
+            <Style TargetType="ScrollView" Class="EZScrollStyle">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+
+            <!-- Content Fader -->
+
+            <LinearGradientBrush x:Key="EZModalFader" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#00000000" Offset="0"/>
+                <GradientStop Color="#80000000" Offset="0.5"/>
+                <GradientStop Color="#00000000" Offset="1"/>
+            </LinearGradientBrush>
+
+            <!-- EZMenu Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZMenu" x:Key="EZMenuTemplate">
+
+                <Frame BindingContext="{Binding Source={RelativeSource TemplatedParent}}"
+                       Margin="{Binding Margin}"
+                       Padding="{Binding Padding}"
+                       Background="{Binding Fill}"
+                       BorderColor="{Binding BorderColor}"
+                       CornerRadius="{Binding CornerRadius}"
+                       HasShadow="{Binding HasShadow}"
+                       VerticalOptions="Start">
+
+                    <ScrollView StyleClass="EZScrollStyle" VerticalOptions="Start">
+                        <VerticalStackLayout StyleClass="EZVerticalStackStyle" BindableLayout.ItemsSource="{Binding ItemsSource}" Spacing="{TemplateBinding ItemsSpacing}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout StyleClass="EZHorizontalStackStyle"
+                                                           x:DataType="ez:EZMenuItem"
+                                                           HeightRequest="32"
+                                                           Spacing="10"
+                                                           Padding="{TemplateBinding ItemsPadding}"
+                                                           BackgroundColor="{TemplateBinding ItemsBackgroundColor}">
+
+                                        <Path Data="{Binding Icon}"
+                                              Fill="{TemplateBinding IconFill}"
+                                              Stroke="{TemplateBinding IconStroke}"
+                                              StrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                              VerticalOptions="Center"/>
+
+                                        <Label Text="{Binding Label}" TextColor="{TemplateBinding ItemsColor}" VerticalOptions="Center"/>
+
+                                        <HorizontalStackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{TemplateBinding OnItemTap}" CommandParameter="{Binding}"/>
+                                        </HorizontalStackLayout.GestureRecognizers>
+
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </ScrollView>
+
+                </Frame>
+
+            </ControlTemplate>
+
+            <!-- EZContainer Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZContainer" x:Key="EZContainerTemplate">
+
+                <Grid x:Name="EZContainerGrid" StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}" IsClippedToBounds="True">
+
+                    <Grid x:Name="EZFloater" StyleClass="EZGridStyle">
+
+                        <bridge:EZScrollBridge x:Name="EZScroller"
+                                               StyleClass="EZScrollStyle"
+                                               VerticalScrollBarVisibility="Never"
+                                               HorizontalScrollBarVisibility="Never">
+
+                            <VerticalStackLayout x:Name="EZContentTarget"
+                                                 StyleClass="EZVerticalStackStyle"
+                                                 VerticalOptions="Start"
+                                                 BackgroundColor="Transparent"/>
+                        </bridge:EZScrollBridge>
+
+                    </Grid>
+
+                    <ez:EZKeyboardDispatcher x:Name="EZBalloonKeyboard" VerticalOptions="Start" HorizontalOptions="Start" Opacity="0"/>
+
+                    <ez:EZBalloon x:Name="EZBalloonAlert" VerticalOptions="Start" HorizontalOptions="Start" Opacity="0"/>
+
+                    <Grid x:Name="EZMenuBlocker" StyleClass="EZGridStyle" IsVisible="False">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OnMenuBlockerTap}"/>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+
+                    <ez:EZMenu x:Name="EZAppMenu" VerticalOptions="Start" Opacity="0"/>
+
+                    <Grid x:Name="EZTimeConsumingActivityFader"
+                          StyleClass="EZGridStyle"
+                          Background="{StaticResource EZModalFader}"
+                          IsVisible="{Binding Source={x:Reference EZTimeConsumingActivity}, Path=IsVisible}"
+                          Opacity="0"/>
+
+                    <ActivityIndicator x:Name="EZTimeConsumingActivity"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Color="White"
+                                       IsRunning="False"
+                                       IsVisible="False"/>
+
+                    <Grid x:Name="EZBlocker" StyleClass="EZGridStyle" IsVisible="False"/>
+
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZFrame Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZFrame" x:Key="EZFrameTemplate">
+
+                <Grid StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Background -->
+
+                    <Frame x:Name="BgFrame"
+                           Margin="0"
+                           Padding="0"
+                           CornerRadius="{Binding CornerRadius}"
+                           Background="{Binding Fill}"
+                           BorderColor="{Binding BorderColor}"
+                           Opacity="{Binding FrameOpacity}"
+                           HasShadow="{Binding HasShadow}"
+                           Grid.Row="1"/>
+
+                    <!-- Body -->
+
+                    <ContentView Grid.Row="1" Content="{Binding Content}" Padding="{Binding ContentPadding}"/>
+
+                    <!-- Header -->
+                    
+                    <Rectangle Fill="{Binding TagShadow}"
+                               HeightRequest="22"
+                               Margin="20,15,10,0"
+                               VerticalOptions="Start"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               IsVisible="{Binding HasTagShadow}"
+                               RadiusX="{Binding TagCornerRadius}"
+                               RadiusY="{Binding TagCornerRadius}"/> 
+
+                    <Rectangle Fill="{Binding TagFill}"
+                               HeightRequest="22"
+                               Margin="15,10,15,0"
+                               VerticalOptions="Start"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               RadiusX="{Binding TagCornerRadius}"
+                               RadiusY="{Binding TagCornerRadius}"/>
+
+                    <Label Text="{Binding Label}"
+                           FontFamily="OpenSansBold"
+                           FontSize="14"
+                           TextColor="{Binding TagLabelColor}"
+                           HorizontalTextAlignment="{Binding TagHorizontalTextAlignment}"
+                           LineBreakMode="TailTruncation"
+                           VerticalOptions="Start"
+                           Margin="25,10,25,0"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZStateForm Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZStateForm" x:Key="EZFormProtectorTemplate">
+
+                <VerticalStackLayout StyleClass="EZVerticalStackStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <ContentView x:Name="Container" Content="{Binding Content}" IsEnabled="False" Opacity="{Binding ContentOpacity}"/>
+
+                    <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="10" Margin="0,10,0,0" IsVisible="{Binding ShowButtons}">
+
+                        <Grid WidthRequest="24" HeightRequest="24" VerticalOptions="Center">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="24"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.lock_closed.txt}" Fill="Black" IsVisible="{Binding Source={Reference Change}, Path=IsEnabled}"/>
+                            <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.lock_open.txt}" Fill="Black" IsVisible="{Binding Source={Reference Cancel}, Path=IsVisible}"/>
+
+                        </Grid>
+
+                        <ez:EZButton x:Name="Change" Type="primary" WidthRequest="80"/>
+                        <ez:EZButton x:Name="Cancel" Type="danger" WidthRequest="80" IsVisible="False"/>
+                        <ez:EZButton x:Name="Apply" Type="success" WidthRequest="80" IsVisible="False"/>
+
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+            </ControlTemplate>
+
+            <!-- EZTag Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZTag" x:Key="EZTagTemplate">
+
+                <Grid StyleClass="EZGridStyle" HeightRequest="{Binding TotalHeight}" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="{Binding TotalHeight}"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle HeightRequest="{Binding TagHeight}"
+                               Fill="{Binding ShadowColor}"
+                               Margin="5,5,0,0"
+                               VerticalOptions="Start"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               IsVisible="{Binding HasShadow}"
+                               RadiusX="{Binding CornerRadius}"
+                               RadiusY="{Binding CornerRadius}"/>
+
+                    <Rectangle HeightRequest="{Binding TagHeight}"
+                               Fill="{Binding Fill}"
+                               Margin="0,0,5,0"
+                               VerticalOptions="Start"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               RadiusX="{Binding CornerRadius}"
+                               RadiusY="{Binding CornerRadius}"/>
+
+                    <Label HeightRequest="{Binding TagHeight}"
+                           Text="{Binding Label}"
+                           FontFamily="OpenSansBold"
+                           FontSize="14"
+                           TextColor="{Binding LabelColor}"
+                           HorizontalTextAlignment="{Binding HorizontalTextAlignment}"
+                           VerticalTextAlignment="Center"
+                           LineBreakMode="TailTruncation"
+                           VerticalOptions="Start"
+                           Margin="10,0,15,0"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZButton Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZButton" x:Key="EZButtonTemplate">
+
+                <Grid StyleClass="EZGridStyle" HeightRequest="32" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                    </Grid.RowDefinitions>
+
+                    <BoxView Color="{Binding ButtonColor}" CornerRadius="5"/>
+
+                    <BoxView x:Name="TapIndicator" CornerRadius="5" Color="{Binding TappedColor}" Opacity="0"/>
+
+                    <HorizontalStackLayout HeightRequest="32"
+                                           Spacing="10"
+                                           Margin="10,0,10,0"
+                                           Padding="0"
+                                           HorizontalOptions="Center">
+
+                        <Path Data="{Binding PathData}"
+                              WidthRequest="24"
+                              HeightRequest="24"
+                              VerticalOptions="Center"
+                              Fill="{Binding PathFill}"
+                              IsVisible="{Binding HasPath}"/>
+
+                        <Label Text="{Binding Label}"
+                               BackgroundColor="Transparent"
+                               TextColor="{Binding LabelColor}"
+                               FontFamily="OpenSansSemibold"
+                               FontSize="14"
+                               LineBreakMode="TailTruncation"
+                               VerticalOptions="Center"/>
+
+                    </HorizontalStackLayout>
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OnButtonTap}"/>
+                    </Grid.GestureRecognizers>
+
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZPathButton Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZPathButton" x:Key="EZPathButtonTemplate">
+                <Grid BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+                    <Path Data="{Binding PathData}"
+                          Aspect="Uniform" Fill="{Binding Fill}"
+                          Stroke="{Binding Stroke}"
+                          StrokeThickness="{Binding StrokeThickness}"                          
+                          InputTransparent="True"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OnButtonTap}"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </ControlTemplate>
+
+            <!-- EZEntry Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZEntry" x:Key="EZEntryTemplate">
+
+                <VerticalStackLayout x:Name="EntryStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="4" IsVisible="{Binding HasLabel}">
+                        <Label Text="*" IsVisible="{Binding IsRequired}" FontSize="13" TextColor="Red" FontFamily="OpenSansBold"/>
+                        <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
+                    </HorizontalStackLayout>
+
+                    <Grid StyleClass="EZGridStyle" HeightRequest="32">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Frame x:Name="EntryFrame"
+                               StyleClass="EZFrameStyle"
+                               BackgroundColor="{Binding BackColor}"
+                               BorderColor="{Binding BorderColor}"
+                               HasShadow="False"
+                               CornerRadius="5"/>
+
+                        <bridge:EZEntryBridge x:Name="InternalEntry"
+                                              HeightRequest="32"
+                                              Placeholder="{Binding Placeholder}"
+                                              Text="{Binding Text}"
+                                              MaxLength="{Binding MaxLength}"
+                                              FontFamily="OpenSansRegular"
+                                              FontSize="14"
+                                              Margin="10,0,10,0"
+                                              VerticalOptions="Center"
+                                              IsReadOnly="{Binding IsReadOnly}"
+                                              IsPassword="{Binding IsPasswordBridge}"
+                                              IsSpellCheckEnabled="False"
+                                              IsTextPredictionEnabled="False"
+                                              Keyboard="{Binding Keyboard}"
+                                              HorizontalTextAlignment="{Binding HorizontalTextAlignment}"
+                                              BackgroundColor="Transparent"
+                                              TextColor="{Binding TextColor}"
+                                              PlaceholderColor="{Binding PlaceholderColor}"/>
+
+                        <Grid x:Name="EntryTapper">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OnEntryTap}"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                        <Grid StyleClass="EZGridStyle" x:Name="Password" WidthRequest="28" HeightRequest="32" HorizontalOptions="End" IsVisible="False">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="24"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="28"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OnPasswordVisibilityTap}"/>
+                            </Grid.GestureRecognizers>
+
+                            <Grid StyleClass="EZGridStyle" InputTransparent="True">
+
+                                <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.visibility_on.txt}"
+                                      Fill="{Binding IconFill}"
+                                      IsVisible="{Binding PasswordIndicatorVisibilityOn}"
+                                      Margin="0,4,0,0"
+                                      InputTransparent="True"/>
+
+                                <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.visibility_off.txt}"
+                                      Fill="{Binding IconFill}"
+                                      IsVisible="{Binding PasswordIndicatorVisibilityOff}"
+                                      Margin="0,4,0,0"
+                                      InputTransparent="True"/>
+                            </Grid>
+
+                        </Grid>
+
+                        <Grid StyleClass="EZGridStyle" x:Name="ClearButton" WidthRequest="28" HeightRequest="32" HorizontalOptions="End" IsVisible="False">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="28"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OnClearTap}"/>
+                            </Grid.GestureRecognizers>
+
+                            <Grid StyleClass="EZGridStyle" InputTransparent="True">
+
+                                <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.clear.txt}"
+                                      Fill="{Binding IconFill}"
+                                      IsVisible="True"
+                                      Margin="0,4,0,0"
+                                      InputTransparent="True"/>
+                            </Grid>
+
+                        </Grid>
+
+                    </Grid>
+                    
+                </VerticalStackLayout>
+
+            </ControlTemplate>
+
+            <!-- EZCheckBox Control Template -->
+            
+            <ControlTemplate x:DataType="ez:EZCheckBox" x:Key="EZCheckBoxTemplate">
+
+                <Grid StyleClass="EZGridStyle" HeightRequest="32" BindingContext="{Binding Source={RelativeSource TemplatedParent}}" HorizontalOptions="Start">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid StyleClass="EZGridStyle" WidthRequest="32" HeightRequest="32">
+
+                        <Path x:Name="BoxChecked"
+                              Aspect="Uniform"
+                              Data="{resource:PathResource EZAppMaker.Assets.Paths.checkbox_checked.txt}"
+                              Fill="{Binding Color}"
+                              Opacity="0"/>
+
+                        <Path x:Name="BoxUnchecked"
+                              Aspect="Uniform"
+                              Data="{resource:PathResource EZAppMaker.Assets.Paths.checkbox_unchecked.txt}"
+                              Fill="{Binding Color}"
+                              Opacity="1"/>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OnCheckTap}" CommandParameter="{Binding ItemId}"/>
+                        </Grid.GestureRecognizers>
+
+                    </Grid>
+
+                    <Label Text="{Binding Label}"
+                           TextColor="{Binding LabelColor}"
+                           FontFamily="OpenSansRegular"
+                           FontSize="14"
+                           Margin="5,0,0,0"
+                           Grid.Column="1"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OnCheckTap}" CommandParameter="{Binding ItemId}"/>
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZRadioButton Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZRadioButton" x:Key="EZRadioButtonTemplate">
+                
+                <Grid StyleClass="EZGridStyle" HeightRequest="32" BindingContext="{Binding Source={RelativeSource TemplatedParent}}" HorizontalOptions="Start">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <VisualStateManager.VisualStateGroups>                       
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CheckedStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="button_selected" Property="Opacity" Value="1"/>
+                                        <Setter TargetName="button_released" Property="Opacity" Value="0"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="button_selected" Property="Opacity" Value="0"/>
+                                        <Setter TargetName="button_released" Property="Opacity" Value="1"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <Grid StyleClass="EZGridStyle" HorizontalOptions="Start">
+
+                        <Path x:Name="button_selected" Aspect="Uniform" Data="{resource:PathResource EZAppMaker.Assets.Paths.radio_checked.txt}" Fill="{Binding Color}" StrokeThickness="0"/>
+                        <Path x:Name="button_released" Aspect="Uniform" Data="{resource:PathResource EZAppMaker.Assets.Paths.radio_unchecked.txt}" Fill="{Binding Color}" StrokeThickness="0"/>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OnRadioTap}" CommandParameter="{Binding ItemId}"/>
+                        </Grid.GestureRecognizers>
+
+                    </Grid>
+
+                    <Label Text="{Binding Label}"
+                           TextColor="{Binding LabelColor}"
+                           FontFamily="OpenSansRegular"
+                           FontSize="14"
+                           Margin="5,0,0,0"
+                           Grid.Column="1"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OnRadioTap}" CommandParameter="{Binding ItemId}"/>
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZRating Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZRating" x:Key="EZRatingTemplate">
+
+                <VerticalStackLayout StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" IsVisible="{Binding HasLabel}">
+                        <Label Text="*" IsVisible="{Binding IsRequired}" FontSize="13" TextColor="Red" FontFamily="OpenSansBold"/>
+                        <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
+                    </HorizontalStackLayout>
+
+                    <Frame StyleClass="EZFrameStyle"
+                           HeightRequest="32"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BorderColor}">
+
+                        <Grid StyleClass="EZGridStyle" x:Name="Container" Margin="0,3,0,5">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Path Aspect="Uniform" Data="{resource:PathResource EZAppMaker.Assets.Paths.star_fill.txt}" Fill="{Binding Fill}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}" Grid.Column="0">
+                                <Path.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding StarTap}" CommandParameter="1"/>
+                                </Path.GestureRecognizers>
+                            </Path>
+
+                            <Path Aspect="Uniform" Data="{resource:PathResource EZAppMaker.Assets.Paths.star_fill.txt}" Fill="{Binding Fill}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}" Grid.Column="1">
+                                <Path.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding StarTap}" CommandParameter="2"/>
+                                </Path.GestureRecognizers>
+                            </Path>
+
+                            <Path Aspect="Uniform" Data="{resource:PathResource EZAppMaker.Assets.Paths.star_fill.txt}" Fill="{Binding Fill}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}" Grid.Column="2">
+                                <Path.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding StarTap}" CommandParameter="3"/>
+                                </Path.GestureRecognizers>
+                            </Path>
+
+                            <Path Aspect="Uniform" Data="{resource:PathResource EZAppMaker.Assets.Paths.star_fill.txt}" Fill="{Binding Fill}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}" Grid.Column="3">
+                                <Path.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding StarTap}" CommandParameter="4"/>
+                                </Path.GestureRecognizers>
+                            </Path>
+
+                            <Path Aspect="Uniform" Data="{resource:PathResource EZAppMaker.Assets.Paths.star_fill.txt}" Fill="{Binding Fill}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}" Grid.Column="4">
+                                <Path.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding StarTap}" CommandParameter="5"/>
+                                </Path.GestureRecognizers>
+                            </Path>
+
+                        </Grid>
+
+                    </Frame>
+
+                </VerticalStackLayout>
+
+            </ControlTemplate>
+
+            <!-- EZCombo Control Template -->
+            
+            <ControlTemplate x:DataType="ez:EZCombo" x:Key="EZComboTemplate">
+
+                <VerticalStackLayout x:Name="EZComboStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <VerticalStackLayout x:Name="EZEntryStack" StyleClass="EZVerticalStackStyle">
+
+                        <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="4" IsVisible="{Binding HasLabel}">
+                            <Label Text="*" IsVisible="{Binding IsRequired}" FontSize="13" TextColor="Red" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
+                        </HorizontalStackLayout>
+
+                        <Grid StyleClass="EZGridStyle" HeightRequest="32">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Frame x:Name="EntryFrame"
+                                   StyleClass="EZFrameStyle"
+                                   BackgroundColor="{Binding BackColor}"
+                                   BorderColor="{Binding BorderColor}"
+                                   HasShadow="False"
+                                   CornerRadius="5"/>
+
+                            <bridge:EZEntryBridge x:Name="InternalEntry"
+                                                  HeightRequest="32"
+                                                  Placeholder="{Binding Placeholder}"
+                                                  Text="{Binding Text}"
+                                                  MaxLength="{Binding MaxLength}"
+                                                  FontFamily="OpenSansRegular"
+                                                  FontSize="14"
+                                                  Margin="10,0,10,0"
+                                                  VerticalOptions="Center"
+                                                  IsReadOnly="{Binding IsReadOnly}"
+                                                  IsPassword="False"
+                                                  IsSpellCheckEnabled="False"
+                                                  IsTextPredictionEnabled="False"
+                                                  Keyboard="{Binding Keyboard}"
+                                                  HorizontalTextAlignment="{Binding HorizontalTextAlignment}"
+                                                  BackgroundColor="Transparent"
+                                                  TextColor="{Binding TextColor}"
+                                                  PlaceholderColor="{Binding PlaceholderColor}"/>
+
+                            <Grid x:Name="EntryTapper">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OnEntryTap}"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+
+                            <Grid StyleClass="EZGridStyle" x:Name="ClearButton" WidthRequest="32" HeightRequest="32" HorizontalOptions="End" IsVisible="False">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OnClearTap}"/>
+                                </Grid.GestureRecognizers>
+
+                                <Grid StyleClass="EZGridStyle" InputTransparent="True">
+
+                                    <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.clear.txt}"
+                                          Fill="{Binding IconFill}"
+                                          IsVisible="True"
+                                          Margin="0,4,0,0"
+                                          InputTransparent="True"/>
+                                </Grid>
+
+                            </Grid>
+
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                    <Frame x:Name="EZComboFrame"
+                           StyleClass="EZFrameStyle"
+                           Background="{Binding ListFill}"
+                           BorderColor="{Binding ListBorderColor}"
+                           HeightRequest="{Binding ListHeight}"
+                           IsClippedToBounds="True"
+                           CornerRadius="10"
+                           IsVisible="False">
+
+                        <ListView x:Name="EZComboListView" SelectionMode="None" Margin="1" BackgroundColor="Transparent"/>
+
+                    </Frame>
+
+                </VerticalStackLayout>
+
+            </ControlTemplate>
+
+            <!-- EZBalloon Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZBalloon" x:Key="EZBalloonTemplate">
+
+                <Grid StyleClass="EZGridStyle" HorizontalOptions="Start" VerticalOptions="Start" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <Frame StyleClass="EZFrameStyle"
+                           CornerRadius="15"
+                           Margin="20,15,10,0"
+                           Background="{Binding ShadowColor}"
+                           BorderColor="Transparent"
+                           InputTransparent="True"/>
+
+                    <Frame StyleClass="EZFrameStyle"
+                           CornerRadius="15"
+                           Margin="15,10,15,5"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BorderColor}"
+                           InputTransparent="True"/>
+
+                    <Frame x:Name="EZBalloonPointer"
+                           StyleClass="EZFrameStyle"
+                           CornerRadius="0"
+                           HeightRequest="22"
+                           WidthRequest="22"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BorderColor}"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Start"
+                           Rotation="45">
+                    </Frame>
+
+                    <Frame StyleClass="EZFrameStyle"
+                           CornerRadius="15"
+                           Margin="16,11,16,6"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BackgroundColor}"
+                           InputTransparent="True"/>
+
+                    <Label FontFamily="OpenSansBold"
+                           FontSize="14"
+                           LineBreakMode="WordWrap"
+                           Text="{Binding Text}"
+                           TextColor="{Binding TextColor}"
+                           Margin="25,20,20,15"
+                           VerticalOptions="Center"
+                           InputTransparent="True"/>
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OnBalloonTap}"/>
+                    </Grid.GestureRecognizers>
+
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- Keyboard Dispatcher Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZKeyboardDispatcher" x:Key="EZKeyboardDispatcherTemplate">
+
+                <Grid StyleClass="EZGridStyle" HorizontalOptions="Start" VerticalOptions="Start" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <Frame StyleClass="EZFrameStyle"
+                           CornerRadius="15"
+                           Margin="20,15,10,0"
+                           Background="{Binding ShadowColor}"
+                           BorderColor="Transparent"/>
+
+                    <Frame StyleClass="EZFrameStyle"
+                           HeightRequest="48"
+                           CornerRadius="15"
+                           Margin="15,10,15,5"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BorderColor}"/>
+
+                    <Frame x:Name="EZBalloonPointer"
+                           StyleClass="EZFrameStyle"
+                           CornerRadius="0"
+                           HeightRequest="22"
+                           WidthRequest="22"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BorderColor}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"
+                           Rotation="45"/>
+
+                    <Frame StyleClass="EZFrameStyle"
+                           CornerRadius="15"
+                           Margin="16,11,16,6"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BackgroundColor}"/>
+
+                    <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="10" Padding="35,20,35,15">
+
+                        <ez:EZPathButton x:Name="SearchButton"
+                                         PathData="{resource:PathResource EZAppMaker.Assets.Paths.search.txt}"
+                                         WidthRequest="24"
+                                         HeightRequest="24"/>
+
+                        <ez:EZPathButton x:Name="KeyboardButton"
+                                         PathData="{resource:PathResource EZAppMaker.Assets.Paths.keyboard_hide.txt}"
+                                         WidthRequest="24"
+                                         HeightRequest="24"/>
+
+                    </HorizontalStackLayout>
+                    
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZSignature Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZSignature" x:Key="EZSignatureTemplate">
+
+                <Grid StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <Frame StyleClass="EZFrameStyle"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BorderColor}">
+
+                        <Label Text="{Binding Label}"
+                               TextColor="{Binding LabelColor}"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Start"/>
+                    </Frame>
+
+                    <ContentView x:Name="EZSignatureCanvas"
+                                 StyleClass="EZGridStyle"
+                                 IsClippedToBounds="True"
+                                 IsEnabled="False">
+
+                        <Path x:Name="EZSignaturePath"
+                              Stroke="{Binding Stroke}"
+                              StrokeThickness="{Binding StrokeThickness}"
+                              InputTransparent="True"/>
+
+                    </ContentView>
+
+                    <ez:EZPathButton x:Name="PenButtonOn"
+                                            ItemId="PenOn"
+                                            PathData="{resource:PathResource EZAppMaker.Assets.Paths.edit.txt}"
+                                            Margin="5"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Start"
+                                            IsVisible="True"/>
+
+                    <ez:EZPathButton x:Name="PenButtonOff"
+                                            ItemId="PenOff"
+                                            PathData="{resource:PathResource EZAppMaker.Assets.Paths.edit_off.txt}"
+                                            Margin="5"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Start"
+                                            IsVisible="False"/>
+
+                    <ez:EZPathButton x:Name="ClearButton"
+                                            PathData="{resource:PathResource EZAppMaker.Assets.Paths.clear.txt}"
+                                            Margin="5"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Start"/>
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZPhoto Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZPhoto" x:Key="EZPhotoTemplate">
+
+                <Grid x:Name="EZPhotoCanvas" StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}" IsClippedToBounds="True">
+
+                    <Frame StyleClass="EZFrameStyle"
+                           BackgroundColor="{Binding BackgroundColor}"
+                           BorderColor="{Binding BorderColor}"                   
+                           InputTransparent="True"
+                           IsEnabled="False">
+
+                        <Label Text="{Binding Label}"
+                               TextColor="{Binding LabelColor}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Start"
+                               InputTransparent="True"/>
+                    </Frame>
+
+                    <Image x:Name="Photo" Aspect="Fill" WidthRequest="{Binding Source={x:Reference EZPhotoCanvas}, Path=Width}" Margin="5,32,5,5"/>
+
+                    <ez:EZPathButton x:Name="CameraButton"
+                                            PathData="{resource:PathResource EZAppMaker.Assets.Paths.camera.txt}"
+                                            Margin="5"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Start"/>
+
+                    <ez:EZPathButton x:Name="ClearButton"
+                                            PathData="{resource:PathResource EZAppMaker.Assets.Paths.clear.txt}"
+                                            Margin="5"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Start"/>
+                </Grid>
+
+            </ControlTemplate>
+
+            <!-- EZSlider Control Template -->
+
+            <Style TargetType="Slider" Class="EZSliderStyle">
+                <Setter Property="Minimum" Value="0"/>
+                <Setter Property="Maximum" Value="1"/>
+                <Setter Property="Value" Value="0"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="ThumbColor" Value="Transparent"/>
+                <Setter Property="MinimumTrackColor" Value="Transparent"/>
+                <Setter Property="MaximumTrackColor" Value="Transparent"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+
+            <ControlTemplate x:DataType="ez:EZSlider" x:Key="EZSliderTemplate">
+
+                <VerticalStackLayout StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="4" IsVisible="{Binding HasLabel}">
+                        <Label Text="*" IsVisible="{Binding IsRequired}" FontSize="13" TextColor="Red" FontFamily="OpenSansBold"/>
+                        <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
+                    </HorizontalStackLayout>
+
+                    <Grid StyleClass="EZGridStyle" HeightRequest="32" ColumnSpacing="5">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.75*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Frame StyleClass="EZFrameStyle" BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding BorderColor}"/>
+
+                        <Slider x:Name="InternalSlider"
+                                StyleClass="EZSliderStyle"
+                                VerticalOptions="Center"
+                                HeightRequest="32"/>
+
+                        <Grid x:Name="PointerGrid"
+                              StyleClass="EZGridStyle"
+                              Margin="8,0,8,0"
+                              InputTransparent="True">
+
+                            <BoxView x:Name="SliderTrackMin"
+                                     HeightRequest="1"
+                                     Color="{Binding MinimumTrackColor}"
+                                     VerticalOptions="Center"
+                                     Margin="8,0,8,0"/>
+
+                            <BoxView x:Name="SliderTrackMax"
+                                     HeightRequest="1"
+                                     Color="{Binding MaximumTrackColor}"
+                                     VerticalOptions="Center"
+                                     Margin="8,0,8,0"
+                                     HorizontalOptions="Start"/>
+
+                            <Image x:Name="SliderPointer"
+                                   Source="{Binding PointerImage}"
+                                   WidthRequest="16"
+                                   Aspect="AspectFill"
+                                   HorizontalOptions="Start"/>
+                        </Grid>
+
+                        <ez:EZEntry x:Name="SliderEntry"
+                                           Keyboard="Numeric"
+                                           HorizontalTextAlignment="End"
+                                           Grid.Column="1"
+                                           VerticalOptions="Center"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </ControlTemplate>
+
+            <!-- EZColorPicker Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZColorPicker" x:Key="EZColorPickerTemplate">
+
+                <VerticalStackLayout x:Name="EZColorPickerStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="4" IsVisible="{Binding HasLabel}">
+                        <Label Text="*" IsVisible="{Binding IsRequired}" FontSize="13" TextColor="Red" FontFamily="OpenSansBold"/>
+                        <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
+                    </HorizontalStackLayout>
+
+                    <Frame StyleClass="EZFrameStyle" BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding BorderColor}" Padding="10">
+
+                        <VerticalStackLayout StyleClass="EZVerticalStackStyle" Spacing="5">
+
+                            <Grid StyleClass="EZGridStyle" HeightRequest="32" ColumnSpacing="5">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="R" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                <Frame x:Name="RStrip"
+                                       StyleClass="EZFrameStyle"
+                                       Grid.Column="1"
+                                       HeightRequest="24"
+                                       VerticalOptions="Center"
+                                       IsClippedToBounds="True"
+                                       InputTransparent="True"/>
+
+                                <Slider x:Name="RSlider" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
+
+                                <Grid x:Name="RPointerGrid"
+                                      StyleClass="EZGridStyle"
+                                      Margin="8,0,8,0"
+                                      Grid.Column="1"
+                                      InputTransparent="True">
+
+                                    <Image x:Name="RPointer"
+                                           Source="{resource:ImageResource EZAppMaker.Assets.Images.slider_a.png}"
+                                           WidthRequest="16"
+                                           Aspect="AspectFill"
+                                           HorizontalOptions="Start"/>
+                                </Grid>
+
+                            </Grid>
+
+                            <Grid StyleClass="EZGridStyle" HeightRequest="32" ColumnSpacing="5">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="G" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                <Frame x:Name="GStrip"
+                                       StyleClass="EZFrameStyle"
+                                       Grid.Column="1"
+                                       HeightRequest="24"
+                                       VerticalOptions="Center"
+                                       IsClippedToBounds="True"/>
+
+                                <Slider x:Name="GSlider" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
+
+                                <Grid x:Name="GPointerGrid"
+                                      StyleClass="EZGridStyle"
+                                      Margin="8,0,8,0"
+                                      Grid.Column="1"
+                                      InputTransparent="True">
+
+                                    <Image x:Name="GPointer"
+                                           Source="{resource:ImageResource EZAppMaker.Assets.Images.slider_a.png}"
+                                           WidthRequest="16"
+                                           Aspect="AspectFill"
+                                           HorizontalOptions="Start"/>
+                                </Grid>
+
+                            </Grid>
+
+                            <Grid StyleClass="EZGridStyle" HeightRequest="32" ColumnSpacing="5">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="B" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                <Frame x:Name="BStrip"
+                                       StyleClass="EZFrameStyle"
+                                       Grid.Column="1"
+                                       HeightRequest="24"
+                                       VerticalOptions="Center"
+                                       IsClippedToBounds="True"/>
+
+                                <Slider x:Name="BSlider" HeightRequest="24" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
+
+                                <Grid x:Name="BPointerGrid"
+                                      StyleClass="EZGridStyle"
+                                      Margin="8,0,8,0"
+                                      Grid.Column="1"
+                                      InputTransparent="True">
+
+                                    <Image x:Name="BPointer"
+                                           Source="{resource:ImageResource EZAppMaker.Assets.Images.slider_a.png}"
+                                           WidthRequest="16"
+                                           Aspect="AspectFill"
+                                           HorizontalOptions="Start"/>
+                                </Grid>
+
+                            </Grid>
+
+                            <Grid StyleClass="EZGridStyle" HeightRequest="32" ColumnSpacing="5">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="A" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                                <Frame StyleClass="EZFrameStyle" HeightRequest="24" IsClippedToBounds="True" VerticalOptions="Center" Grid.Column="1">
+                                    <HorizontalStackLayout x:Name="Checkboard"
+                                                           StyleClass="EZHorizontalStackStyle"
+                                                           HeightRequest="24"
+                                                           WidthRequest="{Binding Source={x:Reference ASlider}, Path=Width}"
+                                                           IsClippedToBounds="True"/>
+                                </Frame>
+
+                                <Frame x:Name="AStrip" StyleClass="EZFrameStyle" HeightRequest="24" VerticalOptions="Center" IsClippedToBounds="True" Grid.Column="1"/>
+
+                                <Slider x:Name="ASlider" HeightRequest="24" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
+
+                                <Grid x:Name="APointerGrid"
+                                      StyleClass="EZGridStyle"
+                                      Margin="8,0,8,0"
+                                      Grid.Column="1"
+                                      InputTransparent="True">
+
+                                    <Image x:Name="APointer"
+                                           Source="{resource:ImageResource EZAppMaker.Assets.Images.slider_a.png}"
+                                           WidthRequest="16"
+                                           Aspect="AspectFill"
+                                           HorizontalOptions="Start"/>
+                                </Grid>
+
+                            </Grid>
+
+                            <Grid StyleClass="EZGridStyle" ColumnSpacing="10" HeightRequest="32" Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Frame x:Name="ColorMix" StyleClass="EZFrameStyle" Background="{Binding SelectedColor}" CornerRadius="5"/>
+                                <ez:EZEntry x:Name="ColorEntry" Mask="#HHHHHHHH" HorizontalTextAlignment="Center" IsReadOnly="True" Grid.Column="1"/>
+                            </Grid>
+
+                        </VerticalStackLayout>
+
+                    </Frame>
+
+                </VerticalStackLayout>
+
+            </ControlTemplate>
+
+        </ResourceDictionary>
+
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid/>
+    </ContentView.Content>
+
+</ContentView>
