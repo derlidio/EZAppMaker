@@ -119,11 +119,11 @@ public static class MauiProgram
                 effects.Add<TouchRoutingEffect, TouchPlatformEffect>();
             }
         )
-		.ConfigureFonts
+	.ConfigureFonts
         (
             fonts =>
-		    {
-			    fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
+            {
+                fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
                 fonts.AddFont("OpenSans-BoldItalic.ttf", "OpenSansBoldItalic");
                 fonts.AddFont("OpenSans-ExtraBold.ttf", "OpenSansExtraBold");
                 fonts.AddFont("OpenSans-ExtraBoldItalic.ttf", "OpenSansExtraBoldItalic");
@@ -155,7 +155,7 @@ public static class MauiProgram
                   x:Class="EZTemplate.MainPage"
                   ItemId="MainPage"
                   Title="Main Page">
-</ContentView>            
+</ez:EZContentView>            
 ```
 7. On the body of your `MainPage.xaml`, define your app's interface. You must place
 the `<ez:EZContainer>` tag where you want your content to show up. EZAppMaker
