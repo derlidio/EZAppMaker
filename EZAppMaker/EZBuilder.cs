@@ -12,7 +12,7 @@ using EZAppMaker.Components;
 
 namespace EZAppMaker
 { 
-    public partial class EZBuilder
+    public class EZBuilder
 	{
         public EZBuilder()
         {
