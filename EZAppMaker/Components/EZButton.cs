@@ -202,7 +202,7 @@ namespace EZAppMaker.Components
             }
         }
 
-        [ComponentEventHandler, AsyncVoidOnPurpose]
+        [ComponentEventHandler]
         private void Handle_ButtonTap()
         {
             // .NET 8 IsEnabled property is broken. It does not propagate
