@@ -163,7 +163,7 @@ namespace EZAppMaker.Support
 
         public static void ThemeChanged(object sender, AppThemeChangedEventArgs e)
         {
-            Default.SetTheme();
+            Default.OverrideTheme();
 
             Container?.ThemeChanged();
             MainPage?.ThemeChanged();

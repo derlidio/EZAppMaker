@@ -47,32 +47,31 @@ namespace EZAppMaker.Defaults
 
         static Default()
         {
-            brushes = new Dictionary<string, EZBrush>();
-            localization = new Dictionary<string, string>();
+            string json;
 
-            SetTheme();
-            SetLocalization();
+            string theme = Application.Current.RequestedTheme ==
+                           AppTheme.Dark ?
+                           "EZAppMaker.Defaults.Data.dark.json" :
+                           "EZAppMaker.Defaults.Data.light.json";
+
+            json = EZEmbedded.GetJson(theme);
+            brushes = JsonConvert.DeserializeObject<Dictionary<string, EZBrush>>(json);
+            OverrideTheme();
+
+            json = EZEmbedded.GetJson("EZAppMaker.Defaults.Data.localization.json");
+            localization = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            OverrideLocalitation();
         }
 
-        public static void SetTheme()
+        public static void OverrideTheme()
         {
             string json = EZApp.Builder.BuildTheme(Application.Current.RequestedTheme);
 
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                if (Application.Current.RequestedTheme == AppTheme.Dark)
-                {
-                    json = EZEmbedded.GetJson("EZAppMaker.Defaults.Data.dark.json");
-                }
-                else
-                {
-                    json = EZEmbedded.GetJson("EZAppMaker.Defaults.Data.light.json");
-                }
-            }
+            if (string.IsNullOrWhiteSpace(json)) return;
 
-            Dictionary<string, EZBrush> changed = JsonConvert.DeserializeObject<Dictionary<string, EZBrush>>(json);
+            Dictionary<string, EZBrush> changes = JsonConvert.DeserializeObject<Dictionary<string, EZBrush>>(json);
 
-            foreach(KeyValuePair<string, EZBrush> pair in changed)
+            foreach(KeyValuePair<string, EZBrush> pair in changes)
             {
                 if (brushes.ContainsKey(pair.Key))
                 {
@@ -85,18 +84,15 @@ namespace EZAppMaker.Defaults
             }
         }
 
-        public static void SetLocalization()
+        public static void OverrideLocalitation()
         {
             string json = EZApp.Builder.BuildLocalization();
 
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                json = EZEmbedded.GetJson("EZAppMaker.Defaults.Data.localization.json");
-            }
+            if (string.IsNullOrWhiteSpace(json)) return;
 
-            Dictionary<string, string> local = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            Dictionary<string, string> changes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
-            foreach(KeyValuePair<string, string> pair in local)
+            foreach(KeyValuePair<string, string> pair in changes)
             {
                 if (localization.ContainsKey(pair.Key))
                 {
