@@ -13,7 +13,7 @@ namespace EZAppMaker.Support
     public static class EZSettings
     {
         public static string AppName { get; set; } = "EZ App Maker"; // Application name [ title for popup windows ]
-        public static string HomeView { get; set; } = string.Empty;  // View to push when EZAppMaker is ready.
+        public static string StartView { get; set; } = string.Empty; // View to push when EZAppMaker is ready.
         public static bool SmoothTransitions { get; set; } = false;  // Fade content in & out on page transitions.
         public static bool ContentReposition { get; set; } = true;   // Reposition the scroller when raising a ContentView from the stack.
         public static bool UseSafeArea { get; set; } = true;         // Account the notch space when rendering EZAppMaker MainPage shell.

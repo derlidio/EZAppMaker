@@ -153,9 +153,9 @@ namespace EZAppMaker.Support
 
             Container.BuildMenu();
 
-            if (!string.IsNullOrEmpty(EZSettings.HomeView))
+            if (!string.IsNullOrEmpty(EZSettings.StartView))
             {
-                EZContentView content = Builder?.BuildContentView(EZSettings.HomeView);
+                EZContentView content = Builder?.BuildContentView(EZSettings.StartView);
 
                 if (content != null)
                 {
