@@ -1230,6 +1230,40 @@
 
             </ControlTemplate>
 
+            <!-- EZProgressBar Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZProgressBar" x:Key="EZProgressBarTemplate">
+
+                <Grid StyleClass="EmptyGrid" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <Frame x:Name="OuterFrame"
+                           StyleClass="EmptyFrame"
+                           CornerRadius="15"
+                           HasShadow="False"
+                           BackgroundColor="{resource:ColorResource progress_bar_background}"
+                           BorderColor="{resource:ColorResource progress_bar_border}"
+                           Padding="5,4,5,4">
+
+                        <Frame x:Name="ProgressBar"
+                               StyleClass="EmptyFrame"
+                               CornerRadius="10"
+                               HasShadow="False"
+                               Background="{resource:BrushResource progress_bar}"
+                               Padding="2"
+                               HorizontalOptions="Start"
+                               WidthRequest="15"
+                               MinimumWidthRequest="15">
+
+                            <Label x:Name="Progress" Text="0" Padding="0,0,4,0" FontFamily="OpenSans_Bold" FontSize="12" TextColor="White" HorizontalOptions="End"/>
+
+                        </Frame>
+
+                    </Frame>
+
+                </Grid>
+
+            </ControlTemplate>
+
         </ResourceDictionary>
 
     </ContentView.Resources>

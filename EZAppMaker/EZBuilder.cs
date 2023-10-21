@@ -29,6 +29,15 @@ namespace EZAppMaker
             // +---------------------------------------------------------------------+
         }
 
+        public virtual void Ready()
+        {
+            // +----------------------------------------------------------------+
+            // | This method will be called when all elements of EZAppMaker are |
+            // | properly in place and initialized. Here you can start your app |
+            // | activities.                                                    |
+            // +----------------------------------------------------------------+
+        }
+
         public virtual EZContentView BuildMainPage()
         {
             // Here you must return the ContentView wich contains your main page layout.

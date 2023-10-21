@@ -153,12 +153,17 @@ namespace EZAppMaker.Support
 
             Container.BuildMenu();
 
-            EZContentView content = Builder?.BuildContentView("HomeView");
-
-            if (content != null)
+            if (!string.IsNullOrEmpty(EZSettings.HomeView))
             {
-                _ = Container.PushContentView(content);
+                EZContentView content = Builder?.BuildContentView(EZSettings.HomeView);
+
+                if (content != null)
+                {
+                    _ = Container.PushContentView(content);
+                }
             }
+
+            Builder.Ready();
         }
 
         public static void ThemeChanged(object sender, AppThemeChangedEventArgs e)
