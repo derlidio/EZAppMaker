@@ -42,30 +42,26 @@ namespace EZAppMaker.Defaults
             public EZGradient Gradient { get; set;}
         }
 
-        private static readonly Dictionary<string, EZBrush> brushes;
-        private static readonly Dictionary<string, string> localization;
+        private static Dictionary<string, EZBrush> brushes;
+        private static Dictionary<string, string> localization;
 
         static Default()
         {
-            string json;
-
-            string theme = Application.Current.RequestedTheme ==
-                           AppTheme.Dark ?
-                           "EZAppMaker.Defaults.Data.dark.json" :
-                           "EZAppMaker.Defaults.Data.light.json";
-
-            json = EZEmbedded.GetJson(theme);
-            brushes = JsonConvert.DeserializeObject<Dictionary<string, EZBrush>>(json);
-            OverrideTheme();
-
-            json = EZEmbedded.GetJson("EZAppMaker.Defaults.Data.localization.json");
-            localization = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            OverrideLocalitation();
+            SetTheme();
+            SetLocalization();
         }
 
-        public static void OverrideTheme()
+        public static void SetTheme()
         {
-            string json = EZApp.Builder.BuildTheme(Application.Current.RequestedTheme);
+            string theme = Application.Current.RequestedTheme ==
+               AppTheme.Dark ?
+               "EZAppMaker.Defaults.Data.dark.json" :
+               "EZAppMaker.Defaults.Data.light.json";
+
+            string json = EZEmbedded.GetJson(theme);
+            brushes = JsonConvert.DeserializeObject<Dictionary<string, EZBrush>>(json);
+
+            json = EZApp.Builder.BuildTheme(Application.Current.RequestedTheme);
 
             if (string.IsNullOrWhiteSpace(json)) return;
 
@@ -84,9 +80,12 @@ namespace EZAppMaker.Defaults
             }
         }
 
-        public static void OverrideLocalitation()
+        public static void SetLocalization()
         {
-            string json = EZApp.Builder.BuildLocalization();
+            string json = EZEmbedded.GetJson("EZAppMaker.Defaults.Data.localization.json");
+            localization = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+            json = EZApp.Builder.BuildLocalization();
 
             if (string.IsNullOrWhiteSpace(json)) return;
 
