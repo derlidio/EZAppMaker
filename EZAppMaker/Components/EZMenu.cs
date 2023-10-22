@@ -311,7 +311,14 @@ namespace EZAppMaker.Components
                 case EZMenuAlignment.Center: y = (EZApp.Container.Height / 2) - (Height / 2); break;
             }
 
-            _ = await this.TranslateTo(0, y, animated ? 250U : 0U, Easing.Linear);
+            if (!animated)
+            {
+                TranslationX = 0;
+                TranslationY = y;
+                return;
+            }
+
+            _ = await this.TranslateTo(0, y, 250U, Easing.Linear);
         }
     }
 }

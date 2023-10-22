@@ -257,7 +257,7 @@ namespace EZAppMaker.Components
                         {
                             scroller.Opacity = 0D;
                         }
-
+                        
                         await scroller.ScrollToAsync(target, ScrollToPosition.Start, false);
                     }
 
