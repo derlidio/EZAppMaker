@@ -66,14 +66,6 @@ namespace EZAppMaker.Components
             }
         }
 
-        public double Current
-        {
-            get
-            {
-                return current;
-            }
-        }
-
         public bool Finished
         {
             get
@@ -94,7 +86,7 @@ namespace EZAppMaker.Components
 
             bool exit = false;
 
-            double step = (Percent - current) / 100;
+            double step = (Percent - current) / 10;
 
             while(!exit && (step != 0D))
             {

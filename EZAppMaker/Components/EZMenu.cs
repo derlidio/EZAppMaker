@@ -88,8 +88,8 @@ namespace EZAppMaker.Components
             {
                 switch(open)
                 {
-                    case 0: _ = SlideOut(false); break;
-                    case 1: _ = SlideIn(false); break;
+                    case 0: await SlideOut(false); break;
+                    case 1: await SlideIn(false); break;
                 }
                 return;
             }
@@ -262,7 +262,7 @@ namespace EZAppMaker.Components
         {
             if (0 == Interlocked.Exchange(ref open, 1))
             {
-                Opacity = 1D; // <- This should be done once at the end of OnSizeAllocated, but there it produces a "flick" on iOS, which I don't like :oP
+                Opacity = 1D; // <- This should be done once at the end of OnSizeAllocated, but, there it produces a "flick" on iOS, which I don't like :oP
 
                 await SlideIn(animated);
 
