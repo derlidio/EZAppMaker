@@ -34,7 +34,7 @@ namespace EZAppMaker
             if ((handler == null) || (handler.PlatformView == null) || (view == null) || (view is not EZEntryBridge)) return;
 
             handler.PlatformView.BackgroundColor = UIColor.Clear;
-            handler.PlatformView.BorderStyle = UITextBorderStyle.None;            
+            handler.PlatformView.BorderStyle = UITextBorderStyle.None;
         }
 
         //   ___ _______             _ _ ___     _    _          

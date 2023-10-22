@@ -1234,28 +1234,32 @@
 
             <ControlTemplate x:DataType="ez:EZProgressBar" x:Key="EZProgressBarTemplate">
 
-                <Grid StyleClass="EmptyGrid" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+                <Grid StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
                     <Frame x:Name="OuterFrame"
-                           StyleClass="EmptyFrame"
-                           CornerRadius="15"
+                           StyleClass="EZFrameStyle"
+                           CornerRadius="12"
                            HasShadow="False"
                            BackgroundColor="{resource:ColorResource progress_bar_background}"
-                           BorderColor="{resource:ColorResource progress_bar_border}"
-                           Padding="5,4,5,4">
+                           BorderColor="{resource:ColorResource progress_bar_border}">
 
                         <Frame x:Name="ProgressBar"
-                               StyleClass="EmptyFrame"
+                               StyleClass="EZFrameStyle"
                                CornerRadius="10"
                                HasShadow="False"
                                Background="{resource:BrushResource progress_bar}"
                                Padding="2"
-                               HorizontalOptions="Start"
-                               WidthRequest="15"
-                               MinimumWidthRequest="15">
+                               IsClippedToBounds="True"
+                               Opacity="0">
 
-                            <Label x:Name="Progress" Text="0" Padding="0,0,4,0" FontFamily="OpenSans_Bold" FontSize="12" TextColor="White" HorizontalOptions="End"/>
-
+                            <Label x:Name="Progress"
+                                   Text="0"
+                                   Padding="0,0,10,0"
+                                   FontFamily="OpenSansBold"
+                                   FontSize="12"
+                                   TextColor="{resource:ColorResource progress_bar_text}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="End"/>
                         </Frame>
 
                     </Frame>

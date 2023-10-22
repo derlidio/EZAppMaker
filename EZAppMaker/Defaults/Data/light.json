@@ -393,5 +393,36 @@
     },
     "ezslider_max_track": {
         "Color": "#FF202020"
+    },
+    "progress_bar_background": {
+        "Color": "#FFFFFFFF"
+    },
+    "progress_bar_border": {
+        "Color": "#FFC0C0C0"
+    },
+    "progress_bar_text": {
+        "Color": "#FFFFFFFF"
+    },
+    "progress_bar": {
+        "Gradient": {
+            "StartPoint": {
+                "X": 0,
+                "Y": 0.5
+            },
+            "EndPoint": {
+                "X": 1,
+                "Y": 0.5
+            },
+            "Stops": [
+                {
+                    "Color": "#FF5B7F95",
+                    "Offset": 0.0
+                },
+                {
+                    "Color": "#FFFC4C02",
+                    "Offset": 1.0
+                }
+            ]
+        }
     }
 }
