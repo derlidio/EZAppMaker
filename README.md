@@ -203,7 +203,7 @@ namespace Your_App
 {
     public class Builder: EZBuilder
     {
-        private static MainPage main;
+        private MainPage main; // Do NOT initialize it here! Instead, do it at the BuildMainPage() event.
 
         public override void BeforeStart()
         {

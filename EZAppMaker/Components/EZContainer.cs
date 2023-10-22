@@ -117,6 +117,14 @@ namespace EZAppMaker.Components
             }
         }
 
+        public int StackCount
+        {
+            get
+            {
+                return ContentViewStack.Count;
+            }
+        }
+
         public void BuildMenu()
         {
             System.Diagnostics.Debug.WriteLine("EZContainer.BuildMenu()");
@@ -152,8 +160,13 @@ namespace EZAppMaker.Components
             menu?.Hide(animated);
         }
 
-        public async Task TriggerLayout()
+        public async Task TriggerLayout() /* WORKAROUND */
         {
+            // On iOS our main ScrollView will not adjust it's scrollable
+            // area size when it's content resizes. We need to force it by
+            // invoking a Layout Pass, and this is made by changing it's
+            // HeightRequest property (momentarily).
+
             if (!EZWorkarounds.ScrollViewContentSize) return;
 
             await Resizing.WaitAsync();
@@ -168,7 +181,7 @@ namespace EZAppMaker.Components
                 Resizing.Release();
             }
 
-            System.Diagnostics.Debug.WriteLine("Scroller Layout Triggered!");
+            System.Diagnostics.Debug.WriteLine("Scroller Layout Pass triggered!");
         }
 
         public void DisableScrolling()
@@ -244,7 +257,7 @@ namespace EZAppMaker.Components
 
                 if (can_leave)
                 {
-                    if (top != -1)
+                    if (top != -1) // <- This may seem unnecessary, but it is! Believe me :)
                     {
                         hiding = ContentViewStack[top];
                         hiding.ScrollY = scroller.ScrollY;
@@ -374,60 +387,59 @@ namespace EZAppMaker.Components
             EZContentView hiding = null;
 
             await semaphore.WaitAsync();
-
-            HideBalloon();
-
-            blocker.IsVisible = true;
-
-            int top = ContentViewStack.Count - 1;
-
-            for (int i = 0; i < ContentViewStack.Count; i++)
             {
-                if (ContentViewStack[i].ItemId == ItemId)
+                HideBalloon();
+
+                blocker.IsVisible = true;
+
+                int top = ContentViewStack.Count - 1;
+
+                for (int i = 0; i < ContentViewStack.Count; i++)
                 {
-                    result = EZRaiseResult.Canceled;
-
-                    if (i < top)
+                    if (ContentViewStack[i].ItemId == ItemId)
                     {
-                        bool can_leave = ContentViewStack[top].OnBeforeHiding();
+                        result = EZRaiseResult.Canceled;
 
-                        if (can_leave)
+                        if (i < top)
                         {
-                            hiding = ContentViewStack[top];
-                            hiding.ScrollY = scroller.ScrollY;
+                            bool can_leave = ContentViewStack[top].OnBeforeHiding();
 
-                            if (EZSettings.SmoothTransitions)
+                            if (can_leave)
                             {
-                                await scroller.FadeTo(0, 250);
+                                hiding = ContentViewStack[top];
+                                hiding.ScrollY = scroller.ScrollY;
+
+                                if (EZSettings.SmoothTransitions)
+                                {
+                                    await scroller.FadeTo(0, 250);
+                                }
+                                else
+                                {
+                                    scroller.Opacity = 0D;
+                                }
+
+                                await scroller.ScrollToAsync(target, ScrollToPosition.Start, false);
+
+                                MoveToStackTop(i);
+
+                                target.Clear();
+                                target.Add(ContentViewStack[top]);
+
+                                await Task.Delay(250); // Give some time for MAUI to compose the page.
+
+                                // Notifies the page about it being rised to the top of the stack:
+
+                                raising = ContentViewStack[top];
+
+                                result = EZRaiseResult.Success;
                             }
-                            else
-                            {
-                                scroller.Opacity = 0D;
-                            }
-
-                            await scroller.ScrollToAsync(target, ScrollToPosition.Start, false);
-
-                            MoveToStackTop(i);
-
-                            target.Clear();
-                            target.Add(ContentViewStack[top]);
-
-                            await Task.Delay(250); // Give some time for MAUI to compose the page.
-
-                            // Notifies the page about it being rised to the top of the stack:
-
-                            raising = ContentViewStack[top];
-
-                            result = EZRaiseResult.Success;
                         }
+                        break;
                     }
-
-                    break;
                 }
+
+                blocker.IsVisible = false;
             }
-
-            blocker.IsVisible = false;
-
             semaphore.Release();
 
             hiding?.OnHidden();

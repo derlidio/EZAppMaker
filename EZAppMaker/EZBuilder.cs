@@ -104,5 +104,15 @@ namespace EZAppMaker
             // setting the "page title area" of our main page to
             // reflect the title of the page being viewed:
         }
+
+        public virtual bool BackButtonPressed()
+        {
+            // This method will be called whenever the user presses
+            // the operating system's Back Button. Mainly for Android
+            // devices. Return true if your app has handled the event.
+            // Return false to keep the OS default behavior.
+
+            return false;
+        }
     }
 }

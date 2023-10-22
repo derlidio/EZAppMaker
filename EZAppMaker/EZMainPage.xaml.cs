@@ -30,14 +30,14 @@ namespace EZAppMaker
         public EZMainPage(OnReadyHandler handler = null)
         {
             OnReady = handler;
-            BackgroundColor = Default.Color("screen_background");
+            Background = Default.Brush("screen_background");
 
             InitializeComponent();
         }
 
         protected override bool OnBackButtonPressed()
         {
-            return true;
+            return EZApp.Builder.BackButtonPressed();
         }
 
         public bool Initialized { get; private set; }
@@ -118,7 +118,7 @@ namespace EZAppMaker
 
         public void ThemeChanged()
         {
-            BackgroundColor = Default.Color("screen_background");
+            Background = Default.Brush("screen_background");
         }
 
         public void AddChild(ContentView view)
