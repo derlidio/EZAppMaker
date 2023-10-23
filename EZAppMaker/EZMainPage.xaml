@@ -8,7 +8,7 @@
              ios:Page.UseSafeArea="True">
 
     <ContentPage.Content>
-        <AbsoluteLayout x:Name="MainLayout" Margin="0" Padding="0"/>
+        <Grid x:Name="MainLayout" Margin="0" Padding="0"/>
     </ContentPage.Content>
 
 </ContentPage>

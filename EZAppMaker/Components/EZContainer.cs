@@ -76,15 +76,18 @@ namespace EZAppMaker.Components
         {
             System.Diagnostics.Debug.WriteLine($"EZContainer.OnSizeChanged(): [{Math.Floor(Width)}x{Math.Floor(Height)}]");
 
-            if (Initialized) return;
+            if (Initialized)
+            {
+                return;
+            }
 
             Initialized = (Width > 0) && (Height > 0);
 
             if (Initialized)
             {
-                OnReady?.Invoke();
-
                 System.Diagnostics.Debug.WriteLine($"EZContainer.OnReady(): [{Math.Floor(Width)}x{Math.Floor(Height)}]");
+
+                OnReady?.Invoke();
             }
         }
 

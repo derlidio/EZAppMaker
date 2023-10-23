@@ -12,13 +12,20 @@ namespace EZAppMaker.Support
 {
     public static class EZLocalAppData
     {
+        private static readonly string folder;
+
+        static EZLocalAppData()
+        {
+            folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        }
+
         public static bool SaveFile(string file, string contents)
         {
             bool success = false;
 
             try
             {
-                string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), file);
+                string fileName = Path.Combine(folder, file);
 
                 File.WriteAllText(fileName, contents);
 
@@ -35,7 +42,7 @@ namespace EZAppMaker.Support
 
             try
             {
-                string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), file);
+                string fileName = Path.Combine(folder, file);
 
                 exists = File.Exists(fileName);
             }
@@ -50,7 +57,7 @@ namespace EZAppMaker.Support
 
             try
             {
-                string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), file);
+                string fileName = Path.Combine(folder, file);
 
                 if (File.Exists(fileName))
                 {
@@ -66,7 +73,7 @@ namespace EZAppMaker.Support
         {
             try
             {
-                string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), file);
+                string fileName = Path.Combine(folder, file);
 
                 if (File.Exists(fileName))
                 {
@@ -76,9 +83,37 @@ namespace EZAppMaker.Support
             catch { /* Dismiss */}
         }
 
+        public static void DeleteFiles(string pattern)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(folder, pattern);
+
+                foreach (string file in files)
+                {
+                    File.Delete(file);
+                }
+            }
+            catch { /* Dismiss */ }
+        }
+
+        public static async Task AppendFile(string file, string lines)
+        {
+            try
+            {
+                string fileName = Path.Combine(folder, file);
+
+                using (StreamWriter writer = File.AppendText(fileName))
+                {
+                    await writer.WriteLineAsync(lines);
+                }
+            }
+            catch { /* Dismiss */ }
+        }
+
         public static string GetPhotosPath()
         {
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ez_photos");
+            string directory = Path.Combine(folder, "ez_photos");
 
             if (!Directory.Exists(directory))
             {

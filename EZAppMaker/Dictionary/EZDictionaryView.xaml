@@ -1248,6 +1248,7 @@
                                CornerRadius="10"
                                HasShadow="False"
                                Background="{resource:BrushResource progress_bar}"
+                               BorderColor="Transparent"
                                Padding="2"
                                IsClippedToBounds="True"
                                Opacity="0">

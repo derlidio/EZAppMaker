@@ -86,18 +86,18 @@ namespace EZAppMaker
 
             if (Initialized)
             {
+                foreach (View view in MainLayout.Children)
+                {
+                    view.WidthRequest = width;
+                    view.HeightRequest = height;
+                }
+
                 EZOrientation orientation = (width < height) ? EZOrientation.Portrait : EZOrientation.Landscape;
 
                 if (this.orientation != orientation)
                 {
                     this.orientation = orientation;
                     EZApp.OrientationChanged();
-                }
-
-                foreach(ContentView view in MainLayout.Children)
-                {
-                    view.WidthRequest = width;
-                    view.HeightRequest = height;
                 }
 
                 return;
@@ -125,11 +125,7 @@ namespace EZAppMaker
         {
             if (view != null)
             {
-                Rect rect = new Rect(0, 0, Width, Height);
-
                 MainLayout.Add(view);
-
-                AbsoluteLayout.SetLayoutBounds(view, rect);
             }
         }
     }
