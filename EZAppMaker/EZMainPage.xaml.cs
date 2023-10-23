@@ -86,6 +86,8 @@ namespace EZAppMaker
 
             if (Initialized)
             {
+                Background = Default.Brush("screen_background");
+
                 foreach (View view in MainLayout.Children)
                 {
                     view.WidthRequest = width;
