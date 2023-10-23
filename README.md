@@ -223,9 +223,8 @@ namespace Your_App
         public override EZContentView BuildMainPage()
         {
             // Here you must return the EZContentView wich contains your main page layout.
-            // Note that EZAppMaker base layout is an AbsoluteLayout. Your ContentView
-            // dimensions (WidthRequest and HeightRequest) will be set to the available
-            // screen space minus iOS/Android fringe (safe area).
+            // Your MainPage dimensions (WidthRequest and HeightRequest) will be set to the
+            // available screen space minus iOS/Android fringe (safe area).
 
             main = new MainPage();
 
