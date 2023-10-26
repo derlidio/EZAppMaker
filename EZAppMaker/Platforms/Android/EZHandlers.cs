@@ -13,13 +13,10 @@
 //   / _ \| ' \/ _` | '_/ _ \ / _` |
 //  /_/ \_\_||_\__,_|_| \___/_\__,_|
 
-using Android.Content;
-using Android.Views.InputMethods;
-
 using Microsoft.Maui.Handlers;
 
 using EZAppMaker.Bridges;
-using EZAppMaker.Support;
+using EZAppMaker.Components;
 
 namespace EZAppMaker
 {
@@ -65,6 +62,26 @@ namespace EZAppMaker
             v.ScrollEnabled = state;
 
             System.Diagnostics.Debug.WriteLine($"Scrolling is {(state ? "Enabled" : "Disabled")}");
+        }
+
+        //   ___ _____         _         _ ___     _    _          
+        //  | __|_  / |   __ _| |__  ___| | _ )_ _(_)__| |__ _ ___ 
+        //  | _| / /| |__/ _` | '_ \/ -_) | _ \ '_| / _` / _` / -_)
+        //  |___/___|____\__,_|_.__/\___|_|___/_| |_\__,_\__, \___|
+        //                                               |___/
+
+        public static void EZLabelHandler(ILabelHandler handler, ILabel label)
+        {
+            if ((handler == null) || (handler.PlatformView == null) || (label == null) || (label is not EZLabel)) return;
+
+            if (handler.PlatformView.Ellipsize != Android.Text.TextUtils.TruncateAt.End) return;
+
+            EZLabel lbl = (EZLabel)label;
+
+            if (lbl.MaxLines > 1)
+            {
+                handler.PlatformView.SetMaxLines(lbl.MaxLines);
+            }                
         }
     }
 }

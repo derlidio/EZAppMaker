@@ -54,9 +54,9 @@ namespace EZAppMaker.Defaults
         public static void SetTheme()
         {
             string theme = Application.Current.RequestedTheme ==
-               AppTheme.Dark ?
-               "EZAppMaker.Defaults.Data.dark.json" :
-               "EZAppMaker.Defaults.Data.light.json";
+                           AppTheme.Dark ?
+                           "EZAppMaker.Defaults.Data.dark.json" :
+                           "EZAppMaker.Defaults.Data.light.json";
 
             string json = EZEmbedded.GetJson(theme);
             brushes = JsonConvert.DeserializeObject<Dictionary<string, EZBrush>>(json);

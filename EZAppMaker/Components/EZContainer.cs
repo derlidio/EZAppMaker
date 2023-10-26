@@ -237,6 +237,21 @@ namespace EZAppMaker.Components
             indicator.IsVisible = false;
         }
 
+        public async Task NavigateTo(string item)
+        {
+            EZRaiseResult raised = await EZApp.Container.RaiseContentView(item);
+
+            if (raised == EZRaiseResult.NotFound)
+            {
+                EZContentView view = EZApp.Builder.BuildContentView(item);
+
+                if (view != null)
+                {
+                    await EZApp.Container.PushContentView(view);
+                }
+            }
+        }
+
         public async Task PushContentView(EZContentView view)
         {
             if (view == null) return;
