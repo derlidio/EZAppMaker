@@ -17,6 +17,9 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty ItemIdProperty = BindableProperty.Create(nameof(ItemId), typeof(string), typeof(EZProgressBar), string.Empty);
         public static readonly BindableProperty PercentProperty = BindableProperty.Create(nameof(Percent), typeof(double), typeof(EZProgressBar), 0D);
 
+        public delegate void OnFinish();
+        public OnFinish OnFinished;
+
         public EZProgressBar()
         {
             ControlTemplate = (ControlTemplate)EZDictionary.Resources["EZProgressBarTemplate"];
@@ -66,14 +69,6 @@ namespace EZAppMaker.Components
             }
         }
 
-        public bool Finished
-        {
-            get
-            {
-                return current == 100D;
-            }
-        }
-
         private async void UpdateProgress()
         {
             if (!initialized) return;
@@ -105,8 +100,13 @@ namespace EZAppMaker.Components
 
                 exit = current == Percent;
             }
-            
+
             Interlocked.Exchange(ref updating, 0);
+
+            if (Percent == 100D)
+            {
+                OnFinished?.Invoke();
+            }
         }
     }
 }

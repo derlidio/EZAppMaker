@@ -98,6 +98,7 @@ namespace EZAppMaker.Components
 
             if (InternalEntry != null)
             {
+                InternalEntry.Focused += Handle_Focused;
                 InternalEntry.TextChanged += Handle_TextChanged;
                 InternalEntry.Completed += Handle_Completed;
             }
@@ -476,6 +477,12 @@ namespace EZAppMaker.Components
         }
 
         [ComponentEventHandler]
+        private void Handle_Focused(object sender, FocusEventArgs e)
+        {
+            if (!focused) Focus();
+        }
+
+        [ComponentEventHandler]
         private void Handle_TextChanged(object sender, TextChangedEventArgs e)
         {
             OnChanged?.Invoke(this, e);
@@ -484,6 +491,7 @@ namespace EZAppMaker.Components
         [ComponentEventHandler]
         private void Handle_Completed(object sender, EventArgs e)
         {
+            Unfocus();
             OnCompleted?.Invoke(this);
         }
 

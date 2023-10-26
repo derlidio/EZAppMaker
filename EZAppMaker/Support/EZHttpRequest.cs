@@ -28,7 +28,7 @@ namespace EZAppMaker.Support
         public bool UseCache { get; set; } = false;
         public bool IgnoreCertificateErrors { get; set; } = false;
         public bool LogExceptions { get; set; } = false;
-        public int TimeoutInSeconds { get; set; } = 10;
+        public int TimeoutInSeconds { get; set; } = 35;
     }
 
     public class ExceptionLog
@@ -58,7 +58,10 @@ namespace EZAppMaker.Support
 
         private static async Task<HttpResponseMessage> Service(string method, HttpRequest request)
         {
-            HttpResponseMessage response = null;
+            HttpResponseMessage response = new HttpResponseMessage()
+            {
+                StatusCode = System.Net.HttpStatusCode.RequestTimeout
+            };
 
             if (string.IsNullOrWhiteSpace(request.Url)) return response;
 

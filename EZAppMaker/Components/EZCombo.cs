@@ -143,6 +143,7 @@ namespace EZAppMaker.Components
             header.SetBinding(TextCell.TextProperty, "Header");
             ComboListView.GroupHeaderTemplate = header;
 
+            InternalEntry.Focused += Handle_Focused;
             InternalEntry.TextChanged += Handle_TextChanged;
             InternalEntry.Completed += Handle_Completed;
 
@@ -771,6 +772,12 @@ namespace EZAppMaker.Components
         }
 
         [ComponentEventHandler]
+        private void Handle_Focused(object sender, EventArgs e)
+        {
+            if (!focused) Focus();
+        }
+
+        [ComponentEventHandler]
         private void Handle_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (ignore)
@@ -791,7 +798,6 @@ namespace EZAppMaker.Components
         private void Handle_Completed(object sender, EventArgs e)
         {
             Unfocus();
-
             OnCompleted?.Invoke(this);
         }
 

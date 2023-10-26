@@ -705,31 +705,39 @@ namespace EZAppMaker.Components
         {
             await scrolling.WaitAsync();
             
-            System.Diagnostics.Debug.WriteLine("Scrolling...");
-
-            if (!animated)
-            {
-                _ = scroller.ScrollToAsync(0, y, false);
-                return;
-            }
-
             double start = scroller.ScrollY;
 
-            Animation animation = new Animation
-            (
-                callback: (ny) => { scroller.ScrollToAsync(0, ny, animated: false); },
-                start: start,
-                end: y
-            );
+            if (start != y)
+            {
+                System.Diagnostics.Debug.WriteLine("Scrolling...");
 
-            animation.Commit
-            (
-                owner: this,
-                name: "Scroll",
-                length: 250,
-                easing: Easing.CubicInOut,
-                finished: (d, b) => { scrolling.Release(); System.Diagnostics.Debug.WriteLine("Positioned!"); }
-            );
+                if (!animated)
+                {
+                    _ = scroller.ScrollToAsync(0, y, false);
+                    return;
+                }
+
+                Animation animation = new Animation
+                (
+                    callback: (ny) => { scroller.ScrollToAsync(0, ny, animated: false); },
+                    start: start,
+                    end: y
+                );
+
+                animation.Commit
+                (
+                    owner: this,
+                    name: "Scroll",
+                    length: 250,
+                    easing: Easing.CubicInOut,
+                    finished: (d, b) => { scrolling.Release(); System.Diagnostics.Debug.WriteLine("Positioned!"); }
+                );
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Scrolling... [ no need ]");
+                scrolling.Release();
+            }
         }
 
         public void MakeVisible(VisualElement element, bool animated = true, bool focused = false)
@@ -752,15 +760,17 @@ namespace EZAppMaker.Components
             // Calculate the phisical position of the element's bottom on the screen.
             // If it is below the middle of the screen, it'll probably be covered by the
             // soft keyboard (on small devices). If this is the case, roll the scroller
-            // to make the element visible.
+            // to make the element visible (if possible).
 
             GetContainerPosition(element, out double x, out double y);
 
             y += element.Height;
-            double target = scroller.ScrollY + y - Height / 2;
-            if (target < 0) target = 0;
+            double desired = scroller.ScrollY + y - Height / 2;
+            if (desired < 0) desired = 0;
 
-            Scroll(target, animated).Wait();
+            System.Diagnostics.Debug.WriteLine($"{y} - {desired}");
+
+            Scroll(desired, animated).Wait();
 
             if (focused && (element is IEZFocusable))
             {

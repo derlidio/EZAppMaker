@@ -157,8 +157,7 @@
                     <Grid x:Name="EZTimeConsumingActivityFader"
                           StyleClass="EZGridStyle"
                           Background="{StaticResource EZModalFader}"
-                          IsVisible="{Binding Source={x:Reference EZTimeConsumingActivity}, Path=IsVisible}"
-                          Opacity="0"/>
+                          IsVisible="{Binding Source={x:Reference EZTimeConsumingActivity}, Path=IsVisible}"/>
 
                     <ActivityIndicator x:Name="EZTimeConsumingActivity"
                                        HorizontalOptions="Center"
