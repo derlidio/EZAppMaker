@@ -98,7 +98,6 @@ namespace EZAppMaker.Components
 
             if (InternalEntry != null)
             {
-                InternalEntry.Focused += Handle_Focused;
                 InternalEntry.TextChanged += Handle_TextChanged;
                 InternalEntry.Completed += Handle_Completed;
             }
@@ -444,6 +443,7 @@ namespace EZAppMaker.Components
             if (focused) // Focus gain
             {
                 InternalEntry.Margin = new Thickness(10, 0, 32, 0);
+                InternalEntry.IsReadOnly = false;
 
                 EntryFrame.BackgroundColor = FocusedColor;
 
@@ -470,16 +470,11 @@ namespace EZAppMaker.Components
             ClearButton.IsVisible = false;
             Password.IsVisible = false;
             InternalEntry.Margin = new Thickness(10, 0, 10, 0);
+            InternalEntry.IsReadOnly = true;
 
             EZApp.Container.HandleFocus(this, false);
 
             EntryTapper.IsVisible = true;
-        }
-
-        [ComponentEventHandler]
-        private void Handle_Focused(object sender, FocusEventArgs e)
-        {
-            if (!focused) Focus();
         }
 
         [ComponentEventHandler]

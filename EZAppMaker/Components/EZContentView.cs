@@ -238,7 +238,15 @@ namespace EZAppMaker.Components
 
         public object GetReferenceTo(string objectName)
         {
-            return FindByName(objectName);
+            object obj = null;
+
+            try
+            {
+                obj = FindByName(objectName);
+            }
+            catch { /* Dismiss */ }
+
+            return obj;            
         }
 
         public async Task Expand()

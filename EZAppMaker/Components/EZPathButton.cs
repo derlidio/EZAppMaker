@@ -22,11 +22,11 @@ namespace EZAppMaker.Components
 
     public class EZPathButton : ContentView
     {
+        public static readonly BindableProperty ThemeAwareProperty = BindableProperty.Create(nameof(ThemeAware), typeof(bool), typeof(EZBalloon), true);
         public static readonly BindableProperty ItemIdProperty = BindableProperty.Create(nameof(ItemId), typeof(string), typeof(EZPathButton), null);
         public static readonly BindableProperty PathDataProperty = BindableProperty.Create(nameof(PathData), typeof(GeometryGroup), typeof(EZPathButton), null);
         public static readonly BindableProperty AutoDisableProperty = BindableProperty.Create(nameof(AutoDisable), typeof(bool), typeof(EZPathButton), false);
         public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.Create(nameof(StrokeThickness), typeof(double), typeof(EZPathButton), 0D);
-
         public static readonly BindableProperty FillProperty = BindableProperty.Create(nameof(Fill), typeof(Brush), typeof(EZPathButton), defaultValueCreator: bindable => Default.Brush("ezpathbutton_fill"));
         public static readonly BindableProperty StrokeProperty = BindableProperty.Create(nameof(Stroke), typeof(Brush), typeof(EZPathButton), defaultValueCreator: bindable => Default.Brush("ezpathbutton_stroke"));
 
@@ -47,6 +47,8 @@ namespace EZAppMaker.Components
 
         public void ThemeChanged()
         {
+            if (!ThemeAware) return;
+
             Fill = Default.Brush("ezpathbutton_fill");
             Stroke =  Default.Brush("ezpathbutton_stroke");
         }
@@ -71,6 +73,12 @@ namespace EZAppMaker.Components
         {
             get => (string)GetValue(ItemIdProperty);
             set => SetValue(ItemIdProperty, value);
+        }
+
+        public bool ThemeAware
+        {
+            get => (bool)GetValue(ThemeAwareProperty);
+            set => SetValue(ThemeAwareProperty, value);
         }
 
         public bool AutoDisable

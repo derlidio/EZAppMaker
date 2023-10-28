@@ -419,7 +419,7 @@
                                               FontSize="14"
                                               Margin="10,0,10,0"
                                               VerticalOptions="Center"
-                                              IsReadOnly="{Binding IsReadOnly}"
+                                              IsReadOnly="True"
                                               IsPassword="{Binding IsPasswordBridge}"
                                               IsSpellCheckEnabled="False"
                                               IsTextPredictionEnabled="False"
@@ -718,7 +718,7 @@
                                                   FontSize="14"
                                                   Margin="10,0,10,0"
                                                   VerticalOptions="Center"
-                                                  IsReadOnly="{Binding IsReadOnly}"
+                                                  IsReadOnly="True"
                                                   IsPassword="False"
                                                   IsSpellCheckEnabled="False"
                                                   IsTextPredictionEnabled="False"
@@ -796,7 +796,7 @@
                     <Frame StyleClass="EZFrameStyle"
                            CornerRadius="15"
                            Margin="15,10,15,5"
-                           BackgroundColor="{Binding BackgroundColor}"
+                           BackgroundColor="{Binding BalloonColor}"
                            BorderColor="{Binding BorderColor}"
                            InputTransparent="True"/>
 
@@ -805,7 +805,7 @@
                            CornerRadius="0"
                            HeightRequest="22"
                            WidthRequest="22"
-                           BackgroundColor="{Binding BackgroundColor}"
+                           BackgroundColor="{Binding BalloonColor}"
                            BorderColor="{Binding BorderColor}"
                            HorizontalOptions="Start"
                            VerticalOptions="Start"
@@ -815,8 +815,8 @@
                     <Frame StyleClass="EZFrameStyle"
                            CornerRadius="15"
                            Margin="16,11,16,6"
-                           BackgroundColor="{Binding BackgroundColor}"
-                           BorderColor="{Binding BackgroundColor}"
+                           BackgroundColor="{Binding BalloonColor}"
+                           BorderColor="{Binding BalloonColor}"
                            InputTransparent="True"/>
 
                     <Label FontFamily="OpenSansBold"
@@ -1051,10 +1051,10 @@
                         </Grid>
 
                         <ez:EZEntry x:Name="SliderEntry"
-                                           Keyboard="Numeric"
-                                           HorizontalTextAlignment="End"
-                                           Grid.Column="1"
-                                           VerticalOptions="Center"/>
+                                    Keyboard="Numeric"
+                                    HorizontalTextAlignment="End"
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"/>
                     </Grid>
 
                 </VerticalStackLayout>

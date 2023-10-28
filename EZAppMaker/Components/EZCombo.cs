@@ -143,7 +143,6 @@ namespace EZAppMaker.Components
             header.SetBinding(TextCell.TextProperty, "Header");
             ComboListView.GroupHeaderTemplate = header;
 
-            InternalEntry.Focused += Handle_Focused;
             InternalEntry.TextChanged += Handle_TextChanged;
             InternalEntry.Completed += Handle_Completed;
 
@@ -193,13 +192,17 @@ namespace EZAppMaker.Components
 
         public new void Focus()
         {
-            focused = true;            
+            if (!IsEnabled || IsReadOnly) return;
+
+            focused = true;
             ToggleFocus();
             Focused?.Invoke(this);
         }
 
         public new void Unfocus()
         {
+            if (!IsEnabled || IsReadOnly) return;
+
             focused = false;
             ToggleFocus();
             Unfocused?.Invoke(this);
@@ -718,6 +721,7 @@ namespace EZAppMaker.Components
                 BuildList();
 
                 InternalEntry.Margin = new Thickness(10, 0, 32, 0);
+                InternalEntry.IsReadOnly = false;
                 EntryFrame.BackgroundColor = FocusedColor;
                 ClearButton.IsVisible = true;
 
@@ -743,6 +747,7 @@ namespace EZAppMaker.Components
             EntryFrame.BackgroundColor = BackColor;
             ClearButton.IsVisible = false;
             InternalEntry.Margin = new Thickness(10, 0, 10, 0);
+            InternalEntry.IsReadOnly = true;
 
             await EZApp.Container.Resizing.WaitAsync();
             {
@@ -769,12 +774,6 @@ namespace EZAppMaker.Components
         private void Handle_ListResize(object sender, EventArgs e)
         {
             OnPropertyChanged(nameof(ListHeight));
-        }
-
-        [ComponentEventHandler]
-        private void Handle_Focused(object sender, EventArgs e)
-        {
-            if (!focused) Focus();
         }
 
         [ComponentEventHandler]

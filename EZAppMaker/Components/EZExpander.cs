@@ -17,7 +17,6 @@ namespace EZAppMaker.Components
         public EZExpander()
         {
             IsVisible = false;
-            BackgroundColor = Colors.Blue;
 
             HeightRequest = Math.Floor(EZApp.MainPage.AvailableHeight / 2);            
         }

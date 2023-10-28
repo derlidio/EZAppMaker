@@ -66,6 +66,7 @@ namespace EZAppMaker.Defaults
             if (string.IsNullOrWhiteSpace(json)) return;
 
             Dictionary<string, EZBrush> changes = JsonConvert.DeserializeObject<Dictionary<string, EZBrush>>(json);
+            changes ??= new Dictionary<string, EZBrush>();
 
             foreach(KeyValuePair<string, EZBrush> pair in changes)
             {
@@ -89,9 +90,17 @@ namespace EZAppMaker.Defaults
 
             if (string.IsNullOrWhiteSpace(json)) return;
 
-            Dictionary<string, string> changes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            Dictionary<string, string> changes = null;
 
-            foreach(KeyValuePair<string, string> pair in changes)
+            try
+            {
+                changes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);                
+            }
+            catch { /* Dismiss */ }
+
+            changes ??= new Dictionary<string, string>();
+
+            foreach (KeyValuePair<string, string> pair in changes)
             {
                 if (localization.ContainsKey(pair.Key))
                 {

@@ -19,7 +19,7 @@ namespace EZAppMaker.Components
     {
         private bool initialized = false;
 
-        public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(EZBalloon), defaultValueCreator: bindable => Default.Color("ezballoon_background"));
+        public static readonly BindableProperty BalloonColorProperty = BindableProperty.Create(nameof(BalloonColor), typeof(Color), typeof(EZBalloon), defaultValueCreator: bindable => Default.Color("ezballoon_background"));
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZBalloon), defaultValueCreator: bindable => Default.Color("ezballoon_border"));
         public static readonly BindableProperty ShadowColorProperty = BindableProperty.Create(nameof(ShadowColor), typeof(Brush), typeof(EZBalloon), defaultValueCreator: bindable => Default.Brush("ezballoon_shadow"));
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EZBalloon), defaultValueCreator: bindable => Default.Color("ezballoon_text"));
@@ -55,7 +55,7 @@ namespace EZAppMaker.Components
 
         public void ThemeChanged()
         {
-            BackgroundColor = Default.Color("ezballoon_background");
+            BalloonColor = Default.Color("ezballoon_background");
             ShadowColor = Default.Brush("ezballoon_shadow");
             BorderColor = Default.Color("ezballoon_border");
             TextColor = Default.Color("ezballoon_text");
@@ -63,10 +63,10 @@ namespace EZAppMaker.Components
 
         public string Text { get; private set; }
 
-        public new Color BackgroundColor
+        public Color BalloonColor
         {
-            get => (Color)GetValue(BackgroundColorProperty);
-            set => SetValue(BackgroundColorProperty, value);
+            get => (Color)GetValue(BalloonColorProperty);
+            set => SetValue(BalloonColorProperty, value);
         }
 
         public Color BorderColor
