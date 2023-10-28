@@ -127,6 +127,8 @@ namespace EZAppMaker.Components
 
         public new void Focus()
         {
+            if (!IsEnabled || IsReadOnly) return;
+
             focused = true;
             ToggleFocus();
             Focused?.Invoke(this);
@@ -134,6 +136,8 @@ namespace EZAppMaker.Components
 
         public new void Unfocus()
         {
+            if (!IsEnabled || IsReadOnly) return;
+
             focused = false;
             ToggleFocus();
             Unfocused?.Invoke(this);

@@ -783,7 +783,7 @@ namespace EZAppMaker.Components
             double desired = scroller.ScrollY + y - Height / 2;
             if (desired < 0) desired = 0;
 
-            System.Diagnostics.Debug.WriteLine($"{y} - {desired}");
+            System.Diagnostics.Debug.WriteLine($"{Math.Floor(y)} - {Math.Floor(desired)}");
 
             Scroll(desired, animated).Wait();
 
