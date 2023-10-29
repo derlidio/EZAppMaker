@@ -298,6 +298,8 @@ namespace EZAppMaker.Components
 
                     target.Clear();
                     target.Add(view);
+
+                    await EZApp.Container.TriggerLayout(); /* WORKAROUND */
                 }
 
                 blocker.IsVisible = false;
@@ -360,7 +362,9 @@ namespace EZAppMaker.Components
 
                             raising = ContentViewStack[top];
                             target.Add(raising);
+
                             await Task.Delay(250); // Give some time for MAUI to compose the page.
+                            await EZApp.Container.TriggerLayout(); /* WORKAROUND */                            
                         }
                         else
                         {
@@ -444,6 +448,7 @@ namespace EZAppMaker.Components
                                 target.Add(ContentViewStack[top]);
 
                                 await Task.Delay(250); // Give some time for MAUI to compose the page.
+                                await EZApp.Container.TriggerLayout(); /* WORKAROUND */                                
 
                                 // Notifies the page about it being rised to the top of the stack:
 

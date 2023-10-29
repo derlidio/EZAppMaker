@@ -20,6 +20,7 @@ namespace EZAppMaker.Components
 {
     public class EZRating : ContentView, IEZComponent
     {
+        public static readonly BindableProperty ThemeAwareProperty = BindableProperty.Create(nameof(ThemeAware), typeof(bool), typeof(EZBalloon), true);
         public static readonly BindableProperty ItemIdProperty = BindableProperty.Create(nameof(ItemId), typeof(string), typeof(EZRating), null);
         public static readonly BindableProperty LabelProperty = BindableProperty.Create(nameof(Label), typeof(string), typeof(EZSlider), null);
         public static readonly BindableProperty IsRequiredProperty = BindableProperty.Create(nameof(IsRequired), typeof(bool), typeof(EZSlider), false);
@@ -59,6 +60,8 @@ namespace EZAppMaker.Components
 
         public void ThemeChanged()
         {
+            if (!ThemeAware) return;
+
             LabelColor = Default.Color("ezrating_label");
             BorderColor = Default.Color("ezrating_border");
             BackgroundColor = Default.Color("ezrating_background");
@@ -163,6 +166,12 @@ namespace EZAppMaker.Components
         {
             get => (string)GetValue(ItemIdProperty);
             set => SetValue(ItemIdProperty, value);
+        }
+
+        public bool ThemeAware
+        {
+            get => (bool)GetValue(ThemeAwareProperty);
+            set => SetValue(ThemeAwareProperty, value);
         }
 
         public string Label
