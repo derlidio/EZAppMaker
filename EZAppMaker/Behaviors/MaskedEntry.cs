@@ -42,6 +42,11 @@ namespace EZAppMaker.Behaviors
             if (masked != entry.Text)
             {
                 entry.Text = masked;
+
+                //if (DeviceInfo.Platform == DevicePlatform.Android)
+                //{
+                //    entry.CursorPosition = EZText.EmptyIfNull(masked).Length;
+                //}
             }
         }
     }

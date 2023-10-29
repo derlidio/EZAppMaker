@@ -879,6 +879,7 @@ namespace EZAppMaker.Components
                         HideKeyboardDispatcher();
                         CurrentView?.Contract();
                         Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
+                        _ = await e.HideSoftInputAsync(new CancellationToken());
                         e.Unfocus();
                         focused = null;
                     }
