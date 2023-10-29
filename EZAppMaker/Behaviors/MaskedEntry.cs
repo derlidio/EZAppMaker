@@ -8,6 +8,7 @@
  
 (C)2022-2023 Derlidio Siqueira - Expoente Zero */
 
+using EZAppMaker.Attributes;
 using EZAppMaker.Support;
 
 namespace EZAppMaker.Behaviors
@@ -33,7 +34,8 @@ namespace EZAppMaker.Behaviors
             base.OnDetachingFrom(entry);
         }
 
-        private void OnEntryTextChanged(object sender, TextChangedEventArgs args)
+        [AsyncVoidOnPurpose]
+        private async void OnEntryTextChanged(object sender, TextChangedEventArgs args)
         {
             var entry = (Entry)sender;
 
@@ -43,10 +45,11 @@ namespace EZAppMaker.Behaviors
             {
                 entry.Text = masked;
 
-                //if (DeviceInfo.Platform == DevicePlatform.Android)
-                //{
-                //    entry.CursorPosition = EZText.EmptyIfNull(masked).Length;
-                //}
+                if (DeviceInfo.Platform == DevicePlatform.Android) /* WORKAROUND */
+                {
+                    await Task.Delay(50);
+                    entry.CursorPosition = EZText.EmptyIfNull(masked).Length;
+                }
             }
         }
     }
