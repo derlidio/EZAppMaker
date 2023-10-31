@@ -424,5 +424,8 @@
                 }
             ]
         }
+    },
+    "ezstateform_padlock": {
+        "Color": "#FF202020"
     }
 }

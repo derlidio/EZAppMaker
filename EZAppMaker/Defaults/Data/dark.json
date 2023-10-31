@@ -386,5 +386,8 @@
                 }
             ]
         }
+    },
+    "ezstateform_padlock": {
+        "Color": "#FFF0F0F0"
     }
 }

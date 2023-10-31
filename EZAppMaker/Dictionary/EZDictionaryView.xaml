@@ -97,7 +97,8 @@
                                                            HeightRequest="32"
                                                            Spacing="10"
                                                            Padding="{TemplateBinding ItemsPadding}"
-                                                           BackgroundColor="{TemplateBinding ItemsBackgroundColor}">
+                                                           BackgroundColor="{TemplateBinding ItemsBackgroundColor}"
+                                                           IsVisible="{Binding Visible}">
 
                                         <Path Data="{Binding Icon}"
                                               Fill="{TemplateBinding IconFill}"
@@ -162,7 +163,7 @@
                     <ActivityIndicator x:Name="EZTimeConsumingActivity"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       Color="White"
+                                       Color="{AppThemeBinding Dark=White, Light=Black}"
                                        IsRunning="False"
                                        IsVisible="False"/>
 
@@ -240,11 +241,21 @@
 
             <!-- EZStateForm Control Template -->
 
-            <ControlTemplate x:DataType="ez:EZStateForm" x:Key="EZFormProtectorTemplate">
+            <ControlTemplate x:DataType="ez:EZStateForm" x:Key="EZStateFormTemplate">
 
                 <VerticalStackLayout StyleClass="EZVerticalStackStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
-                    <ContentView x:Name="Container" Content="{Binding Content}" IsEnabled="False" Opacity="{Binding ContentOpacity}"/>
+                    <Grid StyleClass="EZGridStyle">
+
+                        <ContentView x:Name="Container" Content="{Binding Content}" Opacity="{Binding ContentOpacity}"/>
+
+                        <Grid x:Name="Blocker" StyleClass="EZGridStyle">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                    </Grid>
 
                     <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="10" Margin="0,10,0,0" IsVisible="{Binding ShowButtons}">
 
@@ -258,14 +269,25 @@
                                 <ColumnDefinition Width="24"/>
                             </Grid.ColumnDefinitions>
                             
-                            <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.lock_closed.txt}" Fill="Black" IsVisible="{Binding Source={Reference Change}, Path=IsEnabled}"/>
-                            <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.lock_open.txt}" Fill="Black" IsVisible="{Binding Source={Reference Cancel}, Path=IsVisible}"/>
+                            <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.lock_closed.txt}"
+                                  Fill="{resource:BrushResource ezstateform_padlock}"
+                                  IsVisible="{Binding Source={Reference Change}, Path=IsEnabled}"/>
 
+                            <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.lock_open.txt}"
+                                  Fill="{resource:BrushResource ezstateform_padlock}"
+                                  IsVisible="{Binding Source={Reference Cancel}, Path=IsVisible}"/>
                         </Grid>
 
+                        <!-- The original template for this component used IsVisible="False" on Cancel and Apply buttons. -->
+                        <!-- That approach worked fine on Xamarin.Forms, works ok on MAUI Android, but fails on MAUI iOS. -->
+                        <!-- The buttons will not render their background when made visible if they were not visible when -->
+                        <!-- created. I tried to workaround using opacity, but it was not effective. So, instead, we will -->
+                        <!-- left the buttons visible, but disabled. I like the old behavior, where Cancel and Apply only -->
+                        <!-- appear when needed, but...                                                                   -->
+
                         <ez:EZButton x:Name="Change" Type="primary" WidthRequest="80"/>
-                        <ez:EZButton x:Name="Cancel" Type="danger" WidthRequest="80" IsVisible="False"/>
-                        <ez:EZButton x:Name="Apply" Type="success" WidthRequest="80" IsVisible="False"/>
+                        <ez:EZButton x:Name="Cancel" Type="danger" WidthRequest="80" IsEnabled="False"/>
+                        <ez:EZButton x:Name="Apply" Type="success" WidthRequest="80" IsEnabled="False"/>
 
                     </HorizontalStackLayout>
 

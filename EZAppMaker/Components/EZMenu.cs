@@ -35,9 +35,10 @@ namespace EZAppMaker.Components
 
     public class EZMenuItem
     {
-        public GeometryGroup Icon { get; set; }
-        public string ItemId { get; set; }
-        public string Label { get; set; }
+        public GeometryGroup Icon { get; set; } = null;
+        public string ItemId { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
+        public bool Visible { get; set; } = true;
     }
 
     public class EZMenu : ContentView

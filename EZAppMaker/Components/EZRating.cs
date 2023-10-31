@@ -256,9 +256,16 @@ namespace EZAppMaker.Components
 
             if (!IsEnabled && EZWorkarounds.IsEnabledPropagation) return; /* WORKAROUND */
 
-            Rating = int.Parse((string)parameter);
-
             EZApp.Container.HideKeyboard();
+
+            int rating = int.Parse((string)parameter);
+
+            if (rating == Rating)
+            {
+                rating--;
+            }
+
+            Rating = rating;
 
             OnStarTap?.Invoke(this);
         }
