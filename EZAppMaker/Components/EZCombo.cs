@@ -725,13 +725,19 @@ namespace EZAppMaker.Components
                 EntryFrame.BackgroundColor = FocusedColor;
                 ClearButton.IsVisible = true;
 
+                System.Diagnostics.Debug.WriteLine("EZCombo: awaiting");
+
                 await EZApp.Container.Resizing.WaitAsync();
                 {
+                    System.Diagnostics.Debug.WriteLine("EZCombo: acquired");
                     ComboListViewFrame.HeightRequest = ListHeight;
                     ComboListViewFrame.IsVisible = true;
+
                     await Task.Delay(100);
-                    EZApp.Container.Resizing.Release();
                 }
+                EZApp.Container.Resizing.Release();
+
+                System.Diagnostics.Debug.WriteLine("EZCombo: released");
 
                 EntryTapper.IsVisible = false;
 
@@ -749,24 +755,30 @@ namespace EZAppMaker.Components
             InternalEntry.Margin = new Thickness(10, 0, 10, 0);
             InternalEntry.IsReadOnly = true;
 
+            System.Diagnostics.Debug.WriteLine("EZCombo: awaiting");
+
             await EZApp.Container.Resizing.WaitAsync();
             {
+                System.Diagnostics.Debug.WriteLine("EZCombo: acquired");
                 ComboListViewFrame.IsVisible = false;
+
                 await Task.Delay(100);
-                EZApp.Container.Resizing.Release();
             }
+            EZApp.Container.Resizing.Release();
+
+            System.Diagnostics.Debug.WriteLine("EZCombo: released");
 
             EntryTapper.IsVisible = true;
         }
 
         [ComponentEventHandler]
-        private void Handle_ComboResize(object sender, EventArgs e)
+        private async void Handle_ComboResize(object sender, EventArgs e)
         {
             if (1 == Interlocked.Exchange(ref focus_changed, 0))
-            {
-                System.Diagnostics.Debug.WriteLine($"EZCombo Resized: {(focused ? "↓" : "↑")}");
+            {   
+                await EZApp.Container.HandleFocus(this, focused);
 
-                EZApp.Container.HandleFocus(this, focused);
+                System.Diagnostics.Debug.WriteLine($"EZCombo Resized: {(focused ? "↓" : "↑")}");
             }
         }
 

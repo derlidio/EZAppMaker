@@ -26,7 +26,7 @@ namespace EZAppMaker.Components
     {
         private readonly Grid floater;
         private readonly EZScrollBridge scroller;
-        private readonly VerticalStackLayout target;
+        private readonly ContentView target;
         private readonly EZBalloon balloon;
         private readonly EZKeyboardDispatcher keyboard_dispatcher;
         private readonly EZMenu menu;
@@ -57,7 +57,7 @@ namespace EZAppMaker.Components
 
             floater = (Grid)GetTemplateChild("EZFloater");
             scroller = (EZScrollBridge)GetTemplateChild("EZScroller");
-            target = (VerticalStackLayout)GetTemplateChild("EZContentTarget");
+            target = (ContentView)GetTemplateChild("EZContentTarget");
             balloon = (EZBalloon)GetTemplateChild("EZBalloonAlert");
             keyboard_dispatcher = (EZKeyboardDispatcher)GetTemplateChild("EZBalloonKeyboard");
             menu = (EZMenu)GetTemplateChild("EZAppMenu");
@@ -65,6 +65,27 @@ namespace EZAppMaker.Components
             blocker = (Grid)GetTemplateChild("EZBlocker");
 
             ContentViewStack = new List<EZContentView>();
+
+            if (EZWorkarounds.ScrollViewContentSize) /* WORKAROUND */
+            {
+                // On iOS, whenever the ContentSize of a ScrollView changes, it will (may)
+                // shift that content down, changing the value of it's Y property. This is
+                // a problem for EZAppMaker's Combo! To the date of this writing, there are
+                // many bug reports related to MAUI ScrollView. This is just another one.
+                // This workaround has been made for MAUI + .NET 8 RC2.
+
+                target.PropertyChanged += Target_PropertyChanged;
+            }            
+        }
+
+        private void Target_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Y")
+            {
+                var view = (ContentView)sender;
+
+                view.TranslationY = -view.Y;
+            }
         }
 
         //  ___      _ _   _      _ _         _   _          
@@ -172,17 +193,18 @@ namespace EZAppMaker.Components
 
             if (!EZWorkarounds.ScrollViewContentSize) return;
 
-            await Resizing.WaitAsync();
-            {
-                double height = scroller.Height;
+            //(scroller as IView).InvalidateMeasure();
+            //(scroller as IView).InvalidateArrange();
 
-                scroller.HeightRequest = height - 1;
-                scroller.HeightRequest = height;
+            //System.Diagnostics.Debug.WriteLine("Scroller Layout Pass triggered!");
 
-                await Task.Delay(100);
+            //return;
 
-                Resizing.Release();
-            }
+            double height = scroller.Height;
+
+            scroller.HeightRequest = height - 1;
+            await Task.Delay(100);
+            scroller.HeightRequest = height;
 
             System.Diagnostics.Debug.WriteLine("Scroller Layout Pass triggered!");
         }
@@ -293,11 +315,8 @@ namespace EZAppMaker.Components
                     }
 
                     view.Container = this;
-
                     ContentViewStack.Add(view);
-
-                    target.Clear();
-                    target.Add(view);
+                    target.Content = view;
 
                     await EZApp.Container.TriggerLayout(); /* WORKAROUND */
                 }
@@ -352,7 +371,7 @@ namespace EZAppMaker.Components
 
                         await scroller.ScrollToAsync(target, ScrollToPosition.Start, false);
 
-                        target.Clear();
+                        target.Content = null;
 
                         ContentViewStack.Remove(leaving);
 
@@ -361,7 +380,7 @@ namespace EZAppMaker.Components
                             top--;
 
                             raising = ContentViewStack[top];
-                            target.Add(raising);
+                            target.Content = raising;
 
                             await Task.Delay(250); // Give some time for MAUI to compose the page.
                             await EZApp.Container.TriggerLayout(); /* WORKAROUND */                            
@@ -444,8 +463,7 @@ namespace EZAppMaker.Components
 
                                 MoveToStackTop(i);
 
-                                target.Clear();
-                                target.Add(ContentViewStack[top]);
+                                target.Content = ContentViewStack[top];
 
                                 await Task.Delay(250); // Give some time for MAUI to compose the page.
                                 await EZApp.Container.TriggerLayout(); /* WORKAROUND */                                
@@ -501,9 +519,9 @@ namespace EZAppMaker.Components
                     {
                         leaving = view;
 
-                        if (target.Contains(view))
+                        if (target.Content == view)
                         {
-                            target.Clear();
+                            target.Content = null;
                         }
 
                         ContentViewStack.Remove(leaving);
@@ -529,9 +547,9 @@ namespace EZAppMaker.Components
                 {
                     leaving = view;
 
-                    if (target.Contains(leaving))
+                    if (target.Content == view)
                     {
-                        target.Clear();
+                        target.Content = null;
                     }
 
                     ContentViewStack.Remove(leaving);
@@ -564,9 +582,9 @@ namespace EZAppMaker.Components
 
                 foreach (EZContentView cv in leaving)
                 {
-                    if (target.Contains(cv))
+                    if (target.Content == cv)
                     {
-                        target.Clear();
+                        target.Content = null;
                         break;
                     }
                 }
@@ -743,7 +761,7 @@ namespace EZAppMaker.Components
                     start: start,
                     end: y
                 );
-
+                
                 animation.Commit
                 (
                     owner: this,
@@ -755,8 +773,9 @@ namespace EZAppMaker.Components
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Scrolling... [ no need ]");
                 scrolling.Release();
+
+                System.Diagnostics.Debug.WriteLine("Scrolling... [ no need ]");
             }
         }
 
@@ -783,6 +802,13 @@ namespace EZAppMaker.Components
             // to make the element visible (if possible).
 
             GetContainerPosition(element, out double x, out double y);
+
+            System.Diagnostics.Debug.WriteLine("=======================================================");
+            System.Diagnostics.Debug.WriteLine($"Element Position..: [{Math.Floor(x)}],[{Math.Floor(y)}]");
+            System.Diagnostics.Debug.WriteLine($"Element Height....: [{Math.Floor(element.Height)}]");
+            System.Diagnostics.Debug.WriteLine($"scroller.ScrollY..: [{Math.Floor(scroller.ScrollY)}]");
+            System.Diagnostics.Debug.WriteLine($"EZContainer Height: [{Math.Floor(Height)}]");
+            System.Diagnostics.Debug.WriteLine("=======================================================");
 
             y += element.Height;
             double desired = scroller.ScrollY + y - Height / 2;
@@ -868,8 +894,7 @@ namespace EZAppMaker.Components
             return child;
         }
 
-        [AsyncVoidOnPurpose]
-        public async void HandleFocus(VisualElement element, bool state)
+        public async Task HandleFocus(VisualElement element, bool state)
         {
             if (element == null) return;
 
@@ -901,20 +926,12 @@ namespace EZAppMaker.Components
                         await CurrentView?.Expand();
 
                         await Resizing.WaitAsync();
-                        MakeVisible(element, true, true);
+                        {
+                            MakeVisible(element, true, true);
+                            Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
+                            e.Focus();
+                        }
                         Resizing.Release();
-
-                        // If a scrolling animation is in progress, it will
-                        // break the behavior of the soft input entrance and
-                        // the entire screen may shift down, leaving a black
-                        // area at the top and messing up with some touchable
-                        // spots! This happens only on iOS (and made me crazy
-                        // for some time, until I finally found the cause).
-
-                        await scrolling.WaitAsync(); /* WORKAROUND */
-                        Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
-                        e.Focus();
-                        scrolling.Release();
                     }
                     break;
             }

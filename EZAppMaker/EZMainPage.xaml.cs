@@ -77,7 +77,7 @@ namespace EZAppMaker
         {
             base.OnSizeAllocated(width, height);
 
-            System.Diagnostics.Debug.WriteLine($"EZMainPage.OnSizeAllocated: [{Math.Floor(width)}x{Math.Floor(height)}]");
+            System.Diagnostics.Debug.WriteLine($"EZMainPage.OnSizeAllocated: [{Math.Floor(width)}x{Math.Floor(height)}] - Y: {Y}");
 
             //   ___ _           _   
             //  / __| |_  ___ __| |__

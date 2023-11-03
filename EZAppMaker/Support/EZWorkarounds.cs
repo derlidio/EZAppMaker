@@ -7,6 +7,7 @@
 			get
 			{   // EZAppMaker will implement ways to handle
 				// input fields focus and the soft-keyboard.
+
 				return true;
 			}
 		}
@@ -14,9 +15,10 @@
 		public static bool ScrollViewContentSize
 		{
             get
-            {   // EZAppMaker will implement a workaround
-				// for ScrollView ContentSize changes. So
-				// far, just needed for iOS.
+            {   // EZAppMaker will implement a workaround to keep
+				// the main ScrollView content properly aligned
+				// when it's size changes (when a combo is open,
+				// for example). So far, just needed on iOS.
 
 				return DeviceInfo.Platform == DevicePlatform.iOS;
             }

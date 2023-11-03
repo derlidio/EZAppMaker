@@ -16,9 +16,11 @@
 using UIKit;
 
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 
 using EZAppMaker.Bridges;
 using EZAppMaker.Components;
+using EZAppMaker.Support;
 
 namespace EZAppMaker
 {
@@ -48,12 +50,22 @@ namespace EZAppMaker
         {
             if ((handler == null) || (handler.PlatformView == null) || (view == null) || (view is not EZScrollBridge)) return;
 
-            handler.PlatformView.ContentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentBehavior.Never;
+            handler.PlatformView.ContentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentBehavior.Always;
 
             EZScrollBridge scroll = (EZScrollBridge)view;
 
             scroll.handler = handler;
             scroll.SetScrolling = SetScrolling;
+        }
+
+        public static void EZScrollContentSizeHandler(IScrollViewHandler handler, IScrollView view)
+        {
+            //if ((handler == null) || (handler.PlatformView == null) || (view is not EZScrollBridge)) return;
+
+            //handler.PlatformView.UpdateContentSize(handler.VirtualView.ContentSize);
+            //handler.PlatformArrange(handler.PlatformView.Frame.ToRectangle());
+
+            //System.Diagnostics.Debug.WriteLine("EZScrollContentSizeHandler has been triggered!");
         }
 
         private static void SetScrolling(IScrollViewHandler handler, bool state)

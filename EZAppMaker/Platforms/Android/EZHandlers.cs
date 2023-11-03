@@ -53,6 +53,11 @@ namespace EZAppMaker
             scroll.SetScrolling = SetScrolling;
         }
 
+        public static void EZScrollContentSizeHandler(IScrollViewHandler handler, IScrollView view)
+        {
+            /* Nothing here. It's just to avoid using #if, wich I hate! */
+        }
+
         private static void SetScrolling(IScrollViewHandler handler, bool state)
         {
             if ((handler == null) || (handler.PlatformView == null)) return;

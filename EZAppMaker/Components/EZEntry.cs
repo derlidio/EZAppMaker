@@ -442,7 +442,7 @@ namespace EZAppMaker.Components
         }
 
         [AsyncVoidOnPurpose]
-        private void ToggleFocus()
+        private async void ToggleFocus()
         {
             if (focused) // Focus gain
             {
@@ -460,7 +460,7 @@ namespace EZAppMaker.Components
                     ClearButton.IsVisible = true;
                 }
 
-                EZApp.Container.HandleFocus(this, true);
+                await EZApp.Container.HandleFocus(this, true);
 
                 EntryTapper.IsVisible = false;
 
@@ -476,7 +476,7 @@ namespace EZAppMaker.Components
             InternalEntry.Margin = new Thickness(10, 0, 10, 0);
             InternalEntry.IsReadOnly = true;
 
-            EZApp.Container.HandleFocus(this, false);
+            await EZApp.Container.HandleFocus(this, false);
 
             EntryTapper.IsVisible = true;
         }

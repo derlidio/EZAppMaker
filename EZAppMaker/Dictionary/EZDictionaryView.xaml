@@ -133,12 +133,14 @@
                         <bridge:EZScrollBridge x:Name="EZScroller"
                                                StyleClass="EZScrollStyle"
                                                VerticalScrollBarVisibility="Never"
-                                               HorizontalScrollBarVisibility="Never">
+                                               HorizontalScrollBarVisibility="Never"
+                                               BackgroundColor="AliceBlue">
 
-                            <VerticalStackLayout x:Name="EZContentTarget"
-                                                 StyleClass="EZVerticalStackStyle"
-                                                 VerticalOptions="Start"
-                                                 BackgroundColor="Transparent"/>
+                            <ContentView x:Name="EZContentTarget"
+                                         StyleClass="EZVerticalStackStyle"
+                                         VerticalOptions="Start"
+                                         BackgroundColor="Yellow"/>
+
                         </bridge:EZScrollBridge>
 
                     </Grid>

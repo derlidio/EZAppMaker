@@ -13,6 +13,17 @@ namespace EZAppMaker.Bridges
 
         public static readonly BindableProperty ScrollingEnabledProperty = BindableProperty.Create(nameof(ScrollingEnabled), typeof(bool), typeof(EZScrollBridge), true);
 
+        public EZScrollBridge() 
+        {
+        }
+
+        private void EZScrollBridge_ChildAdded(object sender, ElementEventArgs e)
+        {
+            ContentView view = (ContentView)e.Element;
+
+            view.VerticalOptions = LayoutOptions.Start;
+        }
+
         public bool ScrollingEnabled
         {
             get => (bool)GetValue(ScrollingEnabledProperty);

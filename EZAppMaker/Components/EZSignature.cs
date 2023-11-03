@@ -124,6 +124,15 @@ namespace EZAppMaker.Components
             }
         }
 
+        public void Refresh()
+        {
+            try
+            {
+                path.Data = (Geometry)new PathGeometryConverter().ConvertFromInvariantString(Data);
+            }
+            catch { /* Dismiss */ }
+        }
+
         public void Clear()
         {
             Data = null;

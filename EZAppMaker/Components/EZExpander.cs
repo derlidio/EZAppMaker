@@ -37,13 +37,12 @@ namespace EZAppMaker.Components
             await EZApp.Container.Resizing.WaitAsync();
             {
                 System.Diagnostics.Debug.WriteLine("Expand: acquired");
-
                 IsVisible = true;
                 await Task.Delay(100);
-                EZApp.Container.Resizing.Release();
-
-                System.Diagnostics.Debug.WriteLine("Expand: released");
             }
+            EZApp.Container.Resizing.Release();
+
+            System.Diagnostics.Debug.WriteLine("Expand: released");
 
             return true;
         }
@@ -54,13 +53,13 @@ namespace EZAppMaker.Components
 
             await EZApp.Container.Resizing.WaitAsync();
             {
-                System.Diagnostics.Debug.WriteLine("Expand: acquired");
-
+                System.Diagnostics.Debug.WriteLine("Contract: acquired");
                 IsVisible = false;
                 await Task.Delay(100);
-                EZApp.Container.Resizing.Release();
-                System.Diagnostics.Debug.WriteLine("Expand: released");
             }
+            EZApp.Container.Resizing.Release();
+
+            System.Diagnostics.Debug.WriteLine("Contract: released");
 
             return !IsVisible;
         }
