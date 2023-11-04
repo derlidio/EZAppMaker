@@ -41,9 +41,6 @@ namespace EZAppMaker.Support
         public static EZMainPage MainPage { get; private set; }
         public static bool Initialized { get; private set; }
 
-        public delegate void HideKeyboardHandler();
-        public static HideKeyboardHandler HideKeyboard;
-
         static EZApp()
         {
             Application.Current.RequestedThemeChanged += ThemeChanged;
