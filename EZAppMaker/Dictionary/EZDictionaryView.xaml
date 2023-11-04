@@ -1110,11 +1110,11 @@
 
                                 <Frame x:Name="RStrip"
                                        StyleClass="EZFrameStyle"
-                                       Grid.Column="1"
                                        HeightRequest="24"
                                        VerticalOptions="Center"
                                        IsClippedToBounds="True"
-                                       InputTransparent="True"/>
+                                       InputTransparent="True"
+                                       Grid.Column="1"/>
 
                                 <Slider x:Name="RSlider" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 
@@ -1144,10 +1144,11 @@
 
                                 <Frame x:Name="GStrip"
                                        StyleClass="EZFrameStyle"
-                                       Grid.Column="1"
                                        HeightRequest="24"
                                        VerticalOptions="Center"
-                                       IsClippedToBounds="True"/>
+                                       IsClippedToBounds="True"
+                                       InputTransparent="True"
+                                       Grid.Column="1"/>
 
                                 <Slider x:Name="GSlider" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 
@@ -1177,10 +1178,11 @@
 
                                 <Frame x:Name="BStrip"
                                        StyleClass="EZFrameStyle"
-                                       Grid.Column="1"
                                        HeightRequest="24"
                                        VerticalOptions="Center"
-                                       IsClippedToBounds="True"/>
+                                       IsClippedToBounds="True"
+                                       InputTransparent="True"
+                                       Grid.Column="1"/>
 
                                 <Slider x:Name="BSlider" HeightRequest="24" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 
@@ -1208,15 +1210,13 @@
 
                                 <Label Text="A" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
-                                <Frame StyleClass="EZFrameStyle" HeightRequest="24" IsClippedToBounds="True" VerticalOptions="Center" Grid.Column="1">
-                                    <HorizontalStackLayout x:Name="Checkboard"
-                                                           StyleClass="EZHorizontalStackStyle"
-                                                           HeightRequest="24"
-                                                           WidthRequest="{Binding Source={x:Reference ASlider}, Path=Width}"
-                                                           IsClippedToBounds="True"/>
-                                </Frame>
-
-                                <Frame x:Name="AStrip" StyleClass="EZFrameStyle" HeightRequest="24" VerticalOptions="Center" IsClippedToBounds="True" Grid.Column="1"/>
+                                <Frame x:Name="AStrip"
+                                       StyleClass="EZFrameStyle"
+                                       HeightRequest="24"
+                                       VerticalOptions="Center"
+                                       IsClippedToBounds="True"
+                                       InputTransparent="True"
+                                       Grid.Column="1"/>
 
                                 <Slider x:Name="ASlider" HeightRequest="24" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 

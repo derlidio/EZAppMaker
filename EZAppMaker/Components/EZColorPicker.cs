@@ -51,8 +51,6 @@ namespace EZAppMaker.Components
 
         private readonly EZEntry ColorEntry;
 
-        private readonly HorizontalStackLayout Checkboard;
-
         public delegate void OnChange(EZColorPicker picker);
         public event OnChange OnChanged;
 
@@ -104,9 +102,6 @@ namespace EZAppMaker.Components
             BGrid.SizeChanged += GridSizeChanged;
             AGrid.SizeChanged += GridSizeChanged;
 
-            Checkboard = (HorizontalStackLayout)GetTemplateChild("Checkboard");
-            Checkboard.SizeChanged += Checkboard_SizeChanged;
-
             ColorEntry = (EZEntry)GetTemplateChild("ColorEntry");
 
             SetStripsGradient();
@@ -124,17 +119,6 @@ namespace EZAppMaker.Components
             if ((RGrid.Width > 0) && (GGrid.Width > 0) && (BGrid.Width > 0) && (AGrid.Width > 0))
             {
                 Slider_ValueChanged(null, null);
-            }
-        }
-
-        private void Checkboard_SizeChanged(object sender, EventArgs e)
-        {
-            while (Checkboard.Children.Count * 24 < Checkboard.Width)
-            {
-                Checkboard.Children.Add
-                (
-                    new Image() { WidthRequest = 24, HeightRequest = 24, Source = EZEmbedded.GetImage("EZAppMaker.Assets.Images.checkboard.png") }
-                );
             }
         }
 
