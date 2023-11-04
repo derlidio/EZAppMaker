@@ -107,21 +107,23 @@ using EZAppMaker;
 using EZAppMaker.Effects;
 using EZAppMaker.Bridges;
 
-namespace Your_App;
+namespace EZTemplate;
 
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-        var builder = MauiApp.CreateBuilder();
-        builder
+		var builder = MauiApp.CreateBuilder();
+
+		builder
 		.UseMauiApp<App>()
-        .ConfigureMauiHandlers(handlers =>
-        {
-#if ANDROID
-        handlers.AddHandler(typeof(EZScrollBridge), typeof(EZScrollViewHandler));
-#endif
-        })
+        .ConfigureMauiHandlers
+        (
+            handlers =>
+            {
+                handlers.AddHandler(typeof(EZScrollBridge), typeof(EZScrollViewHandler));
+            }
+        )
         .ConfigureEffects
         (
             effects =>
@@ -129,11 +131,11 @@ public static class MauiProgram
                 effects.Add<TouchRoutingEffect, TouchPlatformEffect>();
             }
         )
-	.ConfigureFonts
+		.ConfigureFonts
         (
             fonts =>
-            {
-                fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
+		    {
+			    fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
                 fonts.AddFont("OpenSans-BoldItalic.ttf", "OpenSansBoldItalic");
                 fonts.AddFont("OpenSans-ExtraBold.ttf", "OpenSansExtraBold");
                 fonts.AddFont("OpenSans-ExtraBoldItalic.ttf", "OpenSansExtraBoldItalic");
