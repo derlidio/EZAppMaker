@@ -97,7 +97,7 @@ public partial class App : Application
 	}
 }
 ```
-5. Change your MauiProgram.cs following the example below. You'll notice that there are several
+5. Chang    e your MauiProgram.cs following the example below. You'll notice that there are several
 font files being added. You may have to download the extra fonts and place them at the `/Resources/Fonts`
 folder of your app's project. Tip: [EZTemplate](https://github.com/derlidio/EZTemplate) has all those fonts.
 ```csharp
@@ -135,7 +135,7 @@ public static class MauiProgram
         (
             fonts =>
 		    {
-			    fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
+                fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
                 fonts.AddFont("OpenSans-BoldItalic.ttf", "OpenSansBoldItalic");
                 fonts.AddFont("OpenSans-ExtraBold.ttf", "OpenSansExtraBold");
                 fonts.AddFont("OpenSans-ExtraBoldItalic.ttf", "OpenSansExtraBoldItalic");
