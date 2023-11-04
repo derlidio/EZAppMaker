@@ -84,8 +84,8 @@ namespace Your_App;
 
 public partial class App : Application
 {
-	public App()
-	{
+    public App()
+    {
         InitializeComponent();
 
         EntryHandler.Mapper.AppendToMapping("EZEntryBridge", EZHandlers.EZEntryHandler);
@@ -94,7 +94,7 @@ public partial class App : Application
         EZApp.Initialize(new Builder());
 
         MainPage = EZApp.MainPage;
-	}
+    }
 }
 ```
 5. Chang    e your MauiProgram.cs following the example below. You'll notice that there are several
@@ -113,10 +113,10 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();
+        var builder = MauiApp.CreateBuilder();
 
-		builder
-		.UseMauiApp<App>()
+        builder
+        .UseMauiApp<App>()
         .ConfigureMauiHandlers
         (
             handlers =>
