@@ -2,16 +2,6 @@
 {
 	public static class EZWorkarounds
 	{
-		public static bool KeyboardFocus
-		{
-			get
-			{   // EZAppMaker will implement ways to handle
-				// input fields focus and the soft-keyboard.
-
-				return true;
-			}
-		}
-
 		public static bool ScrollViewContentSize
 		{
             get

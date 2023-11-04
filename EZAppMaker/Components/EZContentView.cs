@@ -258,8 +258,6 @@ namespace EZAppMaker.Components
             if (expanded)
             {
                 System.Diagnostics.Debug.WriteLine("<- Expanded ->");
-
-                await EZApp.Container.TriggerLayout(); /* WORKAROUND */
             }
             else
             {
@@ -276,8 +274,6 @@ namespace EZAppMaker.Components
             if (contracted)
             {
                 System.Diagnostics.Debug.WriteLine("-> Contracted <-");
-
-                await EZApp.Container.TriggerLayout(); /* WORKAROUND */
             }
             else
             {

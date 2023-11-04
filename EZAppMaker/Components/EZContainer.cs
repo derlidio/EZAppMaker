@@ -184,31 +184,6 @@ namespace EZAppMaker.Components
             menu?.Hide(animated);
         }
 
-        public async Task TriggerLayout() /* WORKAROUND */
-        {
-            // On iOS our main ScrollView will not adjust it's scrollable
-            // area size when it's content resizes. We need to force it by
-            // invoking a Layout Pass, and this is made by changing it's
-            // HeightRequest property (momentarily).
-
-            if (!EZWorkarounds.ScrollViewContentSize) return;
-
-            //(scroller as IView).InvalidateMeasure();
-            //(scroller as IView).InvalidateArrange();
-
-            //System.Diagnostics.Debug.WriteLine("Scroller Layout Pass triggered!");
-
-            //return;
-
-            double height = scroller.Height;
-
-            scroller.HeightRequest = height - 1;
-            await Task.Delay(100);
-            scroller.HeightRequest = height;
-
-            System.Diagnostics.Debug.WriteLine("Scroller Layout Pass triggered!");
-        }
-
         public void DisableScrolling()
         {
             scroller.ScrollingEnabled = false;
@@ -317,8 +292,6 @@ namespace EZAppMaker.Components
                     view.Container = this;
                     ContentViewStack.Add(view);
                     target.Content = view;
-
-                    await EZApp.Container.TriggerLayout(); /* WORKAROUND */
                 }
 
                 blocker.IsVisible = false;
@@ -383,7 +356,6 @@ namespace EZAppMaker.Components
                             target.Content = raising;
 
                             await Task.Delay(250); // Give some time for MAUI to compose the page.
-                            await EZApp.Container.TriggerLayout(); /* WORKAROUND */                            
                         }
                         else
                         {
@@ -466,8 +438,7 @@ namespace EZAppMaker.Components
                                 target.Content = ContentViewStack[top];
 
                                 await Task.Delay(250); // Give some time for MAUI to compose the page.
-                                await EZApp.Container.TriggerLayout(); /* WORKAROUND */                                
-
+                      
                                 // Notifies the page about it being rised to the top of the stack:
 
                                 raising = ContentViewStack[top];
