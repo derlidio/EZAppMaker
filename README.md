@@ -111,8 +111,8 @@ namespace EZTemplate;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
+    public static MauiApp CreateMauiApp()
+    {
         var builder = MauiApp.CreateBuilder();
 
         builder
@@ -131,10 +131,10 @@ public static class MauiProgram
                 effects.Add<TouchRoutingEffect, TouchPlatformEffect>();
             }
         )
-		.ConfigureFonts
+        .ConfigureFonts
         (
             fonts =>
-		    {
+            {
                 fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
                 fonts.AddFont("OpenSans-BoldItalic.ttf", "OpenSansBoldItalic");
                 fonts.AddFont("OpenSans-ExtraBold.ttf", "OpenSansExtraBold");
@@ -150,10 +150,10 @@ public static class MauiProgram
         );
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
-		return builder.Build();
-	}
+        return builder.Build();
+    }
 }
 ```
 6. Change your app's `MainPage.xaml` header following the example below:
