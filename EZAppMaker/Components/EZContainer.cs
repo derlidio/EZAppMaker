@@ -817,11 +817,6 @@ namespace EZAppMaker.Components
             System.Diagnostics.Debug.WriteLine($"{Math.Floor(y)} - {Math.Floor(desired)}");
 
             Scroll(desired, animated).Wait();
-
-            if (focused && (element is IEZFocusable))
-            {
-                ShowKeyboardDispatcher(((IEZFocusable)element).FocusedElement);
-            }
         }
 
         public void GetContainerPosition(VisualElement element, out double x, out double y)
@@ -925,13 +920,10 @@ namespace EZAppMaker.Components
 
                         await CurrentView?.Expand();
 
-                        await Resizing.WaitAsync();
-                        {
-                            MakeVisible(element, true, true);
-                            Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
-                            e.Focus();
-                        }
-                        Resizing.Release();
+                        //Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
+                        //e.Focus();
+
+                        MakeVisible(element, true, true);
                     }
                     break;
             }

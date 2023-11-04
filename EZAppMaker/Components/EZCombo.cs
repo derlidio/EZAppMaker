@@ -732,7 +732,6 @@ namespace EZAppMaker.Components
                     System.Diagnostics.Debug.WriteLine("EZCombo: acquired");
                     ComboListViewFrame.HeightRequest = ListHeight;
                     ComboListViewFrame.IsVisible = true;
-
                     await Task.Delay(100);
                 }
                 EZApp.Container.Resizing.Release();
@@ -761,7 +760,6 @@ namespace EZAppMaker.Components
             {
                 System.Diagnostics.Debug.WriteLine("EZCombo: acquired");
                 ComboListViewFrame.IsVisible = false;
-
                 await Task.Delay(100);
             }
             EZApp.Container.Resizing.Release();
@@ -777,6 +775,13 @@ namespace EZAppMaker.Components
             if (1 == Interlocked.Exchange(ref focus_changed, 0))
             {   
                 await EZApp.Container.HandleFocus(this, focused);
+
+                if (focused)
+                {
+                    await Task.Delay(300);
+                    InternalEntry.Focus();
+                    EZApp.Container.ShowKeyboardDispatcher(InternalEntry);
+                }
 
                 System.Diagnostics.Debug.WriteLine($"EZCombo Resized: {(focused ? "↓" : "↑")}");
             }

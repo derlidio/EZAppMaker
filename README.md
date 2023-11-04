@@ -1,5 +1,11 @@
 # EZAppMaker
-A toolkit for multiplatform apps development on top of MAUI [.NET 8 ready]
+A toolkit for multiplatform apps development on top of MAUI [.NET 8 RC2]
+
+*IMPORTANT:* I still fighting some bugs related to MAUI + .NET 8 platform. So far,
+the major ones have been addressed, but there are some things I want to change for
+better performance. Still, none of my future code review shall impair or change the
+way EZ components works. Reviews will be made to improve performance and assure good
+behavior on both platforms.
 
 EZAppMaker comprises a set of components that shows the same appearance and behavior on both,
 Android and iOS. Custom themes and localization are easily done by adding some JSon files or

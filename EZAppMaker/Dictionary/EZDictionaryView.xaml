@@ -137,9 +137,9 @@
                                                BackgroundColor="AliceBlue">
 
                             <ContentView x:Name="EZContentTarget"
-                                         StyleClass="EZVerticalStackStyle"
-                                         VerticalOptions="Start"
-                                         BackgroundColor="Yellow"/>
+                                         Margin="0"
+                                         Padding="0"
+                                         VerticalOptions="Start"/>
 
                         </bridge:EZScrollBridge>
 
