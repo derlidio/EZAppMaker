@@ -86,6 +86,7 @@ namespace EZAppMaker.Components
 
         private int flashing = 0;
         private int resized = 0;
+        private int focusing = 0;
 
         public delegate void OnChange(EZCombo combo, TextChangedEventArgs args);
         public event OnChange OnChanged;
@@ -713,6 +714,8 @@ namespace EZAppMaker.Components
         [AsyncVoidOnPurpose]
         private async void ToggleFocus()
         {
+            Interlocked.Exchange(ref focusing, 1);
+
             if (focused) // Focus gain
             {
                 BuildList();
@@ -783,9 +786,12 @@ namespace EZAppMaker.Components
         [ComponentEventHandler]
         private void Handle_ComboResize(object sender, EventArgs e)
         {
-            Interlocked.Exchange(ref resized, 1);
-
-            System.Diagnostics.Debug.WriteLine($"EZCombo Resized: {(focused ? "↓" : "↑")}");
+            if (focusing == 1)
+            {
+                Interlocked.Exchange(ref resized, 1);
+                System.Diagnostics.Debug.WriteLine($"EZCombo Resized: {(focused ? "↓" : "↑")}");
+                Interlocked.Exchange(ref focusing, 0);
+            }
         }
 
         [ComponentEventHandler]
