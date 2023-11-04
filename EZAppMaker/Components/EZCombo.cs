@@ -85,8 +85,7 @@ namespace EZAppMaker.Components
         private EZMaskedEntry MaskBehavior;
 
         private int flashing = 0;
-
-        private int focus_changed = 0;
+        private int resized = 0;
 
         public delegate void OnChange(EZCombo combo, TextChangedEventArgs args);
         public event OnChange OnChanged;
@@ -716,8 +715,6 @@ namespace EZAppMaker.Components
         {
             if (focused) // Focus gain
             {
-                Interlocked.Exchange(ref focus_changed, 1);
-
                 BuildList();
 
                 InternalEntry.Margin = new Thickness(10, 0, 32, 0);
@@ -732,11 +729,20 @@ namespace EZAppMaker.Components
                     System.Diagnostics.Debug.WriteLine("EZCombo: acquired");
                     ComboListViewFrame.HeightRequest = ListHeight;
                     ComboListViewFrame.IsVisible = true;
+
+                    while(resized == 0)
+                    {
+                        await Task.Delay(10);
+                    }
+                    Interlocked.Exchange(ref resized, 0);
+
                     await Task.Delay(100);
                 }
                 EZApp.Container.Resizing.Release();
 
                 System.Diagnostics.Debug.WriteLine("EZCombo: released");
+
+                await EZApp.Container.HandleFocus(this, true);
 
                 EntryTapper.IsVisible = false;
 
@@ -746,8 +752,6 @@ namespace EZAppMaker.Components
             // Focus lost
 
             ForceSelection();
-
-            Interlocked.Exchange(ref focus_changed, 1);
 
             EntryFrame.BackgroundColor = BackColor;
             ClearButton.IsVisible = false;
@@ -760,31 +764,28 @@ namespace EZAppMaker.Components
             {
                 System.Diagnostics.Debug.WriteLine("EZCombo: acquired");
                 ComboListViewFrame.IsVisible = false;
-                await Task.Delay(100);
+
+                while(resized == 0)
+                {
+                    await Task.Delay(10);
+                }
+                Interlocked.Exchange(ref resized, 0);
             }
             EZApp.Container.Resizing.Release();
 
             System.Diagnostics.Debug.WriteLine("EZCombo: released");
 
+            await EZApp.Container.HandleFocus(this, false);
+
             EntryTapper.IsVisible = true;
         }
 
         [ComponentEventHandler]
-        private async void Handle_ComboResize(object sender, EventArgs e)
+        private void Handle_ComboResize(object sender, EventArgs e)
         {
-            if (1 == Interlocked.Exchange(ref focus_changed, 0))
-            {   
-                await EZApp.Container.HandleFocus(this, focused);
+            Interlocked.Exchange(ref resized, 1);
 
-                if (focused)
-                {
-                    await Task.Delay(300);
-                    InternalEntry.Focus();
-                    EZApp.Container.ShowKeyboardDispatcher(InternalEntry);
-                }
-
-                System.Diagnostics.Debug.WriteLine($"EZCombo Resized: {(focused ? "↓" : "↑")}");
-            }
+            System.Diagnostics.Debug.WriteLine($"EZCombo Resized: {(focused ? "↓" : "↑")}");
         }
 
         [ComponentEventHandler]

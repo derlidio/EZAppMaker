@@ -133,8 +133,7 @@
                         <bridge:EZScrollBridge x:Name="EZScroller"
                                                StyleClass="EZScrollStyle"
                                                VerticalScrollBarVisibility="Never"
-                                               HorizontalScrollBarVisibility="Never"
-                                               BackgroundColor="AliceBlue">
+                                               HorizontalScrollBarVisibility="Never">
 
                             <ContentView x:Name="EZContentTarget"
                                          Margin="0"

@@ -462,10 +462,6 @@ namespace EZAppMaker.Components
 
                 await EZApp.Container.HandleFocus(this, true);
 
-                await Task.Delay(300);
-                InternalEntry.Focus();
-                EZApp.Container.ShowKeyboardDispatcher(InternalEntry);
-                
                 EntryTapper.IsVisible = false;
 
                 return;

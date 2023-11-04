@@ -689,7 +689,7 @@ namespace EZAppMaker.Components
 
             semaphore.Release();
 
-            if (receiver != null) receiver.ProcessMessage(MessageId, MessageData, Sender);
+            receiver?.ProcessMessage(MessageId, MessageData, Sender);
         }
 
         public async Task Scroll(VisualElement element, ScrollToPosition position, bool animated = true)
@@ -774,18 +774,11 @@ namespace EZAppMaker.Components
 
             GetContainerPosition(element, out double x, out double y);
 
-            System.Diagnostics.Debug.WriteLine("=======================================================");
-            System.Diagnostics.Debug.WriteLine($"Element Position..: [{Math.Floor(x)}],[{Math.Floor(y)}]");
-            System.Diagnostics.Debug.WriteLine($"Element Height....: [{Math.Floor(element.Height)}]");
-            System.Diagnostics.Debug.WriteLine($"scroller.ScrollY..: [{Math.Floor(scroller.ScrollY)}]");
-            System.Diagnostics.Debug.WriteLine($"EZContainer Height: [{Math.Floor(Height)}]");
-            System.Diagnostics.Debug.WriteLine("=======================================================");
-
             y += element.Height;
             double desired = scroller.ScrollY + y - Height / 2;
             if (desired < 0) desired = 0;
 
-            System.Diagnostics.Debug.WriteLine($"{Math.Floor(y)} - {Math.Floor(desired)}");
+            System.Diagnostics.Debug.WriteLine($"Desired offset: {Math.Floor(desired)}");
 
             Scroll(desired, animated).Wait();
         }
@@ -873,10 +866,12 @@ namespace EZAppMaker.Components
                     if (focused == element)
                     {
                         HideKeyboardDispatcher();
-                        CurrentView?.Contract();
+                        await CurrentView?.Contract();
+
                         Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
                         _ = await e.HideSoftInputAsync(new CancellationToken());
                         e.Unfocus();
+
                         focused = null;
                     }
                     break;
@@ -891,10 +886,23 @@ namespace EZAppMaker.Components
 
                         await CurrentView?.Expand();
 
-                        //Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
-                        //e.Focus();
-
                         MakeVisible(element, true, true);
+
+                        if (EZWorkarounds.ScrollViewContentSize)
+                        {
+                            // It seems that, if the main scroll is animating (scrolling or resizing)
+                            // and the soft input enters, the entire screen will shift down. This will
+                            // happen only on iOS. THE ENTIRE SCREEN WILL SHIFT DOWN! So, despite the
+                            // fact that I hate using delays, it's needed here... :o(
+
+                            await Task.Delay(300);
+                        }
+
+                        Entry e = (Entry)((IEZFocusable)focused).FocusedElement;
+                        _ = await e.ShowSoftInputAsync(new CancellationToken());
+                        e.Focus();
+
+                        ShowKeyboardDispatcher(e);
                     }
                     break;
             }
