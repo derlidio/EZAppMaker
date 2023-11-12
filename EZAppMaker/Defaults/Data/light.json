@@ -2,6 +2,12 @@
     "screen_background": {
         "Color": "#FFFFFFFF"
     },
+    "ezspinner": {
+        "Color": "#FFF0F0F0"
+    },
+    "ezspinner_shadow": {
+        "Color": "#80000000"
+    },
     "ezmenu_fill": {
         "Color": "#FF808080"
     },
@@ -427,5 +433,17 @@
     },
     "ezstateform_padlock": {
         "Color": "#FF202020"
+    },
+    "ezhovermsg_background": {
+        "Color": "#FFFFFFE0"
+    },
+    "ezhovermsg_border": {
+        "Color": "#FF808080"
+    },
+    "ezhovermsg_shadow": {
+        "Color": "#80000000"
+    },
+    "ezhovermsg_text": {
+        "Color": "#FF000000"
     }
 }

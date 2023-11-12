@@ -30,7 +30,7 @@ namespace EZAppMaker.Components
         private readonly EZBalloon balloon;
         private readonly EZKeyboardDispatcher keyboard_dispatcher;
         private readonly EZMenu menu;
-        private readonly ActivityIndicator indicator;
+        private readonly EZSpinner indicator;
         private readonly Grid blocker;
 
         private readonly List<EZContentView> ContentViewStack;
@@ -61,7 +61,7 @@ namespace EZAppMaker.Components
             balloon = (EZBalloon)GetTemplateChild("EZBalloonAlert");
             keyboard_dispatcher = (EZKeyboardDispatcher)GetTemplateChild("EZBalloonKeyboard");
             menu = (EZMenu)GetTemplateChild("EZAppMenu");
-            indicator = (ActivityIndicator)GetTemplateChild("EZTimeConsumingActivity");
+            indicator = (EZSpinner)GetTemplateChild("EZTimeConsumingActivity");
             blocker = (Grid)GetTemplateChild("EZBlocker");
 
             ContentViewStack = new List<EZContentView>();
@@ -224,13 +224,13 @@ namespace EZAppMaker.Components
 
         public void ShowActivityIndicator()
         {
-            indicator.IsRunning = true;
             indicator.IsVisible = true;
+            indicator.IsSpinning = true;
         }
 
         public void HideActivityIndicator()
         {
-            indicator.IsRunning = false;
+            indicator.IsSpinning = false;
             indicator.IsVisible = false;
         }
 
@@ -272,6 +272,12 @@ namespace EZAppMaker.Components
 
                 if (can_leave)
                 {
+                    if (view.ShowSpinner)
+                    {
+                        EZApp.Indicator.Show();
+                        await Task.Delay(250);
+                    }
+
                     if (top != -1) // <- This may seem unnecessary, but it is! Believe me :)
                     {
                         hiding = ContentViewStack[top];
@@ -307,6 +313,11 @@ namespace EZAppMaker.Components
             else
             {
                 scroller.Opacity = 1D;
+            }
+
+            if (view.ShowSpinner)
+            {
+                EZApp.Indicator.Hide();
             }
 
             view.OnAppearing();

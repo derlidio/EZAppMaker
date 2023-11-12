@@ -53,11 +53,6 @@ namespace EZAppMaker
             scroll.SetScrolling = SetScrolling;
         }
 
-        public static void EZScrollContentSizeHandler(IScrollViewHandler handler, IScrollView view)
-        {
-            /* Nothing here. It's just to avoid using #if, wich I hate! */
-        }
-
         private static void SetScrolling(IScrollViewHandler handler, bool state)
         {
             if ((handler == null) || (handler.PlatformView == null)) return;
@@ -87,6 +82,19 @@ namespace EZAppMaker
             {
                 handler.PlatformView.SetMaxLines(lbl.MaxLines);
             }                
+        }
+
+        //  __      __   _  __   ___            
+        //  \ \    / /__| |_\ \ / (_)_____ __ __
+        //   \ \/\/ / -_) '_ \ V /| / -_) V  V /
+        //    \_/\_/\___|_.__/\_/ |_\___|\_/\_/
+
+        public static void EZWebViewHandler(IWebViewHandler handler, IWebView view)
+        {
+            handler.PlatformView.Settings.AllowContentAccess = true;
+            handler.PlatformView.Settings.AllowFileAccess = true;
+
+            handler.PlatformView.SetBackgroundColor(global::Android.Graphics.Color.Transparent);
         }
     }
 }

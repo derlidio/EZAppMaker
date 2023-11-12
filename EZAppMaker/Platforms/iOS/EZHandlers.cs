@@ -58,16 +58,6 @@ namespace EZAppMaker
             scroll.SetScrolling = SetScrolling;
         }
 
-        public static void EZScrollContentSizeHandler(IScrollViewHandler handler, IScrollView view)
-        {
-            //if ((handler == null) || (handler.PlatformView == null) || (view is not EZScrollBridge)) return;
-
-            //handler.PlatformView.UpdateContentSize(handler.VirtualView.ContentSize);
-            //handler.PlatformArrange(handler.PlatformView.Frame.ToRectangle());
-
-            //System.Diagnostics.Debug.WriteLine("EZScrollContentSizeHandler has been triggered!");
-        }
-
         private static void SetScrolling(IScrollViewHandler handler, bool state)
         {
             if ((handler == null) || (handler.PlatformView == null)) return;
@@ -95,6 +85,16 @@ namespace EZAppMaker
             {
                 handler.PlatformView.Lines = lbl.MaxLines;
             }
+        }
+
+        //  __      __   _  __   ___            
+        //  \ \    / /__| |_\ \ / (_)_____ __ __
+        //   \ \/\/ / -_) '_ \ V /| / -_) V  V /
+        //    \_/\_/\___|_.__/\_/ |_\___|\_/\_/
+
+        public static void EZWebViewHandler(IWebViewHandler handler, IWebView view)
+        {
+            // Nothing Here. This is just for code compatibility, cos I hate #IF;
         }
     }
 }

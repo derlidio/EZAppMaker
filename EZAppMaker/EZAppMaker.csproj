@@ -21,8 +21,8 @@
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-rc.2.9530" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.0-rc.2.9530" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
@@ -59,6 +59,7 @@
 	  <None Remove="Assets\Paths\visibility_off.txt" />
 	  <None Remove="Assets\Paths\visibility_on.txt" />
 	  <None Remove="Assets\Paths\keyboard_hide.txt" />
+	  <None Remove="Assets\Paths\spinner.txt" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="Defaults\Data\light.json" />
@@ -93,6 +94,7 @@
 	  <EmbeddedResource Include="Assets\Paths\visibility_on.txt" />
 	  <EmbeddedResource Include="Assets\Paths\keyboard_hide.txt" />
 	  <EmbeddedResource Include="Defaults\Data\dark.json" />
+	  <EmbeddedResource Include="Assets\Paths\spinner.txt" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Include="..\README.md">

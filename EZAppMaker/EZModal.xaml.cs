@@ -9,7 +9,6 @@
 (C)2022-2023 Derlidio Siqueira - Expoente Zero */
 
 using EZAppMaker.Components;
-using EZAppMaker.Support;
 
 namespace EZAppMaker
 {
@@ -20,7 +19,6 @@ namespace EZAppMaker
         public EZModal()
         {
             BindingContext = this;
-
             InitializeComponent();
         }
 

@@ -20,7 +20,8 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty ItemIdProperty = BindableProperty.Create(nameof(ItemId), typeof(string), typeof(EZContentView), null);
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(EZContentView), null);
         public static readonly BindableProperty GroupProperty = BindableProperty.Create(nameof(Group), typeof(string), typeof(EZContentView), null);
-
+        public static readonly BindableProperty ShowSpinnerProperty = BindableProperty.Create(nameof(ShowSpinner), typeof(bool), typeof(EZContentView), false);
+        
         public EZContainer Container { get; set; } = null;
         public double ScrollY { get; set; } = 0;
 
@@ -33,7 +34,7 @@ namespace EZAppMaker.Components
         private double width = -1;
         private double height = -1;
 
-        public EZContentView() : base()
+        public EZContentView()
         {
             SizeChanged += OnSizeChanged;
         }
@@ -73,7 +74,7 @@ namespace EZAppMaker.Components
 
                 OnReady?.Invoke();
 
-                System.Diagnostics.Debug.WriteLine($"{ItemId}.OnReady(): [{Math.Floor(Width)}x{Math.Floor(Height)}]");
+                System.Diagnostics.Debug.WriteLine($"{ItemId}.OnReady(): [{Math.Floor(Width)}x{Math.Floor(Height)}]");                
             }
         }
 
@@ -129,6 +130,12 @@ namespace EZAppMaker.Components
         {
             get { return (string)GetValue(GroupProperty); }
             set { SetValue(GroupProperty, value); }
+        }
+
+        public bool ShowSpinner
+        {
+            get { return (bool)GetValue(ShowSpinnerProperty); }
+            set { SetValue(ShowSpinnerProperty, value); }
         }
 
         //  _  _          _           _   _            ___             _      
@@ -226,17 +233,18 @@ namespace EZAppMaker.Components
             }
         }
 
-        //  ___      _    _ _      __  __     _   _            _    
-        // | _ \_  _| |__| (_)__  |  \/  |___| |_| |_  ___  __| |___
-        // |  _/ || | '_ \ | / _| | |\/| / -_)  _| ' \/ _ \/ _` (_-<
-        // |_|  \_,_|_.__/_|_\__| |_|  |_\___|\__|_||_\___/\__,_/__/
+        //   ___       _          ___                   _   
+        //  |   \ __ _| |_ __ _  | __|_ ___ __  ___ _ _| |_ 
+        //  | |) / _` |  _/ _` | | _|\ \ / '_ \/ _ \ '_|  _|
+        //  |___/\__,_|\__\__,_| |___/_\_\ .__/\___/_|  \__|
+        //                               |_|
 
-        public void ProcessMessage(string MessageId, object MessageData, object Sender)
-        {
-            OnMessage?.Invoke(MessageId, MessageData, Sender);
-        }
-
-        public object GetReferenceTo(string objectName)
+        /// <summary>
+        /// Returns a reference to a child of this view. The child must be a named Visual Element present on the view.
+        /// The default behavior of this method is to look for the Element using FindByName(objectName). You may
+        /// override this method if you want to implement a different behavior.
+        /// </summary>
+        public virtual object GetReferenceTo(string objectName)
         {
             object obj = null;
 
@@ -246,7 +254,17 @@ namespace EZAppMaker.Components
             }
             catch { /* Dismiss */ }
 
-            return obj;            
+            return obj;
+        }
+
+        //  ___      _    _ _      __  __     _   _            _    
+        // | _ \_  _| |__| (_)__  |  \/  |___| |_| |_  ___  __| |___
+        // |  _/ || | '_ \ | / _| | |\/| / -_)  _| ' \/ _ \/ _` (_-<
+        // |_|  \_,_|_.__/_|_\__| |_|  |_\___|\__|_||_\___/\__,_/__/
+
+        public void ProcessMessage(string MessageId, object MessageData, object Sender)
+        {
+            OnMessage?.Invoke(MessageId, MessageData, Sender);
         }
 
         public async Task Expand()

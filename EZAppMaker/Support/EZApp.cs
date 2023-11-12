@@ -37,6 +37,7 @@ namespace EZAppMaker.Support
     {
         public static EZBuilder Builder { get; private set; }
         public static EZModal Modal { get; private set; }
+        public static EZActivityIndicator Indicator { get; private set; }
         public static EZContainer Container { get; private set; }
         public static EZMainPage MainPage { get; private set; }
         public static bool Initialized { get; private set; }
@@ -142,6 +143,23 @@ namespace EZAppMaker.Support
             Modal.IsVisible = false;
 
             System.Diagnostics.Debug.WriteLine($"EZModal added to MainLayout");
+
+            //     _      _   _     _ _          ___         _ _         _           
+            //    /_\  __| |_(_)_ _(_) |_ _  _  |_ _|_ _  __| (_)__ __ _| |_ ___ _ _ 
+            //   / _ \/ _|  _| \ V / |  _| || |  | || ' \/ _` | / _/ _` |  _/ _ \ '_|
+            //  /_/ \_\__|\__|_|\_/|_|\__|\_, | |___|_||_\__,_|_\__\__,_|\__\___/_|  
+            //                            |__/
+
+            Indicator = new EZActivityIndicator();
+
+            Indicator.WidthRequest = MainPage.AvailableWidth;
+            Indicator.HeightRequest = MainPage.AvailableHeight;
+
+            MainPage.AddChild(Indicator);
+
+            Indicator.IsVisible = false;
+
+            System.Diagnostics.Debug.WriteLine($"EZActivityIndicator added to MainLayout");
         }
 
         private static void ContainerReady()

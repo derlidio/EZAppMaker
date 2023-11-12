@@ -69,22 +69,18 @@ namespace EZAppMaker.Components
             switch (propertyName)
             {
                 case "IsEnabled":
-                    {
-                        Opacity = IsEnabled ? 1.0D : 0.5D;
-                        break;
-                    }
+                     Opacity = IsEnabled ? 1.0D : 0.5D;
+                     break;
+                    
                 case "Type":
-                    {
-                        OnPropertyChanged(nameof(ButtonColor));
-                        OnPropertyChanged(nameof(LabelColor));
-                        OnPropertyChanged(nameof(TappedColor));
-                        break;
-                    }
+                     OnPropertyChanged(nameof(ButtonColor));
+                     OnPropertyChanged(nameof(LabelColor));
+                     OnPropertyChanged(nameof(TappedColor));
+                     break;
+                    
                 case "PathData":
-                    {
-                        OnPropertyChanged(nameof(HasPath));
-                        break;
-                    }
+                     OnPropertyChanged(nameof(HasPath));
+                     break;
             }
         }
 
@@ -139,15 +135,15 @@ namespace EZAppMaker.Components
 
                 switch (Type)
                 {
-                    case EZButtonType.primary: { c = Default.Color("ezbutton_primary"); break; }
-                    case EZButtonType.secondary: { c = Default.Color("ezbutton_secondary"); break; }
-                    case EZButtonType.success: { c = Default.Color("ezbutton_success"); break; }
-                    case EZButtonType.danger: { c = Default.Color("ezbutton_danger"); break; }
-                    case EZButtonType.warning: { c = Default.Color("ezbutton_warning"); break; }
-                    case EZButtonType.info: { c = Default.Color("ezbutton_info"); break; }
-                    case EZButtonType.light: { c = Default.Color("ezbutton_light"); break; }
-                    case EZButtonType.dark: { c = Default.Color("ezbutton_dark"); break; }
-                    case EZButtonType.link: { c = Default.Color("ezbutton_link"); break; }
+                    case EZButtonType.primary: c = Default.Color("ezbutton_primary"); break;
+                    case EZButtonType.secondary: c = Default.Color("ezbutton_secondary"); break;
+                    case EZButtonType.success: c = Default.Color("ezbutton_success"); break;
+                    case EZButtonType.danger: c = Default.Color("ezbutton_danger"); break;
+                    case EZButtonType.warning: c = Default.Color("ezbutton_warning"); break;
+                    case EZButtonType.info: c = Default.Color("ezbutton_info"); break;
+                    case EZButtonType.light: c = Default.Color("ezbutton_light"); break;
+                    case EZButtonType.dark: c = Default.Color("ezbutton_dark"); break;
+                    case EZButtonType.link: c = Default.Color("ezbutton_link"); break;
                 }
 
                 return c;
@@ -162,15 +158,15 @@ namespace EZAppMaker.Components
 
                 switch (Type)
                 {
-                    case EZButtonType.primary: { c = Default.Color("ezbutton_primary_tapped"); break; }
-                    case EZButtonType.secondary: { c = Default.Color("ezbutton_secondary_tapped"); break; }
-                    case EZButtonType.success: { c = Default.Color("ezbutton_success_tapped"); break; }
-                    case EZButtonType.danger: { c = Default.Color("ezbutton_danger_tapped"); break; }
-                    case EZButtonType.warning: { c = Default.Color("ezbutton_warning_tapped"); break; }
-                    case EZButtonType.info: { c = Default.Color("ezbutton_info_tapped"); break; }
-                    case EZButtonType.light: { c = Default.Color("ezbutton_light_tapped"); break; }
-                    case EZButtonType.dark: { c = Default.Color("ezbutton_dark_tapped"); break; }
-                    case EZButtonType.link: { c = Default.Color("ezbutton_link_tapped"); break; }
+                    case EZButtonType.primary: c = Default.Color("ezbutton_primary_tapped"); break;
+                    case EZButtonType.secondary: c = Default.Color("ezbutton_secondary_tapped"); break;
+                    case EZButtonType.success: c = Default.Color("ezbutton_success_tapped"); break;
+                    case EZButtonType.danger: c = Default.Color("ezbutton_danger_tapped"); break;
+                    case EZButtonType.warning: c = Default.Color("ezbutton_warning_tapped"); break;
+                    case EZButtonType.info: c = Default.Color("ezbutton_info_tapped"); break;
+                    case EZButtonType.light: c = Default.Color("ezbutton_light_tapped"); break;
+                    case EZButtonType.dark: c = Default.Color("ezbutton_dark_tapped"); break;
+                    case EZButtonType.link: c = Default.Color("ezbutton_link_tapped"); break;
                 }
 
                 return c;
@@ -187,15 +183,15 @@ namespace EZAppMaker.Components
 
                 switch (t)
                 {
-                    case EZButtonType.primary: { c = Default.Color("ezbutton_primary_label"); break; }
-                    case EZButtonType.secondary: { c = Default.Color("ezbutton_secondary_label"); break; }
-                    case EZButtonType.success: { c = Default.Color("ezbutton_success_label"); break; }
-                    case EZButtonType.danger: { c = Default.Color("ezbutton_danger_label"); break; }
-                    case EZButtonType.warning: { c = Default.Color("ezbutton_warning_label"); break; }
-                    case EZButtonType.info: { c = Default.Color("ezbutton_info_label"); break; }
-                    case EZButtonType.light: { c = Default.Color("ezbutton_light_label"); break; }
-                    case EZButtonType.dark: { c = Default.Color("ezbutton_dark_label"); break; }
-                    case EZButtonType.link: { c = Default.Color("ezbutton_link_label"); break; }
+                    case EZButtonType.primary: c = Default.Color("ezbutton_primary_label"); break;
+                    case EZButtonType.secondary: c = Default.Color("ezbutton_secondary_label"); break;
+                    case EZButtonType.success: c = Default.Color("ezbutton_success_label"); break;
+                    case EZButtonType.danger: c = Default.Color("ezbutton_danger_label"); break;
+                    case EZButtonType.warning: c = Default.Color("ezbutton_warning_label"); break;
+                    case EZButtonType.info: c = Default.Color("ezbutton_info_label"); break;
+                    case EZButtonType.light: c = Default.Color("ezbutton_light_label"); break;
+                    case EZButtonType.dark: c = Default.Color("ezbutton_dark_label"); break;
+                    case EZButtonType.link: c = Default.Color("ezbutton_link_label"); break;
                 }
 
                 return c;

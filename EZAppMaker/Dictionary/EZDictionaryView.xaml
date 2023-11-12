@@ -75,6 +75,37 @@
                 <GradientStop Color="#00000000" Offset="1"/>
             </LinearGradientBrush>
 
+            <!-- Spinner Template -->
+
+            <ControlTemplate x:DataType="ez:EZSpinner" x:Key="EZSpinnerTemplate">
+                <Grid StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+                    <Path x:Name="Shadow"
+                          Data="{resource:PathResource EZAppMaker.Assets.Paths.spinner.txt}"
+                          Aspect="Uniform"
+                          Fill="{resource:BrushResource ezspinner_shadow}"
+                          Stroke="Transparent"
+                          StrokeThickness="0"
+                          RotationY="180"
+                          Rotation="{Binding Source={x:Reference Spinner}, Path=Rotation}"
+                          WidthRequest="{Binding Size}"
+                          HeightRequest="{Binding Size}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"
+                          Margin="3,3,0,0"/>
+                    <Path x:Name="Spinner"
+                          Data="{resource:PathResource EZAppMaker.Assets.Paths.spinner.txt}"
+                          Aspect="Uniform"
+                          Fill="{Binding Color}"
+                          Stroke="Transparent"
+                          StrokeThickness="0"
+                          RotationY="180"
+                          WidthRequest="{Binding Size}"
+                          HeightRequest="{Binding Size}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"/>
+                </Grid>
+            </ControlTemplate>
+
             <!-- EZMenu Control Template -->
 
             <ControlTemplate x:DataType="ez:EZMenu" x:Key="EZMenuTemplate">
@@ -159,16 +190,24 @@
                     <Grid x:Name="EZTimeConsumingActivityFader"
                           StyleClass="EZGridStyle"
                           Background="{StaticResource EZModalFader}"
-                          IsVisible="{Binding Source={x:Reference EZTimeConsumingActivity}, Path=IsVisible}"/>
+                          IsVisible="{Binding Source={x:Reference EZTimeConsumingActivity}, Path=IsVisible}">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer/> <!-- WORKAROUND -->
+                        </Grid.GestureRecognizers>
+                    </Grid>
 
-                    <ActivityIndicator x:Name="EZTimeConsumingActivity"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"
-                                       Color="{AppThemeBinding Dark=White, Light=Black}"
-                                       IsRunning="False"
-                                       IsVisible="False"/>
+                    <ez:EZSpinner x:Name="EZTimeConsumingActivity"
+                                  Size="64"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Center"
+                                  IsSpinning="False"
+                                  IsVisible="False"/>
 
-                    <Grid x:Name="EZBlocker" StyleClass="EZGridStyle" IsVisible="False"/>
+                    <Grid x:Name="EZBlocker" StyleClass="EZGridStyle" IsVisible="False">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer/> <!-- WORKAROUND -->
+                        </Grid.GestureRecognizers>
+                    </Grid>
 
                 </Grid>
 
@@ -1291,6 +1330,37 @@
 
             </ControlTemplate>
 
+            <!-- EZHoverMessage Control Template -->
+
+            <ControlTemplate x:DataType="ez:EZHoverMessage" x:Key="EZHoverMessageTemplate">
+
+                <Grid StyleClass="EZGridStyle" Margin="50,0,50,0">
+
+                    <Rectangle Fill="{Binding ShadowColor}"
+                               Margin="5,5,0,0"
+                               VerticalOptions="Start"
+                               RadiusX="{Binding CornerRadius}"
+                               RadiusY="{Binding CornerRadius}"/>
+
+                    <Frame StyleClass="EZFrameStyle"
+                           BindingContext="{Binding Source={RelativeSource TemplatedParent}}"
+                           BackgroundColor="{Binding BackColor}"
+                           CornerRadius="{Binding CornerRadius}"
+                           BorderColor="{Binding BorderColor}"
+                           Margin="0,0,5,5"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center">
+
+                           <Label Text="{Binding Message}"
+                                  FontFamily="OpenSansSemiBold"
+                                  TextColor="{Binding TextColor}"
+                                  HorizontalTextAlignment="Center"
+                                  LineBreakMode="WordWrap"/>
+                    </Frame>
+
+                </Grid>
+
+            </ControlTemplate>
         </ResourceDictionary>
 
     </ContentView.Resources>
