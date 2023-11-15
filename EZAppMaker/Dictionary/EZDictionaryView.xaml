@@ -26,7 +26,7 @@
                 <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}"/>
             </Style>
 
-            <!-- Empty Grid -->
+            <!-- Default Grid -->
 
             <Style TargetType="Grid" Class="EZGridStyle">
                 <Setter Property="Margin" Value="0"/>
@@ -35,7 +35,7 @@
                 <Setter Property="ColumnSpacing" Value="0"/>
             </Style>
 
-            <!-- Empty Frame -->
+            <!-- Default Frame -->
 
             <Style TargetType="Frame" Class="EZFrameStyle">
                 <Setter Property="CornerRadius" Value="5"/>
@@ -44,7 +44,14 @@
                 <Setter Property="HasShadow" Value="False"/>
             </Style>
 
-            <!-- Empty StackLayout -->
+            <!-- Default Border -->
+
+            <Style TargetType="Border" Class="EZBorderStyle">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+
+            <!-- Default StackLayout -->
 
             <Style TargetType="VerticalStackLayout" Class="EZVerticalStackStyle">
                 <Setter Property="Margin" Value="0"/>
@@ -52,7 +59,7 @@
                 <Setter Property="Spacing" Value="0"/>
             </Style>
 
-            <!-- Empty Horizontal StackLayout -->
+            <!-- Default Horizontal StackLayout -->
 
             <Style TargetType="HorizontalStackLayout" Class="EZHorizontalStackStyle">
                 <Setter Property="Margin" Value="0"/>
@@ -60,7 +67,7 @@
                 <Setter Property="Spacing" Value="0"/>
             </Style>
 
-            <!-- Empty ScrollView -->
+            <!-- Default ScrollView -->
 
             <Style TargetType="ScrollView" Class="EZScrollStyle">
                 <Setter Property="Margin" Value="0"/>
@@ -230,7 +237,7 @@
 
                     <!-- Background -->
 
-                    <Frame x:Name="BgFrame"
+                    <!--<Frame x:Name="BgFrame"
                            Margin="0"
                            Padding="0"
                            CornerRadius="{Binding CornerRadius}"
@@ -238,7 +245,19 @@
                            BorderColor="{Binding BorderColor}"
                            Opacity="{Binding FrameOpacity}"
                            HasShadow="{Binding HasShadow}"
-                           Grid.Row="1"/>
+                           Grid.Row="1"/>-->
+
+                    <Border Margin="0"
+                            Padding="0"
+                            Background="{Binding Fill}"
+                            Stroke="{Binding BorderColor}"
+                            StrokeThickness="1"
+                            Opacity="{Binding FrameOpacity}"
+                            Grid.Row="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{Binding CornerRadius}" />
+                            </Border.StrokeShape>
+                    </Border>
 
                     <!-- Body -->
 
@@ -1081,7 +1100,9 @@
                             <ColumnDefinition Width="0.25*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Frame StyleClass="EZFrameStyle" BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding BorderColor}"/>
+                        <Frame StyleClass="EZFrameStyle"
+                                BackgroundColor="{Binding BackgroundColor}"
+                                BorderColor="{Binding BorderColor}"/>
 
                         <Slider x:Name="InternalSlider"
                                 StyleClass="EZSliderStyle"
@@ -1135,7 +1156,17 @@
                         <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
                     </HorizontalStackLayout>
 
-                    <Frame StyleClass="EZFrameStyle" BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding BorderColor}" Padding="10">
+                    <!--Frame StyleClass="EZFrameStyle" BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding BorderColor}" Padding="10"-->
+
+                    <Border BackgroundColor="{Binding BackgroundColor}"
+                            Stroke="{Binding BorderColor}"
+                            StrokeThickness="1"
+                            Margin="0"
+                            Padding="10">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
 
                         <VerticalStackLayout StyleClass="EZVerticalStackStyle" Spacing="5">
 
@@ -1148,13 +1179,16 @@
 
                                 <Label Text="R" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
-                                <Frame x:Name="RStrip"
-                                       StyleClass="EZFrameStyle"
-                                       HeightRequest="24"
-                                       VerticalOptions="Center"
-                                       IsClippedToBounds="True"
-                                       InputTransparent="True"
-                                       Grid.Column="1"/>
+                                <Border x:Name="RStrip"
+                                        StrokeThickness="0"
+                                        HeightRequest="24"
+                                        VerticalOptions="Center"
+                                        InputTransparent="True"
+                                        Grid.Column="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5"/>
+                                    </Border.StrokeShape>
+                                </Border>
 
                                 <Slider x:Name="RSlider" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 
@@ -1182,13 +1216,16 @@
 
                                 <Label Text="G" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
-                                <Frame x:Name="GStrip"
-                                       StyleClass="EZFrameStyle"
-                                       HeightRequest="24"
-                                       VerticalOptions="Center"
-                                       IsClippedToBounds="True"
-                                       InputTransparent="True"
-                                       Grid.Column="1"/>
+                                <Border x:Name="GStrip"
+                                        StrokeThickness="0"
+                                        HeightRequest="24"
+                                        VerticalOptions="Center"
+                                        InputTransparent="True"
+                                        Grid.Column="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5"/>
+                                    </Border.StrokeShape>
+                                </Border>
 
                                 <Slider x:Name="GSlider" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 
@@ -1216,13 +1253,16 @@
 
                                 <Label Text="B" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
-                                <Frame x:Name="BStrip"
-                                       StyleClass="EZFrameStyle"
-                                       HeightRequest="24"
-                                       VerticalOptions="Center"
-                                       IsClippedToBounds="True"
-                                       InputTransparent="True"
-                                       Grid.Column="1"/>
+                                <Border x:Name="BStrip"
+                                        StrokeThickness="0"
+                                        HeightRequest="24"
+                                        VerticalOptions="Center"
+                                        InputTransparent="True"
+                                        Grid.Column="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5"/>
+                                    </Border.StrokeShape>
+                                </Border>
 
                                 <Slider x:Name="BSlider" HeightRequest="24" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 
@@ -1250,13 +1290,16 @@
 
                                 <Label Text="A" FontSize="20" FontFamily="OpenSansBold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
-                                <Frame x:Name="AStrip"
-                                       StyleClass="EZFrameStyle"
-                                       HeightRequest="24"
-                                       VerticalOptions="Center"
-                                       IsClippedToBounds="True"
-                                       InputTransparent="True"
-                                       Grid.Column="1"/>
+                                <Border x:Name="AStrip"
+                                        StrokeThickness="0"
+                                        HeightRequest="24"
+                                        VerticalOptions="Center"
+                                        InputTransparent="True"
+                                        Grid.Column="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5"/>
+                                    </Border.StrokeShape>
+                                </Border>
 
                                 <Slider x:Name="ASlider" HeightRequest="24" StyleClass="EZSliderStyle" Value="1" Grid.Column="1"/>
 
@@ -1286,7 +1329,7 @@
 
                         </VerticalStackLayout>
 
-                    </Frame>
+                    </Border>
 
                 </VerticalStackLayout>
 

@@ -44,10 +44,10 @@ namespace EZAppMaker.Components
         private readonly Image BPointer;
         private readonly Image APointer;
 
-        private readonly Frame RStrip;
-        private readonly Frame GStrip;
-        private readonly Frame BStrip;
-        private readonly Frame AStrip;
+        private readonly Border RStrip;
+        private readonly Border GStrip;
+        private readonly Border BStrip;
+        private readonly Border AStrip;
 
         private readonly EZEntry ColorEntry;
 
@@ -77,10 +77,10 @@ namespace EZAppMaker.Components
             BPointer = (Image)GetTemplateChild("BPointer");
             APointer = (Image)GetTemplateChild("APointer");
 
-            RStrip = (Frame)GetTemplateChild("RStrip");
-            GStrip = (Frame)GetTemplateChild("GStrip");
-            BStrip = (Frame)GetTemplateChild("BStrip");
-            AStrip = (Frame)GetTemplateChild("AStrip");
+            RStrip = (Border)GetTemplateChild("RStrip");
+            GStrip = (Border)GetTemplateChild("GStrip");
+            BStrip = (Border)GetTemplateChild("BStrip");
+            AStrip = (Border)GetTemplateChild("AStrip");
 
             RStrip.Background = Gradient(Colors.Cyan, Colors.White);
             GStrip.Background = Gradient(Colors.Magenta, Colors.White);
@@ -317,7 +317,7 @@ namespace EZAppMaker.Components
             float b = (float)BSlider.Value;
             float a = (float)ASlider.Value;
 
-            double length = RGrid.Width - RPointer.Width; // All sliders share the same lenght & pointer width
+            double length = RGrid.Width - RPointer.WidthRequest;
 
             RPointer.TranslationX = length * r;
             GPointer.TranslationX = length * g;
