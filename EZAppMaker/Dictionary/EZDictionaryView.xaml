@@ -407,6 +407,7 @@
                         <Path Data="{Binding PathData}"
                               WidthRequest="24"
                               HeightRequest="24"
+                              Aspect="Uniform"
                               VerticalOptions="Center"
                               Fill="{Binding PathFill}"
                               IsVisible="{Binding HasPath}"/>

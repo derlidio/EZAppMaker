@@ -174,6 +174,11 @@ namespace EZAppMaker.Components
         {
             EZApp.Builder.CurrentViewChanged(this);
 
+            if (EZSettings.ContentReposition && (ScrollY != 0))
+            {
+                _ = EZApp.Container.Scroll(ScrollY, true);
+            }
+
             System.Diagnostics.Debug.WriteLine($"EZContentView: OnRaised -> {ItemId}");
         }
 

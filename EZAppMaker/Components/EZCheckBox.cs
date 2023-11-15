@@ -8,6 +8,7 @@
  
 (C)2022-2023 Derlidio Siqueira - Expoente Zero */
 
+using System.Reflection;
 using System.Windows.Input;
 
 using EZAppMaker.Attributes;
@@ -26,6 +27,8 @@ namespace EZAppMaker.Components
 
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZCheckBox), defaultValueCreator: bindable => Default.Color("ezcheckbox_label"));
         public static readonly BindableProperty ColorProperty = BindableProperty.Create(nameof(Color), typeof(Brush), typeof(EZCheckBox), defaultValueCreator: bindable => Default.Brush("ezcheckbox"));
+
+        public static readonly BindableProperty ContextOnChangeProperty = BindableProperty.Create(nameof(ContextOnChange), typeof(string), typeof(EZButton), null);
 
         public delegate void OnChangeHandler(EZCheckBox checkbox);
         public event OnChangeHandler OnChange;
@@ -136,6 +139,12 @@ namespace EZAppMaker.Components
             set => SetValue(LabelColorProperty, value);
         }
 
+        public string ContextOnChange
+        {
+            get => (string)GetValue(ContextOnChangeProperty);
+            set => SetValue(ContextOnChangeProperty, value);
+        }
+
         [ComponentEventHandler]
         private void Handle_CheckTap(object ItemId)
         {
@@ -149,6 +158,16 @@ namespace EZAppMaker.Components
             SetValue(IsCheckedProperty, !(bool)GetValue(IsCheckedProperty));
             SetState();
             OnChange?.Invoke(this);
+
+            if (!string.IsNullOrWhiteSpace(ContextOnChange))
+            {
+                MethodInfo tap = BindingContext?.GetType()?.GetMethod(ContextOnChange);
+
+                if (tap != null)
+                {
+                    tap?.Invoke(BindingContext, new object[] { this });
+                }
+            }
         }
 
         private void SetState()

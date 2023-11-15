@@ -249,6 +249,12 @@ namespace EZAppMaker.Components
             }
         }
 
+        //  _  _          _           _   _ 
+        // | \| |__ ___ _(_)__ _ __ _| |_(_)___ _ _ 
+        // | .` / _` \ V / / _` / _` |  _| / _ \ ' \
+        // |_|\_\__,_|\_/|_\__, \__,_|\__|_\___/_||_|
+        //                 |___/                                              
+
         public async Task PushContentView(EZContentView view)
         {
             if (view == null) return;
@@ -292,7 +298,7 @@ namespace EZAppMaker.Components
                             scroller.Opacity = 0D;
                         }
                         
-                        await scroller.ScrollToAsync(target, ScrollToPosition.Start, false);
+                        await scroller.ScrollToAsync(0D, 0D, false);
                     }
 
                     view.Container = this;
@@ -353,7 +359,7 @@ namespace EZAppMaker.Components
                             scroller.Opacity = 0D;
                         }
 
-                        await scroller.ScrollToAsync(target, ScrollToPosition.Start, false);
+                        await scroller.ScrollToAsync(0D, 0D, false);
 
                         target.Content = null;
 
@@ -390,11 +396,6 @@ namespace EZAppMaker.Components
                 else
                 {
                     scroller.Opacity = 1D;
-                }
-
-                if (EZSettings.ContentReposition && (raising.ScrollY != 0))
-                {
-                    await scroller.ScrollToAsync(0, raising.ScrollY, true);
                 }
 
                 raising.OnRaised();
@@ -442,7 +443,7 @@ namespace EZAppMaker.Components
                                     scroller.Opacity = 0D;
                                 }
 
-                                await scroller.ScrollToAsync(target, ScrollToPosition.Start, false);
+                                await scroller.ScrollToAsync(0D, 0D, false);
 
                                 MoveToStackTop(i);
 
@@ -476,11 +477,6 @@ namespace EZAppMaker.Components
                 else
                 {
                     scroller.Opacity = 1D;
-                }
-
-                if (EZSettings.ContentReposition && (raising.ScrollY != 0))
-                {
-                    await scroller.ScrollToAsync(0, raising.ScrollY, true);
                 }
 
                 raising.OnRaised();
@@ -621,6 +617,12 @@ namespace EZAppMaker.Components
 
             semaphore.Release();
         }
+
+        //   _  _     _                  
+        //  | || |___| |_ __  ___ _ _ ___
+        //  | __ / -_) | '_ \/ -_) '_(_-<
+        //  |_||_\___|_| .__/\___|_| /__/
+        //             |_|
 
         public async Task<EZContentView> GetTopPage()
         {

@@ -16,6 +16,7 @@ using Microsoft.Maui.Controls.Shapes;
 using EZAppMaker.Attributes;
 using EZAppMaker.Support;
 using EZAppMaker.Defaults;
+using System.Reflection;
 
 namespace EZAppMaker.Components
 {
@@ -39,6 +40,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty TypeProperty = BindableProperty.Create(nameof(Type), typeof(EZButtonType), typeof(EZButton), EZButtonType.secondary);
         public static readonly BindableProperty PathDataProperty = BindableProperty.Create(nameof(PathData), typeof(GeometryGroup), typeof(EZButton), null);
         public static readonly BindableProperty AutoDisableProperty = BindableProperty.Create(nameof(AutoDisable), typeof(bool), typeof(EZButton), false);
+        public static readonly BindableProperty ContextOnTapProperty = BindableProperty.Create(nameof(ContextOnTap), typeof(string), typeof(EZButton), null);
 
         public delegate void OnTapHandler(EZButton button);
         public event OnTapHandler OnTap;
@@ -112,6 +114,12 @@ namespace EZAppMaker.Components
         {
             get => (bool)GetValue(AutoDisableProperty);
             set => SetValue(AutoDisableProperty, value);
+        }
+
+        public string ContextOnTap
+        {
+            get => (string)GetValue(ContextOnTapProperty);
+            set => SetValue(ContextOnTapProperty, value);
         }
 
         public Brush PathFill
@@ -228,6 +236,16 @@ namespace EZAppMaker.Components
                 EZApp.Container.HideKeyboard();
 
                 OnTap?.Invoke(this);
+
+                if (!string.IsNullOrWhiteSpace(ContextOnTap))
+                {
+                    MethodInfo tap = BindingContext?.GetType()?.GetMethod(ContextOnTap);
+
+                    if (tap != null)
+                    {
+                        tap?.Invoke(BindingContext, new object[] { this });
+                    }
+                }
 
                 tick = Environment.TickCount;
 

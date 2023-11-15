@@ -17,13 +17,6 @@ namespace EZAppMaker.Bridges
         {
         }
 
-        private void EZScrollBridge_ChildAdded(object sender, ElementEventArgs e)
-        {
-            ContentView view = (ContentView)e.Element;
-
-            view.VerticalOptions = LayoutOptions.Start;
-        }
-
         public bool ScrollingEnabled
         {
             get => (bool)GetValue(ScrollingEnabledProperty);
@@ -34,7 +27,7 @@ namespace EZAppMaker.Bridges
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == "ScrollingEnabled")
+            if (propertyName == nameof(ScrollingEnabled))
             {
                 SetScrolling?.Invoke(handler, ScrollingEnabled);
             }

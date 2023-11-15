@@ -28,6 +28,18 @@ namespace EZAppMaker.Support
         {
             try
             {
+                if
+                (
+                    !address.StartsWith("http://")
+                    &&
+                    !address.StartsWith("https://")
+                    &&
+                    !address.StartsWith("mailto:")
+                )
+                {
+                    address = "http://" + address;
+                }
+
                 await Browser.OpenAsync(address);
             }
             catch { /* Dismiss */ }
