@@ -15,18 +15,17 @@ namespace EZAppMaker.Support
 {
     public static class EZText
     {
-
         public static string RemoveDiacritics(string text)
         {
             if (string.IsNullOrWhiteSpace(text)) return "";
 
             var normalizedString = text.Normalize(NormalizationForm.FormD);
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder(normalizedString.Length);
 
-            foreach (var c in normalizedString)
+            for (int i = 0; i < normalizedString.Length; i++)
             {
+                char c = normalizedString[i];
                 var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
-
                 if (unicodeCategory != UnicodeCategory.NonSpacingMark)
                 {
                     stringBuilder.Append(c);

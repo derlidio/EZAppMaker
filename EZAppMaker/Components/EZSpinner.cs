@@ -56,6 +56,37 @@ namespace EZAppMaker.Components
             }
         }
 
+        //private void StartAnimation()
+        //{
+        //    if ((spinner == null) || animating) return;
+
+        //    System.Diagnostics.Debug.WriteLine("EZSpinner: starging animation");
+
+        //    animating = true;
+
+        //    var animation = new Animation(v => spinner.Rotation = v, 360, 0);
+
+        //    animation.Commit
+        //    (
+        //        this,
+        //        "Spin",
+        //        40,
+        //        1000,
+        //        Easing.Linear,
+        //        (v, c) =>
+        //        {
+        //            spinner.Rotation = 360;
+
+        //            if (!IsSpinning)
+        //            {
+        //                animating = false;
+        //                System.Diagnostics.Debug.WriteLine("EZSpinner: ending animation");
+        //            }
+        //        },
+        //        () => IsSpinning
+        //    );
+        //}
+
         private void StartAnimation()
         {
             if ((spinner == null) || animating) return;
@@ -64,27 +95,28 @@ namespace EZAppMaker.Components
 
             animating = true;
 
-            var animation = new Animation(v => spinner.Rotation = v, 360, 0);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                var animation = new Animation(v => spinner.Rotation = v, 360, 0);
 
-            animation.Commit
-            (
-                this,
-                "Spin",
-                40,
-                1000,
-                Easing.Linear,
-                (v, c) =>
-                {
-                    spinner.Rotation = 360;
-
-                    if (!IsSpinning)
+                animation.Commit(
+                    this,
+                    "Spin",
+                    40,
+                    1000,
+                    Easing.Linear,
+                    (v, c) =>
                     {
-                        animating = false;
-                        System.Diagnostics.Debug.WriteLine("EZSpinner: ending animation");
-                    }
-                },
-                () => IsSpinning
-            );
+                        spinner.Rotation = 360;
+                        if (!IsSpinning)
+                        {
+                            animating = false;
+                            System.Diagnostics.Debug.WriteLine("EZSpinner: ending animation");
+                        }
+                    },
+                    () => IsSpinning
+                );
+            });
         }
     }
 }

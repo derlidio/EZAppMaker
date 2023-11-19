@@ -41,6 +41,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty PathDataProperty = BindableProperty.Create(nameof(PathData), typeof(GeometryGroup), typeof(EZButton), null);
         public static readonly BindableProperty AutoDisableProperty = BindableProperty.Create(nameof(AutoDisable), typeof(bool), typeof(EZButton), false);
         public static readonly BindableProperty ContextOnTapProperty = BindableProperty.Create(nameof(ContextOnTap), typeof(string), typeof(EZButton), null);
+        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius), typeof(double), typeof(EZButton), 5D);
 
         public delegate void OnTapHandler(EZButton button);
         public event OnTapHandler OnTap;
@@ -120,6 +121,12 @@ namespace EZAppMaker.Components
         {
             get => (string)GetValue(ContextOnTapProperty);
             set => SetValue(ContextOnTapProperty, value);
+        }
+
+        public double CornerRadius
+        {
+            get => (double)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
 
         public Brush PathFill

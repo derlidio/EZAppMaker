@@ -413,9 +413,9 @@
                         <RowDefinition Height="32"/>
                     </Grid.RowDefinitions>
 
-                    <BoxView Color="{Binding ButtonColor}" CornerRadius="5"/>
+                    <BoxView Color="{Binding ButtonColor}" CornerRadius="{Binding CornerRadius}"/>
 
-                    <BoxView x:Name="TapIndicator" CornerRadius="5" Color="{Binding TappedColor}" Opacity="0"/>
+                    <BoxView x:Name="TapIndicator" CornerRadius="{Binding CornerRadius}" Color="{Binding TappedColor}" Opacity="0"/>
 
                     <HorizontalStackLayout HeightRequest="32"
                                            Spacing="10"
@@ -763,9 +763,9 @@
 
             <!-- EZCombo Control Template -->
             
-            <ControlTemplate x:DataType="ez:EZCombo" x:Key="EZComboTemplate">
+            <ControlTemplate x:DataType="ez:EZCombo" x:Key="EZFlexComboTemplate">
 
-                <VerticalStackLayout x:Name="EZComboStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+                <VerticalStackLayout x:Name="EZFlexComboStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
                     <VerticalStackLayout x:Name="EZEntryStack" StyleClass="EZVerticalStackStyle">
 
@@ -845,7 +845,7 @@
 
                     </VerticalStackLayout>
 
-                    <Frame x:Name="EZComboFrame"
+                    <Frame x:Name="EZFlexComboFrame"
                            StyleClass="EZFrameStyle"
                            Background="{Binding ListFill}"
                            BorderColor="{Binding ListBorderColor}"
@@ -854,8 +854,115 @@
                            CornerRadius="10"
                            IsVisible="False">
 
-                        <ListView x:Name="EZComboListView" SelectionMode="None" Margin="1" BackgroundColor="Transparent"/>
+                        <ListView x:Name="EZFlexComboListView"
+                                  CachingStrategy="RetainElement"
+                                  SelectionMode="None"
+                                  Margin="1"
+                                  BackgroundColor="Transparent"/>
 
+                    </Frame>
+
+                </VerticalStackLayout>
+
+            </ControlTemplate>
+
+            <!-- EZCollectionCombo Template -->
+            
+            <ControlTemplate x:DataType="ez:EZCollectionCombo" x:Key="EZCollectionComboTemplate">
+
+                <VerticalStackLayout x:Name="EZCollectionComboStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+
+                    <VerticalStackLayout x:Name="EZEntryStack" StyleClass="EZVerticalStackStyle">
+
+                        <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="4" IsVisible="{Binding HasLabel}">
+                            <Label Text="*" IsVisible="{Binding IsRequired}" FontSize="13" TextColor="Red" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
+                        </HorizontalStackLayout>
+
+                        <Grid StyleClass="EZGridStyle" HeightRequest="32">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Frame x:Name="EntryFrame"
+                                   StyleClass="EZFrameStyle"
+                                   BackgroundColor="{Binding BackColor}"
+                                   BorderColor="{Binding BorderColor}"
+                                   HasShadow="False"
+                                   CornerRadius="5"/>
+
+                            <bridge:EZEntryBridge x:Name="InternalEntry"
+                                                  HeightRequest="32"
+                                                  Placeholder="{Binding Placeholder}"
+                                                  Text="{Binding Text}"
+                                                  MaxLength="{Binding MaxLength}"
+                                                  FontFamily="OpenSansRegular"
+                                                  FontSize="14"
+                                                  Margin="10,0,10,0"
+                                                  VerticalOptions="Center"
+                                                  IsReadOnly="True"
+                                                  IsPassword="False"
+                                                  IsSpellCheckEnabled="False"
+                                                  IsTextPredictionEnabled="False"
+                                                  Keyboard="{Binding Keyboard}"
+                                                  HorizontalTextAlignment="{Binding HorizontalTextAlignment}"
+                                                  BackgroundColor="Transparent"
+                                                  TextColor="{Binding TextColor}"
+                                                  PlaceholderColor="{Binding PlaceholderColor}"/>
+
+                            <Grid x:Name="EntryTapper">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OnEntryTap}"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+
+                            <Grid StyleClass="EZGridStyle" x:Name="ClearButton" WidthRequest="32" HeightRequest="32" HorizontalOptions="End" IsVisible="False">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OnClearTap}"/>
+                                </Grid.GestureRecognizers>
+
+                                <Grid StyleClass="EZGridStyle" InputTransparent="True">
+
+                                    <Path Data="{resource:PathResource EZAppMaker.Assets.Paths.clear.txt}"
+                                          Fill="{Binding IconFill}"
+                                          IsVisible="True"
+                                          Margin="0,4,0,0"
+                                          InputTransparent="True"/>
+                                </Grid>
+
+                            </Grid>
+
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                    <Frame x:Name="EZCollectionComboFrame"
+                           StyleClass="EZFrameStyle"
+                           Background="{Binding ListFill}"
+                           BorderColor="{Binding ListBorderColor}"
+                           HeightRequest="{Binding ListHeight}"
+                           IsClippedToBounds="True"
+                           CornerRadius="10"
+                           IsVisible="False">
+
+                        <CollectionView x:Name="EZCollectionComboCollectionView"
+                                        SelectionMode="None"
+                                        BackgroundColor="Transparent"
+                                        Margin="1"/>
                     </Frame>
 
                 </VerticalStackLayout>

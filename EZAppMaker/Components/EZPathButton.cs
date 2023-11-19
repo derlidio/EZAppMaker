@@ -8,8 +8,9 @@
  
 (C)2022-2023 Derlidio Siqueira - Expoente Zero */
 
-using System.Windows.Input;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 using Microsoft.Maui.Controls.Shapes;
 
@@ -29,6 +30,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.Create(nameof(StrokeThickness), typeof(double), typeof(EZPathButton), 0D);
         public static readonly BindableProperty FillProperty = BindableProperty.Create(nameof(Fill), typeof(Brush), typeof(EZPathButton), defaultValueCreator: bindable => Default.Brush("ezpathbutton_fill"));
         public static readonly BindableProperty StrokeProperty = BindableProperty.Create(nameof(Stroke), typeof(Brush), typeof(EZPathButton), defaultValueCreator: bindable => Default.Brush("ezpathbutton_stroke"));
+        public static readonly BindableProperty ContextOnTapProperty = BindableProperty.Create(nameof(ContextOnTap), typeof(string), typeof(EZButton), null);
 
         public delegate void OnTapHandler(EZPathButton button);
         public event OnTapHandler OnTap;
@@ -87,6 +89,12 @@ namespace EZAppMaker.Components
             set => SetValue(AutoDisableProperty, value);
         }
 
+        public string ContextOnTap
+        {
+            get => (string)GetValue(ContextOnTapProperty);
+            set => SetValue(ContextOnTapProperty, value);
+        }
+
         public Brush Fill
         {
             get => (Brush)GetValue(FillProperty);
@@ -133,6 +141,16 @@ namespace EZAppMaker.Components
                 EZApp.Container.HideKeyboard();
 
                 OnTap?.Invoke(this);
+
+                if (!string.IsNullOrWhiteSpace(ContextOnTap))
+                {
+                    MethodInfo tap = BindingContext?.GetType()?.GetMethod(ContextOnTap);
+
+                    if (tap != null)
+                    {
+                        tap?.Invoke(BindingContext, new object[] { this });
+                    }
+                }
 
                 tick = Environment.TickCount;
 

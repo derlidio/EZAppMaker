@@ -20,7 +20,7 @@ using EZAppMaker.Support;
 
 namespace EZAppMaker.Components
 {
-    public class EZCombo : ContentView, IEZComponent, IEZFocusable
+    public class EZCollectionCombo : ContentView, IEZComponent, IEZFocusable
     {
         private class ComboItem
         {
@@ -29,55 +29,55 @@ namespace EZAppMaker.Components
             public string NormalizedGroup { get; set; }
         }
 
-        private class ComboGroup: List<ComboItem>
+        private class ComboGroup : List<ComboItem>
         {
             public string Header { get; set; }
         }
-        
+
         private List<ComboItem> normalized = null;
         Dictionary<string, string> headers = new Dictionary<string, string>();
 
         // Entry:
 
-        public static readonly BindableProperty LabelProperty = BindableProperty.Create(nameof(Label), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(EZCombo), null, BindingMode.TwoWay);
-        public static readonly BindableProperty MaskProperty = BindableProperty.Create(nameof(Mask), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty RequiredAlertProperty = BindableProperty.Create(nameof(RequiredAlert), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty MaxLengthProperty = BindableProperty.Create(nameof(MaxLength), typeof(int), typeof(EZCombo), 255);
-        public static readonly BindableProperty IsReadOnlyProperty = BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(EZCombo), false);
-        public static readonly BindableProperty IsRequiredProperty = BindableProperty.Create(nameof(IsRequired), typeof(bool), typeof(EZCombo), false);
-        public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(EZCombo), Keyboard.Plain);
-        public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(nameof(HorizontalTextAlignment), typeof(TextAlignment), typeof(EZCombo), TextAlignment.Start);
+        public static readonly BindableProperty LabelProperty = BindableProperty.Create(nameof(Label), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(EZCollectionCombo), null, BindingMode.TwoWay);
+        public static readonly BindableProperty MaskProperty = BindableProperty.Create(nameof(Mask), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty RequiredAlertProperty = BindableProperty.Create(nameof(RequiredAlert), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty MaxLengthProperty = BindableProperty.Create(nameof(MaxLength), typeof(int), typeof(EZCollectionCombo), 255);
+        public static readonly BindableProperty IsReadOnlyProperty = BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(EZCollectionCombo), false);
+        public static readonly BindableProperty IsRequiredProperty = BindableProperty.Create(nameof(IsRequired), typeof(bool), typeof(EZCollectionCombo), false);
+        public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(EZCollectionCombo), Keyboard.Plain);
+        public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(nameof(HorizontalTextAlignment), typeof(TextAlignment), typeof(EZCollectionCombo), TextAlignment.Start);
 
-        public static readonly BindableProperty BackColorProperty = BindableProperty.Create(nameof(BackColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezentry_back"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezentry_border"));
-        public static readonly BindableProperty FocusedColorProperty = BindableProperty.Create(nameof(FocusedColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezentry_focused"));
-        public static readonly BindableProperty FlashColorProperty = BindableProperty.Create(nameof(FlashColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezentry_flash"));
-        public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezentry_label"));
-        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezentry_text"));
-        public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(nameof(PlaceholderColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezentry_placeholder"));
-        public static readonly BindableProperty IconFillProperty = BindableProperty.Create(nameof(IconFill), typeof(Brush), typeof(EZCombo), defaultValueCreator: bindable => Default.Brush("ezentry_icon"));
+        public static readonly BindableProperty BackColorProperty = BindableProperty.Create(nameof(BackColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_back"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_border"));
+        public static readonly BindableProperty FocusedColorProperty = BindableProperty.Create(nameof(FocusedColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_focused"));
+        public static readonly BindableProperty FlashColorProperty = BindableProperty.Create(nameof(FlashColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_flash"));
+        public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_label"));
+        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_text"));
+        public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(nameof(PlaceholderColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_placeholder"));
+        public static readonly BindableProperty IconFillProperty = BindableProperty.Create(nameof(IconFill), typeof(Brush), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Brush("ezentry_icon"));
 
         // List:
 
-        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable<object>), typeof(EZCombo), null);
+        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable<object>), typeof(EZCollectionCombo), null);
 
-        public static readonly BindableProperty RawValueProperty = BindableProperty.Create(nameof(RawValue), typeof(object), typeof(EZCombo), null, BindingMode.TwoWay);
+        public static readonly BindableProperty RawValueProperty = BindableProperty.Create(nameof(RawValue), typeof(object), typeof(EZCollectionCombo), null, BindingMode.TwoWay);
 
-        public static readonly BindableProperty ItemIdProperty = BindableProperty.Create(nameof(ItemId), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty KeyProperty = BindableProperty.Create(nameof(Key), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty ItemProperty = BindableProperty.Create(nameof(Item), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty DetailProperty = BindableProperty.Create(nameof(Detail), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty GroupProperty = BindableProperty.Create(nameof(Group), typeof(string), typeof(EZCombo), null);
-        public static readonly BindableProperty SortedProperty = BindableProperty.Create(nameof(Sorted), typeof(bool), typeof(EZCombo), false);
+        public static readonly BindableProperty ItemIdProperty = BindableProperty.Create(nameof(ItemId), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty KeyProperty = BindableProperty.Create(nameof(Key), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty ItemProperty = BindableProperty.Create(nameof(Item), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty DetailProperty = BindableProperty.Create(nameof(Detail), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty GroupProperty = BindableProperty.Create(nameof(Group), typeof(string), typeof(EZCollectionCombo), null);
+        public static readonly BindableProperty SortedProperty = BindableProperty.Create(nameof(Sorted), typeof(bool), typeof(EZCollectionCombo), false);
 
-        public static readonly BindableProperty HeaderBackgroundColorProperty = BindableProperty.Create(nameof(HeaderBackgroundColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezcombo_header_background"));
-        public static readonly BindableProperty HeaderColorProperty = BindableProperty.Create(nameof(HeaderColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezcombo_header"));
-        public static readonly BindableProperty ItemColorProperty = BindableProperty.Create(nameof(ItemColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezcombo_item"));
-        public static readonly BindableProperty DetailColorProperty = BindableProperty.Create(nameof(DetailColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezcombo_detail"));
-        public static readonly BindableProperty ListBorderColorProperty = BindableProperty.Create(nameof(ListBorderColor), typeof(Color), typeof(EZCombo), defaultValueCreator: bindable => Default.Color("ezcombo_list_border"));
-        public static readonly BindableProperty ListFillProperty = BindableProperty.Create(nameof(ListFill), typeof(Brush), typeof(EZCombo), defaultValueCreator: bindable => Default.Brush("ezcombo_list_fill"));
+        public static readonly BindableProperty HeaderBackgroundColorProperty = BindableProperty.Create(nameof(HeaderBackgroundColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_header_background"));
+        public static readonly BindableProperty HeaderColorProperty = BindableProperty.Create(nameof(HeaderColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_header"));
+        public static readonly BindableProperty ItemColorProperty = BindableProperty.Create(nameof(ItemColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_item"));
+        public static readonly BindableProperty DetailColorProperty = BindableProperty.Create(nameof(DetailColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_detail"));
+        public static readonly BindableProperty ListBorderColorProperty = BindableProperty.Create(nameof(ListBorderColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_list_border"));
+        public static readonly BindableProperty ListFillProperty = BindableProperty.Create(nameof(ListFill), typeof(Brush), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Brush("ezcombo_list_fill"));
 
         private object initial;
         private string state;
@@ -87,71 +87,147 @@ namespace EZAppMaker.Components
         private readonly Entry InternalEntry;
         private readonly Grid EntryTapper;
         private readonly Frame EntryFrame;
-        private readonly Frame ComboListViewFrame;
-        private readonly ListView ComboListView;
+        private readonly Frame ComboCollectionViewFrame;
+        private readonly CollectionView ComboCollectionView;
         private readonly Grid ClearButton;
 
         private EZMaskedEntry MaskBehavior;
 
         private int flashing = 0;
 
-        public delegate void OnChange(EZCombo combo, TextChangedEventArgs args);
+        public delegate void OnChange(EZCollectionCombo combo, TextChangedEventArgs args);
         public event OnChange OnChanged;
 
-        public delegate void OnReturnPressed(EZCombo combo);
+        public delegate void OnReturnPressed(EZCollectionCombo combo);
         public event OnReturnPressed OnCompleted;
 
-        public delegate void OnFocused(EZCombo combo);
+        public delegate void OnFocused(EZCollectionCombo combo);
         public new event OnFocused Focused;
 
-        public delegate void OnUnfocused(EZCombo combo);
+        public delegate void OnUnfocused(EZCollectionCombo combo);
         public new event OnFocused Unfocused;
 
-        public delegate void OnSelect(EZCombo combo, object selected);
+        public delegate void OnSelect(EZCollectionCombo combo, object selected);
         public event OnSelect OnItemSelected;
 
         public ICommand OnClearTap { get; private set; }
         public ICommand OnEntryTap { get; private set; }
+        public ICommand OnItemTap { get; private set; }
 
         private bool rebuild = true;
         private bool filter = false;
         private bool ignore = false;
 
         private List<string> triggers = new List<string>() { "ItemsSource", "Group", "Item", "Detail", "Sorted" };
-        
-        public delegate bool OnValidateHandler(EZCombo combo);
+
+        public delegate bool OnValidateHandler(EZCollectionCombo combo);
         public event OnValidateHandler OnValidate;
 
-        public EZCombo()
+        public EZCollectionCombo()
         {
             OnClearTap = new Command(Handle_ClearTap);
             OnEntryTap = new Command(Handle_EntryTap);
+            OnItemTap = new Command(Handle_ItemTap);
 
-            ControlTemplate = (ControlTemplate)EZDictionary.Resources["EZFlexComboTemplate"];
+            ControlTemplate = (ControlTemplate)EZDictionary.Resources["EZCollectionComboTemplate"];
 
             EntryStack = (VerticalStackLayout)GetTemplateChild("EZEntryStack");
-            ComboListViewFrame = (Frame)GetTemplateChild("EZFlexComboFrame");
-            ComboListView = (ListView)GetTemplateChild("EZFlexComboListView");
+            ComboCollectionViewFrame = (Frame)GetTemplateChild("EZCollectionComboFrame");
+            ComboCollectionView = (CollectionView)GetTemplateChild("EZCollectionComboCollectionView");
             EntryFrame = (Frame)GetTemplateChild("EntryFrame");
             InternalEntry = (EZEntryBridge)GetTemplateChild("InternalEntry");
             EntryTapper = (Grid)GetTemplateChild("EntryTapper");
             ClearButton = (Grid)GetTemplateChild("ClearButton");
 
-            var item = new DataTemplate(typeof(TextCell));
-            item.SetValue(TextCell.TextColorProperty, ItemColor);
-            item.SetValue(TextCell.DetailColorProperty, DetailColor);
-            ComboListView.ItemTemplate = item;
-
-            var header = new DataTemplate(typeof(TextCell));
-            header.SetValue(TextCell.TextColorProperty, HeaderColor);
-            header.SetBinding(TextCell.TextProperty, "Header");
-            ComboListView.GroupHeaderTemplate = header;
-
             InternalEntry.TextChanged += Handle_TextChanged;
             InternalEntry.Completed += Handle_Completed;
             EntryStack.SizeChanged += Handle_ListResize;
 
-            ComboListView.ItemTapped += Handle_ItemTapped;
+            ComboCollectionView.ItemTemplate = new DataTemplate(() =>
+            {
+                VerticalStackLayout stack = new VerticalStackLayout();
+                stack.Spacing = 2;
+                stack.Padding = new Thickness(10, 0, 10, 0);
+
+                if (!string.IsNullOrWhiteSpace(Item))
+                {
+                    Label itemLabel = new Label
+                    {
+                        FontFamily = "OpenSansRegular",
+                        FontSize = 16,
+                        TextColor = Default.Color("ezcombo_item"),
+                        LineBreakMode = LineBreakMode.TailTruncation
+                    };
+
+                    itemLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, $"Obj.{Item}");
+
+                    stack.Children.Add(itemLabel);
+                }
+
+                if (!string.IsNullOrWhiteSpace(Detail))
+                {
+                    Label detailLabel = new Label
+                    {
+                        FontFamily = "OpenSansRegular",
+                        FontSize = 14,
+                        TextColor = Default.Color("ezcombo_detail"),
+                        LineBreakMode = LineBreakMode.TailTruncation
+                    };
+
+                    detailLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, $"Obj.{Detail}");
+
+                    stack.Children.Add(detailLabel);
+                }
+
+                BoxView separator = new BoxView()
+                {
+                    HeightRequest = 1,
+                    Color = Colors.LightGray
+                };
+
+                stack.Children.Add(separator);
+
+                TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer
+                {
+                    Command = OnItemTap,
+                    CommandParameter = stack.BindingContext
+                };
+
+                stack.GestureRecognizers.Add(tapGestureRecognizer);
+
+                stack.BindingContextChanged += (s, e) =>
+                {
+                    tapGestureRecognizer.CommandParameter = stack.BindingContext;
+                };
+
+                return stack;
+            });
+
+            ComboCollectionView.GroupHeaderTemplate = new DataTemplate(() =>
+            {
+                VerticalStackLayout stack = new VerticalStackLayout
+                {
+                    HeightRequest = 48,
+                    Padding = new Thickness(10, 0, 10, 0),
+                    BackgroundColor = Default.Color("ezcombo_header_background")
+                };
+
+                Label headerLabel = new Label
+                {
+                    FontFamily = "OpenSansRegular",
+                    FontSize = 16,
+                    HeightRequest = 48,
+                    TextColor = Default.Color("ezcombo_header"),
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalTextAlignment = TextAlignment.Start
+                };
+
+                headerLabel.SetBinding(Microsoft.Maui.Controls.Label.TextProperty, "Header");
+
+                stack.Children.Add(headerLabel);
+
+                return stack;
+            });
         }
 
         private void Normalize()
@@ -180,10 +256,7 @@ namespace EZAppMaker.Components
                 {
                     string g = obj?.GetType().GetProperty(Group)?.GetValue(obj)?.ToString();
                     item.NormalizedGroup = EZText.RemoveDiacritics(g).ToLowerInvariant();
-                    if (!headers.ContainsKey(item.NormalizedGroup))
-                    {
-                        headers.Add(item.NormalizedGroup, g);
-                    }
+                    headers.TryAdd(item.NormalizedGroup, g);
                 }
 
                 normalized.Add(item);
@@ -202,7 +275,7 @@ namespace EZAppMaker.Components
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine($"EZCombo: Normalized {normalized.Count} in {Environment.TickCount - tick}ms");
+            System.Diagnostics.Debug.WriteLine($"EZCollectionCombo: Normalized {normalized.Count} in {Environment.TickCount - tick}ms");
         }
 
         public void ThemeChanged()
@@ -226,11 +299,11 @@ namespace EZAppMaker.Components
             ListBorderColor = Default.Color("ezcombo_list_border");
             ListFill = Default.Brush("ezcombo_list_fill");
 
-            ComboListView.ItemsSource = null;
+            ComboCollectionView.ItemsSource = null;
 
-            ComboListView.ItemTemplate.SetValue(TextCell.TextColorProperty, ItemColor);
-            ComboListView.ItemTemplate.SetValue(TextCell.DetailColorProperty, DetailColor);
-            ComboListView.GroupHeaderTemplate.SetValue(TextCell.TextColorProperty, HeaderColor);
+            ComboCollectionView.ItemTemplate.SetValue(TextCell.TextColorProperty, ItemColor);
+            ComboCollectionView.ItemTemplate.SetValue(TextCell.DetailColorProperty, DetailColor);
+            ComboCollectionView.GroupHeaderTemplate.SetValue(TextCell.TextColorProperty, HeaderColor);
 
             EntryFrame.BackgroundColor = focused ? FocusedColor : BackColor;
         }
@@ -365,27 +438,17 @@ namespace EZAppMaker.Components
 
         private void GroupPropertyChanged()
         {
-            ComboListView.IsGroupingEnabled = !string.IsNullOrWhiteSpace(Group);
+            ComboCollectionView.IsGrouped = !string.IsNullOrWhiteSpace(Group);
         }
 
         private void ItemPropertyChanged()
         {
-            ComboListView.ItemTemplate.Bindings.Remove(TextCell.TextProperty);
 
-            if (!string.IsNullOrWhiteSpace(Item))
-            {
-                ComboListView.ItemTemplate.SetBinding(TextCell.TextProperty, $"Obj.{Item}");
-            }
         }
 
         private void DetailPropertyChanged()
         {
-            ComboListView.ItemTemplate.Bindings.Remove(TextCell.DetailProperty);
 
-            if (!string.IsNullOrWhiteSpace(Detail))
-            {
-                ComboListView.ItemTemplate.SetBinding(TextCell.DetailProperty, $"Obj.{Detail}");
-            }
         }
 
         public object SelectedItem { get; private set; }
@@ -408,7 +471,7 @@ namespace EZAppMaker.Components
                 {
                     int i = 0;
 
-                    foreach(object obj in ItemsSource)
+                    foreach (object obj in ItemsSource)
                     {
                         if (SelectedItem == obj)
                         {
@@ -420,6 +483,14 @@ namespace EZAppMaker.Components
                 }
 
                 return index;
+            }
+        }
+
+        public string ItemPath
+        {
+            get
+            {
+                return $"Obj.{Item}";
             }
         }
 
@@ -666,7 +737,7 @@ namespace EZAppMaker.Components
                 }
 
                 Interlocked.Exchange(ref flashing, 0);
-            }            
+            }
         }
 
         public bool Validate()
@@ -701,7 +772,7 @@ namespace EZAppMaker.Components
         {
             if (ItemsSource == null) return;
 
-            if ((index < 0) || (index > ItemsSource.Count() -1))
+            if ((index < 0) || (index > ItemsSource.Count() - 1))
             {
                 Clear();
                 return;
@@ -759,19 +830,19 @@ namespace EZAppMaker.Components
                 EntryFrame.BackgroundColor = FocusedColor;
                 ClearButton.IsVisible = true;
 
-                System.Diagnostics.Debug.WriteLine("EZCombo ↓: awaiting");
+                System.Diagnostics.Debug.WriteLine("EZCollectionCombo ↓: awaiting");
 
                 await EZApp.Container.Resizing.WaitAsync();
                 {
-                    System.Diagnostics.Debug.WriteLine("EZCombo ↓: acquired");
-                    ComboListViewFrame.HeightRequest = ListHeight;
-                    ComboListViewFrame.IsVisible = true;
+                    System.Diagnostics.Debug.WriteLine("EZCollectionCombo ↓: acquired");
+                    ComboCollectionViewFrame.HeightRequest = ListHeight;
+                    ComboCollectionViewFrame.IsVisible = true;
 
                     await Task.Delay(100);
                 }
                 EZApp.Container.Resizing.Release();
 
-                System.Diagnostics.Debug.WriteLine("EZCombo ↓: released");
+                System.Diagnostics.Debug.WriteLine("EZCollectionCombo ↓: released");
 
                 await EZApp.Container.HandleFocus(this, true);
 
@@ -789,16 +860,16 @@ namespace EZAppMaker.Components
             InternalEntry.Margin = new Thickness(10, 0, 10, 0);
             InternalEntry.IsReadOnly = true;
 
-            System.Diagnostics.Debug.WriteLine("EZCombo ↑: awaiting");
+            System.Diagnostics.Debug.WriteLine("EZCollectionCombo ↑: awaiting");
 
             await EZApp.Container.Resizing.WaitAsync();
             {
-                System.Diagnostics.Debug.WriteLine("EZCombo ↑: acquired");
-                ComboListViewFrame.IsVisible = false;
+                System.Diagnostics.Debug.WriteLine("EZCollectionCombo ↑: acquired");
+                ComboCollectionViewFrame.IsVisible = false;
             }
             EZApp.Container.Resizing.Release();
 
-            System.Diagnostics.Debug.WriteLine("EZCombo ↑: released");
+            System.Diagnostics.Debug.WriteLine("EZCollectionCombo ↑: released");
 
             await EZApp.Container.HandleFocus(this, false);
 
@@ -851,9 +922,9 @@ namespace EZAppMaker.Components
         }
 
         [ComponentEventHandler]
-        public void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        public void Handle_ItemTap(object tapped)
         {
-            ComboItem item = (ComboItem)e.Item;
+            ComboItem item = (ComboItem)tapped;
             Select(item.Obj);
             Unfocus();
         }
@@ -862,7 +933,7 @@ namespace EZAppMaker.Components
         {
             if (!rebuild) return;
 
-            ComboListView.ItemsSource = string.IsNullOrWhiteSpace(Group) ? BuildSimpleList() : BuildGroupedList();
+            ComboCollectionView.ItemsSource = string.IsNullOrWhiteSpace(Group) ? BuildSimpleList() : BuildGroupedList();
 
             rebuild = filter;
             filter = false;
@@ -951,9 +1022,9 @@ namespace EZAppMaker.Components
 
             object item = null;
 
-            if (ComboListView.IsGroupingEnabled)
+            if (ComboCollectionView.IsGrouped)
             {
-                List<ComboGroup> groups = (List<ComboGroup>)ComboListView.ItemsSource;
+                List<ComboGroup> groups = (List<ComboGroup>)ComboCollectionView.ItemsSource;
 
                 if ((groups != null) && (groups.Count > 0) && (groups[0] != null) && (groups[0].Count > 0))
                 {
@@ -962,7 +1033,7 @@ namespace EZAppMaker.Components
             }
             else
             {
-                List<ComboItem> simple = (List<ComboItem>)ComboListView.ItemsSource;
+                List<ComboItem> simple = (List<ComboItem>)ComboCollectionView.ItemsSource;
 
                 if ((simple != null) && (simple.Count > 0))
                 {
