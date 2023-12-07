@@ -23,7 +23,7 @@
             <Style TargetType="Label">
                 <Setter Property="FontFamily" Value="OpenSansRegular"/>
                 <Setter Property="FontSize" Value="14"/>
-                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White,Default=Black}"/>
             </Style>
 
             <!-- Default Grid -->
@@ -35,15 +35,6 @@
                 <Setter Property="ColumnSpacing" Value="0"/>
             </Style>
 
-            <!-- Default Frame -->
-
-            <Style TargetType="Frame" Class="EZFrameStyle">
-                <Setter Property="CornerRadius" Value="5"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="HasShadow" Value="False"/>
-            </Style>
-
             <!-- Default Border -->
 
             <Style TargetType="Border" Class="EZBorderStyle">
@@ -51,7 +42,7 @@
                 <Setter Property="Padding" Value="0"/>
             </Style>
 
-            <!-- Default StackLayout -->
+            <!-- Default Vertical StackLayout -->
 
             <Style TargetType="VerticalStackLayout" Class="EZVerticalStackStyle">
                 <Setter Property="Margin" Value="0"/>
@@ -117,14 +108,16 @@
 
             <ControlTemplate x:DataType="ez:EZMenu" x:Key="EZMenuTemplate">
 
-                <Frame BindingContext="{Binding Source={RelativeSource TemplatedParent}}"
-                       Margin="{Binding Margin}"
-                       Padding="{Binding Padding}"
-                       Background="{Binding Fill}"
-                       BorderColor="{Binding BorderColor}"
-                       CornerRadius="{Binding CornerRadius}"
-                       HasShadow="{Binding HasShadow}"
-                       VerticalOptions="Start">
+                <Border BindingContext="{Binding Source={RelativeSource TemplatedParent}}"
+                        Margin="{Binding Margin}"
+                        Padding="{Binding Padding}"
+                        Background="{Binding Fill}"
+                        Stroke="{Binding BorderColor}"
+                        VerticalOptions="Start">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="{Binding CornerRadius}"/>
+                    </Border.StrokeShape>
 
                     <ScrollView StyleClass="EZScrollStyle" VerticalOptions="Start">
                         <VerticalStackLayout StyleClass="EZVerticalStackStyle" BindableLayout.ItemsSource="{Binding ItemsSource}" Spacing="{TemplateBinding ItemsSpacing}">
@@ -156,7 +149,7 @@
                         </VerticalStackLayout>
                     </ScrollView>
 
-                </Frame>
+                </Border>
 
             </ControlTemplate>
 
@@ -237,16 +230,6 @@
 
                     <!-- Background -->
 
-                    <!--<Frame x:Name="BgFrame"
-                           Margin="0"
-                           Padding="0"
-                           CornerRadius="{Binding CornerRadius}"
-                           Background="{Binding Fill}"
-                           BorderColor="{Binding BorderColor}"
-                           Opacity="{Binding FrameOpacity}"
-                           HasShadow="{Binding HasShadow}"
-                           Grid.Row="1"/>-->
-
                     <Border Margin="0"
                             Padding="0"
                             Background="{Binding Fill}"
@@ -273,7 +256,7 @@
                                Grid.RowSpan="2"
                                IsVisible="{Binding HasTagShadow}"
                                RadiusX="{Binding TagCornerRadius}"
-                               RadiusY="{Binding TagCornerRadius}"/> 
+                               RadiusY="{Binding TagCornerRadius}"/>
 
                     <Rectangle Fill="{Binding TagFill}"
                                HeightRequest="22"
@@ -485,12 +468,13 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Frame x:Name="EntryFrame"
-                               StyleClass="EZFrameStyle"
-                               BackgroundColor="{Binding BackColor}"
-                               BorderColor="{Binding BorderColor}"
-                               HasShadow="False"
-                               CornerRadius="5"/>
+                        <Border x:Name="EntryFrame"
+                                BackgroundColor="{Binding BackColor}"
+                                Stroke="{Binding BorderColor}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"/>
+                            </Border.StrokeShape>
+                        </Border>
 
                         <bridge:EZEntryBridge x:Name="InternalEntry"
                                               HeightRequest="32"
@@ -708,10 +692,13 @@
                         <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
                     </HorizontalStackLayout>
 
-                    <Frame StyleClass="EZFrameStyle"
-                           HeightRequest="32"
-                           BackgroundColor="{Binding BackgroundColor}"
-                           BorderColor="{Binding BorderColor}">
+                    <Border HeightRequest="32"
+                            BackgroundColor="{Binding BackgroundColor}"
+                            Stroke="{Binding BorderColor}">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
 
                         <Grid StyleClass="EZGridStyle" x:Name="Container" Margin="0,3,0,5">
 
@@ -755,7 +742,7 @@
 
                         </Grid>
 
-                    </Frame>
+                    </Border>
 
                 </VerticalStackLayout>
 
@@ -763,9 +750,9 @@
 
             <!-- EZCombo Control Template -->
             
-            <ControlTemplate x:DataType="ez:EZCombo" x:Key="EZFlexComboTemplate">
+            <ControlTemplate x:DataType="ez:EZCombo" x:Key="EZComboTemplate">
 
-                <VerticalStackLayout x:Name="EZFlexComboStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+                <VerticalStackLayout x:Name="EZComboStack" StyleClass="EZVerticalStackStyle" Spacing="4" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
                     <VerticalStackLayout x:Name="EZEntryStack" StyleClass="EZVerticalStackStyle">
 
@@ -784,12 +771,13 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Frame x:Name="EntryFrame"
-                                   StyleClass="EZFrameStyle"
-                                   BackgroundColor="{Binding BackColor}"
-                                   BorderColor="{Binding BorderColor}"
-                                   HasShadow="False"
-                                   CornerRadius="5"/>
+                            <Border x:Name="EntryFrame"
+                                    BackgroundColor="{Binding BackColor}"
+                                    Stroke="{Binding BorderColor}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"/>
+                                </Border.StrokeShape>
+                            </Border>
 
                             <bridge:EZEntryBridge x:Name="InternalEntry"
                                                   HeightRequest="32"
@@ -845,22 +833,22 @@
 
                     </VerticalStackLayout>
 
-                    <Frame x:Name="EZFlexComboFrame"
-                           StyleClass="EZFrameStyle"
-                           Background="{Binding ListFill}"
-                           BorderColor="{Binding ListBorderColor}"
-                           HeightRequest="{Binding ListHeight}"
-                           IsClippedToBounds="True"
-                           CornerRadius="10"
-                           IsVisible="False">
+                    <Border x:Name="EZComboFrame"
+                            BackgroundColor="{Binding ListBackground}"
+                            Stroke="{Binding ListBorderColor}"
+                            HeightRequest="{Binding ListHeight}"
+                            IsVisible="False">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
 
-                        <ListView x:Name="EZFlexComboListView"
+                        <ListView x:Name="EZComboListView"
                                   CachingStrategy="RetainElement"
                                   SelectionMode="None"
                                   Margin="1"
                                   BackgroundColor="Transparent"/>
 
-                    </Frame>
+                    </Border>
 
                 </VerticalStackLayout>
 
@@ -889,12 +877,13 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Frame x:Name="EntryFrame"
-                                   StyleClass="EZFrameStyle"
-                                   BackgroundColor="{Binding BackColor}"
-                                   BorderColor="{Binding BorderColor}"
-                                   HasShadow="False"
-                                   CornerRadius="5"/>
+                            <Border x:Name="EntryFrame"
+                                    BackgroundColor="{Binding BackColor}"
+                                    Stroke="{Binding BorderColor}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"/>
+                                </Border.StrokeShape>
+                            </Border>
 
                             <bridge:EZEntryBridge x:Name="InternalEntry"
                                                   HeightRequest="32"
@@ -950,20 +939,21 @@
 
                     </VerticalStackLayout>
 
-                    <Frame x:Name="EZCollectionComboFrame"
-                           StyleClass="EZFrameStyle"
-                           Background="{Binding ListFill}"
-                           BorderColor="{Binding ListBorderColor}"
-                           HeightRequest="{Binding ListHeight}"
-                           IsClippedToBounds="True"
-                           CornerRadius="10"
-                           IsVisible="False">
+                    <Border x:Name="EZCollectionComboFrame"
+                            BackgroundColor="{Binding ListBackground}"
+                            Stroke="{Binding ListBorderColor}"
+                            HeightRequest="{Binding ListHeight}"
+                            IsVisible="False">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
 
                         <CollectionView x:Name="EZCollectionComboCollectionView"
                                         SelectionMode="None"
                                         BackgroundColor="Transparent"
                                         Margin="1"/>
-                    </Frame>
+                    </Border>
 
                 </VerticalStackLayout>
 
@@ -975,38 +965,33 @@
 
                 <Grid StyleClass="EZGridStyle" HorizontalOptions="Start" VerticalOptions="Start" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
-                    <Frame StyleClass="EZFrameStyle"
-                           CornerRadius="15"
-                           Margin="20,15,10,0"
-                           Background="{Binding ShadowColor}"
-                           BorderColor="Transparent"
-                           InputTransparent="True"/>
+                    <Border Margin="15,10,15,0"
+                            BackgroundColor="{Binding BalloonColor}"
+                            Stroke="{Binding BorderColor}"
+                            InputTransparent="True">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                    </Border>
 
-                    <Frame StyleClass="EZFrameStyle"
-                           CornerRadius="15"
-                           Margin="15,10,15,5"
-                           BackgroundColor="{Binding BalloonColor}"
-                           BorderColor="{Binding BorderColor}"
-                           InputTransparent="True"/>
+                    <Border x:Name="EZBalloonPointer"
+                            HeightRequest="22"
+                            WidthRequest="22"
+                            BackgroundColor="{Binding BalloonColor}"
+                            Stroke="{Binding BorderColor}"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Start"
+                            Rotation="45">
+                    </Border>
 
-                    <Frame x:Name="EZBalloonPointer"
-                           StyleClass="EZFrameStyle"
-                           CornerRadius="0"
-                           HeightRequest="22"
-                           WidthRequest="22"
-                           BackgroundColor="{Binding BalloonColor}"
-                           BorderColor="{Binding BorderColor}"
-                           HorizontalOptions="Start"
-                           VerticalOptions="Start"
-                           Rotation="45">
-                    </Frame>
-
-                    <Frame StyleClass="EZFrameStyle"
-                           CornerRadius="15"
-                           Margin="16,11,16,6"
-                           BackgroundColor="{Binding BalloonColor}"
-                           BorderColor="{Binding BalloonColor}"
-                           InputTransparent="True"/>
+                    <Border Margin="16,11,16,1"
+                            BackgroundColor="{Binding BalloonColor}"
+                            StrokeThickness="0"
+                            InputTransparent="True">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                    </Border>
 
                     <Label FontFamily="OpenSansBold"
                            FontSize="14"
@@ -1029,37 +1014,39 @@
 
             <ControlTemplate x:DataType="ez:EZKeyboardDispatcher" x:Key="EZKeyboardDispatcherTemplate">
 
-                <Grid StyleClass="EZGridStyle" HorizontalOptions="Start" VerticalOptions="Start" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+                <Grid StyleClass="EZGridStyle"
+                      HorizontalOptions="Start"
+                      VerticalOptions="Start"
+                      BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
-                    <Frame StyleClass="EZFrameStyle"
-                           CornerRadius="15"
-                           Margin="20,15,10,0"
-                           Background="{Binding ShadowColor}"
-                           BorderColor="Transparent"/>
+                    <Border HeightRequest="48"
+                            Margin="15,10,15,0"
+                            BackgroundColor="{Binding BackgroundColor}"
+                            Stroke="{Binding BorderColor}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                    </Border>
 
-                    <Frame StyleClass="EZFrameStyle"
-                           HeightRequest="48"
-                           CornerRadius="15"
-                           Margin="15,10,15,5"
-                           BackgroundColor="{Binding BackgroundColor}"
-                           BorderColor="{Binding BorderColor}"/>
+                    <Border x:Name="EZBalloonPointer"
+                            HeightRequest="22"
+                            WidthRequest="22"
+                            BackgroundColor="{Binding BackgroundColor}"
+                            Stroke="{Binding BorderColor}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start"
+                            Rotation="45"/>
 
-                    <Frame x:Name="EZBalloonPointer"
-                           StyleClass="EZFrameStyle"
-                           CornerRadius="0"
-                           HeightRequest="22"
-                           WidthRequest="22"
-                           BackgroundColor="{Binding BackgroundColor}"
-                           BorderColor="{Binding BorderColor}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Start"
-                           Rotation="45"/>
-
-                    <Frame StyleClass="EZFrameStyle"
-                           CornerRadius="15"
-                           Margin="16,11,16,6"
-                           BackgroundColor="{Binding BackgroundColor}"
-                           BorderColor="{Binding BackgroundColor}"/>
+                    <Border Margin="16,11,16,1"
+                            BackgroundColor="{Binding BackgroundColor}"
+                            StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="{Binding ShadowColor}" Offset="5,5" Radius="5"/>
+                        </Border.Shadow>
+                    </Border>
 
                     <HorizontalStackLayout StyleClass="EZHorizontalStackStyle" Spacing="10" Padding="35,20,35,15">
 
@@ -1085,15 +1072,18 @@
 
                 <Grid StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
-                    <Frame StyleClass="EZFrameStyle"
-                           BackgroundColor="{Binding BackgroundColor}"
-                           BorderColor="{Binding BorderColor}">
+                    <Border BackgroundColor="{Binding BackgroundColor}"
+                            Stroke="{Binding BorderColor}">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
 
                         <Label Text="{Binding Label}"
                                TextColor="{Binding LabelColor}"
                                HorizontalTextAlignment="Center"
                                VerticalOptions="Start"/>
-                    </Frame>
+                    </Border>
 
                     <ContentView x:Name="EZSignatureCanvas"
                                  StyleClass="EZGridStyle"
@@ -1144,18 +1134,17 @@
 
                 <Grid x:Name="EZPhotoCanvas" StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}" IsClippedToBounds="True">
 
-                    <Frame StyleClass="EZFrameStyle"
-                           BackgroundColor="{Binding BackgroundColor}"
-                           BorderColor="{Binding BorderColor}"                   
-                           InputTransparent="True"
-                           IsEnabled="False">
+                    <Border BackgroundColor="{Binding BackgroundColor}"
+                            Stroke="{Binding BorderColor}"                   
+                            InputTransparent="True"
+                            IsEnabled="False">
 
                         <Label Text="{Binding Label}"
                                TextColor="{Binding LabelColor}"
                                HorizontalOptions="Center"
                                VerticalOptions="Start"
                                InputTransparent="True"/>
-                    </Frame>
+                    </Border>
 
                     <Image x:Name="Photo" Aspect="Fill" WidthRequest="{Binding Source={x:Reference EZPhotoCanvas}, Path=Width}" Margin="5,32,5,5"/>
 
@@ -1207,9 +1196,11 @@
                             <ColumnDefinition Width="0.25*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Frame StyleClass="EZFrameStyle"
-                                BackgroundColor="{Binding BackgroundColor}"
-                                BorderColor="{Binding BorderColor}"/>
+                        <Border BackgroundColor="{Binding BackgroundColor}" Stroke="{Binding BorderColor}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"/>
+                            </Border.StrokeShape>
+                        </Border>
 
                         <Slider x:Name="InternalSlider"
                                 StyleClass="EZSliderStyle"
@@ -1262,8 +1253,6 @@
                         <Label Text="*" IsVisible="{Binding IsRequired}" FontSize="13" TextColor="Red" FontFamily="OpenSansBold"/>
                         <Label Text="{Binding Label}" FontSize="13" TextColor="{Binding LabelColor}" FontFamily="OpenSansSemibold"/>
                     </HorizontalStackLayout>
-
-                    <!--Frame StyleClass="EZFrameStyle" BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding BorderColor}" Padding="10"-->
 
                     <Border BackgroundColor="{Binding BackgroundColor}"
                             Stroke="{Binding BorderColor}"
@@ -1426,12 +1415,20 @@
                             </Grid>
 
                             <Grid StyleClass="EZGridStyle" ColumnSpacing="10" HeightRequest="32" Margin="0,5,0,0">
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Frame x:Name="ColorMix" StyleClass="EZFrameStyle" Background="{Binding SelectedColor}" CornerRadius="5"/>
+
+                                <Border x:Name="ColorMix" BackgroundColor="{Binding SelectedColor}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5"/>
+                                    </Border.StrokeShape>
+                                </Border>
+
                                 <ez:EZEntry x:Name="ColorEntry" Mask="#HHHHHHHH" HorizontalTextAlignment="Center" IsReadOnly="True" Grid.Column="1"/>
+
                             </Grid>
 
                         </VerticalStackLayout>
@@ -1448,22 +1445,23 @@
 
                 <Grid StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
-                    <Frame x:Name="OuterFrame"
-                           StyleClass="EZFrameStyle"
-                           CornerRadius="12"
-                           HasShadow="False"
-                           BackgroundColor="{resource:ColorResource progress_bar_background}"
-                           BorderColor="{resource:ColorResource progress_bar_border}">
+                    <Border x:Name="OuterFrame"
+                            BackgroundColor="{resource:ColorResource progress_bar_background}"
+                            Stroke="{resource:BrushResource progress_bar_border}">
 
-                        <Frame x:Name="ProgressBar"
-                               StyleClass="EZFrameStyle"
-                               CornerRadius="10"
-                               HasShadow="False"
-                               Background="{resource:BrushResource progress_bar}"
-                               BorderColor="Transparent"
-                               Padding="2"
-                               IsClippedToBounds="True"
-                               Opacity="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+
+                        <Border x:Name="ProgressBar"
+                                Background="{resource:BrushResource progress_bar}"
+                                Stroke="Transparent"
+                                Padding="2"
+                                Opacity="0">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
 
                             <Label x:Name="Progress"
                                    Text="0"
@@ -1473,9 +1471,9 @@
                                    TextColor="{resource:ColorResource progress_bar_text}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="End"/>
-                        </Frame>
+                        </Border>
 
-                    </Frame>
+                    </Border>
 
                 </Grid>
 
@@ -1487,27 +1485,27 @@
 
                 <Grid StyleClass="EZGridStyle" Margin="50,0,50,0">
 
-                    <Rectangle Fill="{Binding ShadowColor}"
-                               Margin="5,5,0,0"
-                               VerticalOptions="Start"
-                               RadiusX="{Binding CornerRadius}"
-                               RadiusY="{Binding CornerRadius}"/>
+                    <Border BindingContext="{Binding Source={RelativeSource TemplatedParent}}"
+                            BackgroundColor="{Binding BackColor}"                            
+                            Stroke="{Binding BorderColor}"
+                            Margin="0,0,5,5"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center">
 
-                    <Frame StyleClass="EZFrameStyle"
-                           BindingContext="{Binding Source={RelativeSource TemplatedParent}}"
-                           BackgroundColor="{Binding BackColor}"
-                           CornerRadius="{Binding CornerRadius}"
-                           BorderColor="{Binding BorderColor}"
-                           Margin="0,0,5,5"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{Binding CornerRadius}"/>
+                        </Border.StrokeShape>
 
-                           <Label Text="{Binding Message}"
-                                  FontFamily="OpenSansSemiBold"
-                                  TextColor="{Binding TextColor}"
-                                  HorizontalTextAlignment="Center"
-                                  LineBreakMode="WordWrap"/>
-                    </Frame>
+                        <Border.Shadow>
+                            <Shadow Brush="{Binding ShadowColor}" Offset="5,5" Radius="5"/>
+                        </Border.Shadow>
+
+                        <Label Text="{Binding Message}"
+                               FontFamily="OpenSansSemiBold"
+                               TextColor="{Binding TextColor}"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="WordWrap"/>
+                    </Border>
 
                 </Grid>
 

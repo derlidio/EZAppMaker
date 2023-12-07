@@ -21,7 +21,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value), typeof(double), typeof(EZSlider), 0D, BindingMode.TwoWay);
         public static readonly BindableProperty DecimalsProperty = BindableProperty.Create(nameof(Decimals), typeof(int), typeof(EZSlider), 0);
 
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZSlider), defaultValueCreator: bindable => Default.Color("ezslider_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZSlider), defaultValueCreator: bindable => Default.Brush("ezslider_border"));
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZSlider), defaultValueCreator: bindable => Default.Color("ezslider_label"));
         public static readonly BindableProperty MinimumTrackColorProperty = BindableProperty.Create(nameof(MinimumTrackColor), typeof(Color), typeof(EZSlider), defaultValueCreator: bindable => Default.Color("ezslider_min_track"));
         public static readonly BindableProperty MaximumTrackColorProperty = BindableProperty.Create(nameof(MaximumTrackColor), typeof(Color), typeof(EZSlider), defaultValueCreator: bindable => Default.Color("ezslider_max_track"));
@@ -233,9 +233,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

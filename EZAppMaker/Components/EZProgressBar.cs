@@ -11,7 +11,7 @@ namespace EZAppMaker.Components
         private int recalc = 0;
         private double current = 0;
 
-        private readonly Frame bar;
+        private readonly Border bar;
         private readonly Label progress;
 
         public static readonly BindableProperty ItemIdProperty = BindableProperty.Create(nameof(ItemId), typeof(string), typeof(EZProgressBar), string.Empty);
@@ -24,7 +24,7 @@ namespace EZAppMaker.Components
         {
             ControlTemplate = (ControlTemplate)EZDictionary.Resources["EZProgressBarTemplate"];
 
-            bar = (Frame)GetTemplateChild("ProgressBar");
+            bar = (Border)GetTemplateChild("ProgressBar");
             progress = (Label)GetTemplateChild("Progress");
 
             bar.SizeChanged += Handle_Resize;

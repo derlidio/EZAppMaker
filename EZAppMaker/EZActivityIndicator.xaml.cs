@@ -14,11 +14,11 @@ public partial class EZActivityIndicator : ContentView
 		Spinner.IsSpinning = true;
 	}
 
-	public async void Hide()
+	public void Hide()
 	{
-        await Task.Delay(500);
+        //await Task.Delay(500);
 
-        IsVisible = false;
         Spinner.IsSpinning = false;
+        IsVisible = false;        
     }
 }

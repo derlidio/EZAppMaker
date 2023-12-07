@@ -27,7 +27,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty HasTagShadowProperty = BindableProperty.Create(nameof(HasTagShadow), typeof(bool), typeof(EZFrame), true);
 
         public static readonly BindableProperty FillProperty = BindableProperty.Create(nameof(Fill), typeof(Brush), typeof(EZFrame), defaultValueCreator: bindable => Default.Brush("ezframe_fill"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZFrame), defaultValueCreator: bindable => Default.Color("ezframe_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZFrame), defaultValueCreator: bindable => Default.Brush("ezframe_border"));
         public static readonly BindableProperty TagFillProperty = BindableProperty.Create(nameof(TagFill), typeof(Brush), typeof(EZFrame), defaultValueCreator: bindable => Default.Brush("ezframe_tag_fill"));
         public static readonly BindableProperty TagShadowProperty = BindableProperty.Create(nameof(TagShadow), typeof(Brush), typeof(EZFrame), defaultValueCreator: bindable => Default.Brush("ezframe_tag_shadow"));
         public static readonly BindableProperty TagLabelColorProperty = BindableProperty.Create(nameof(TagLabelColor), typeof(Color), typeof(EZFrame), defaultValueCreator: bindable => Default.Color("ezframe_label"));
@@ -82,9 +82,9 @@ namespace EZAppMaker.Components
             set => SetValue(TagFillProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

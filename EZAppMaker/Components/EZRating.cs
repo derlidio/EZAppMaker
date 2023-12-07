@@ -29,7 +29,7 @@ namespace EZAppMaker.Components
 
         public static readonly BindableProperty FillProperty = BindableProperty.Create(nameof(Fill), typeof(Brush), typeof(EZRating), defaultValueCreator: bindable => Default.Brush("ezrating_fill"));
         public static readonly BindableProperty StrokeProperty = BindableProperty.Create(nameof(Stroke), typeof(Brush), typeof(EZRating), defaultValueCreator: bindable => Default.Brush("ezrating_stroke"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZSlider), defaultValueCreator: bindable => Default.Color("ezslider_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZSlider), defaultValueCreator: bindable => Default.Brush("ezslider_border"));
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZSlider), defaultValueCreator: bindable => Default.Color("ezslider_label"));
 
         public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(EZSlider), defaultValueCreator: bindable => Default.Color("ezslider_background"));
@@ -216,9 +216,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

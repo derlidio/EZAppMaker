@@ -83,7 +83,6 @@ namespace EZAppMaker.Components
             if (e.PropertyName == "Y")
             {
                 var view = (ContentView)sender;
-
                 view.TranslationY = -view.Y;
             }
         }
@@ -292,6 +291,7 @@ namespace EZAppMaker.Components
                         if (EZSettings.SmoothTransitions)
                         {
                             await scroller.FadeTo(0, 250);
+                            await Task.Delay(50);
                         }
                         else
                         {
@@ -353,6 +353,7 @@ namespace EZAppMaker.Components
                         if (EZSettings.SmoothTransitions)
                         {
                             await scroller.FadeTo(0, 250, Easing.Linear);
+                            await Task.Delay(50);
                         }
                         else
                         {
@@ -437,6 +438,7 @@ namespace EZAppMaker.Components
                                 if (EZSettings.SmoothTransitions)
                                 {
                                     await scroller.FadeTo(0, 250);
+                                    await Task.Delay(50);
                                 }
                                 else
                                 {

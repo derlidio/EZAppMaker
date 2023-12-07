@@ -20,5 +20,6 @@ namespace EZAppMaker.Support
         public static int MinTapInterval { get; set; } = 250;        // Disable tapping on some components at intervals less than this setting.
         public static uint BallonTime { get; set; } = 3000;          // Visibility time of message balloons.
         public static double FormsColumnSpacing { get; set; } = 5;   // Spacing for same line controls on EZForms
+        public static double EZButtonCornerRadius { get; set; } = 5; // Self explanatory :o)
     }
 }

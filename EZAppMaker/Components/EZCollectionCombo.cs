@@ -51,7 +51,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(nameof(HorizontalTextAlignment), typeof(TextAlignment), typeof(EZCollectionCombo), TextAlignment.Start);
 
         public static readonly BindableProperty BackColorProperty = BindableProperty.Create(nameof(BackColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_back"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Brush("ezentry_border"));
         public static readonly BindableProperty FocusedColorProperty = BindableProperty.Create(nameof(FocusedColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_focused"));
         public static readonly BindableProperty FlashColorProperty = BindableProperty.Create(nameof(FlashColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_flash"));
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezentry_label"));
@@ -76,8 +76,8 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty HeaderColorProperty = BindableProperty.Create(nameof(HeaderColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_header"));
         public static readonly BindableProperty ItemColorProperty = BindableProperty.Create(nameof(ItemColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_item"));
         public static readonly BindableProperty DetailColorProperty = BindableProperty.Create(nameof(DetailColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_detail"));
-        public static readonly BindableProperty ListBorderColorProperty = BindableProperty.Create(nameof(ListBorderColor), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_list_border"));
-        public static readonly BindableProperty ListFillProperty = BindableProperty.Create(nameof(ListFill), typeof(Brush), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Brush("ezcombo_list_fill"));
+        public static readonly BindableProperty ListBorderColorProperty = BindableProperty.Create(nameof(ListBorderColor), typeof(Brush), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Brush("ezcombo_list_border"));
+        public static readonly BindableProperty ListBackgroundProperty = BindableProperty.Create(nameof(ListBackground), typeof(Color), typeof(EZCollectionCombo), defaultValueCreator: bindable => Default.Color("ezcombo_list_fill"));
 
         private object initial;
         private string state;
@@ -86,8 +86,8 @@ namespace EZAppMaker.Components
         private readonly VerticalStackLayout EntryStack;
         private readonly Entry InternalEntry;
         private readonly Grid EntryTapper;
-        private readonly Frame EntryFrame;
-        private readonly Frame ComboCollectionViewFrame;
+        private readonly Border EntryFrame;
+        private readonly Border ComboCollectionViewFrame;
         private readonly CollectionView ComboCollectionView;
         private readonly Grid ClearButton;
 
@@ -132,9 +132,9 @@ namespace EZAppMaker.Components
             ControlTemplate = (ControlTemplate)EZDictionary.Resources["EZCollectionComboTemplate"];
 
             EntryStack = (VerticalStackLayout)GetTemplateChild("EZEntryStack");
-            ComboCollectionViewFrame = (Frame)GetTemplateChild("EZCollectionComboFrame");
+            ComboCollectionViewFrame = (Border)GetTemplateChild("EZCollectionComboFrame");
             ComboCollectionView = (CollectionView)GetTemplateChild("EZCollectionComboCollectionView");
-            EntryFrame = (Frame)GetTemplateChild("EntryFrame");
+            EntryFrame = (Border)GetTemplateChild("EntryFrame");
             InternalEntry = (EZEntryBridge)GetTemplateChild("InternalEntry");
             EntryTapper = (Grid)GetTemplateChild("EntryTapper");
             ClearButton = (Grid)GetTemplateChild("ClearButton");
@@ -296,8 +296,8 @@ namespace EZAppMaker.Components
             HeaderColor = Default.Color("ezcombo_header");
             ItemColor = Default.Color("ezcombo_item");
             DetailColor = Default.Color("ezcombo_detail");
-            ListBorderColor = Default.Color("ezcombo_list_border");
-            ListFill = Default.Brush("ezcombo_list_fill");
+            ListBorderColor = Default.Brush("ezcombo_list_border");
+            ListBackground = Default.Color("ezcombo_list_fill");
 
             ComboCollectionView.ItemsSource = null;
 
@@ -591,16 +591,16 @@ namespace EZAppMaker.Components
             set => SetValue(DetailColorProperty, value);
         }
 
-        public Color ListBorderColor
+        public Brush ListBorderColor
         {
-            get => (Color)GetValue(ListBorderColorProperty);
+            get => (Brush)GetValue(ListBorderColorProperty);
             set => SetValue(ListBorderColorProperty, value);
         }
 
-        public Brush ListFill
+        public Color ListBackground
         {
-            get => (Brush)GetValue(ListFillProperty);
-            set => SetValue(ListFillProperty, value);
+            get => (Color)GetValue(ListBackgroundProperty);
+            set => SetValue(ListBackgroundProperty, value);
         }
 
         public string Placeholder
@@ -645,9 +645,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

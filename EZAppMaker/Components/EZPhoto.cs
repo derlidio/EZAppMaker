@@ -22,7 +22,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty LabelProperty = BindableProperty.Create(nameof(Label), typeof(string), typeof(EZPhoto), null);
         public static readonly BindableProperty PhotoFileProperty = BindableProperty.Create(nameof(PhotoFile), typeof(string), typeof(EZPhoto), null);
 
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZPhoto), defaultValueCreator: bindable => Default.Color("ezphoto_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZPhoto), defaultValueCreator: bindable => Default.Brush("ezphoto_border"));
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZPhoto), defaultValueCreator: bindable => Default.Color("ezphoto_label"));
 
         public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(EZPhoto), defaultValueCreator: bindable => Default.Color("ezphoto_background"));
@@ -130,9 +130,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

@@ -22,7 +22,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty LabelProperty = BindableProperty.Create(nameof(Label), typeof(string), typeof(EZColorPicker), null);
         public static readonly BindableProperty IsRequiredProperty = BindableProperty.Create(nameof(IsRequired), typeof(bool), typeof(EZColorPicker), false);
 
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZColorPicker), defaultValueCreator: bindable => Default.Color("ezcolorpicker_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZColorPicker), defaultValueCreator: bindable => Default.Brush("ezcolorpicker_border"));
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZColorPicker), defaultValueCreator: bindable => Default.Color("ezcolorpicker_label"));
         public static readonly BindableProperty SelectedColorProperty = BindableProperty.Create(nameof(SelectedColor), typeof(Color), typeof(EZColorPicker), Colors.White);
         public static readonly BindableProperty ColorValueProperty = BindableProperty.Create(nameof(ColorValue), typeof(string), typeof(EZColorPicker), "#FFFFFFFF");
@@ -236,9 +236,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

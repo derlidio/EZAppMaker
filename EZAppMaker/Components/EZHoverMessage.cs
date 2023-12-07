@@ -5,7 +5,7 @@ namespace EZAppMaker.Components
 	public class EZHoverMessage : ContentView
 	{
         public static readonly BindableProperty BalloonColorProperty = BindableProperty.Create(nameof(BackColor), typeof(Color), typeof(EZHoverMessage), defaultValueCreator: bindable => Default.Color("ezhovermsg_background"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZHoverMessage), defaultValueCreator: bindable => Default.Color("ezhovermsg_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZHoverMessage), defaultValueCreator: bindable => Default.Brush("ezhovermsg_border"));
         public static readonly BindableProperty ShadowColorProperty = BindableProperty.Create(nameof(ShadowColor), typeof(Brush), typeof(EZHoverMessage), defaultValueCreator: bindable => Default.Brush("ezhovermsg_shadow"));
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EZHoverMessage), defaultValueCreator: bindable => Default.Color("ezhovermsg_text"));
         public static readonly BindableProperty MessageProperty = BindableProperty.Create(nameof(Message), typeof(string), typeof(EZHoverMessage), string.Empty);
@@ -22,9 +22,9 @@ namespace EZAppMaker.Components
             set => SetValue(BalloonColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

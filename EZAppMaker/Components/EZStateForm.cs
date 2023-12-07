@@ -37,7 +37,7 @@ namespace EZAppMaker.Components
 
         public delegate void StateManager(StateFormAction action);
 
-        public delegate void OnSaveRequestHandler(EZStateForm form);
+        public delegate bool OnSaveRequestHandler(EZStateForm form);
         public event OnSaveRequestHandler OnSaveRequest;
 
         public EZStateForm()
@@ -135,6 +135,13 @@ namespace EZAppMaker.Components
         [ComponentEventHandler]
         private void Handle_Save(EZButton button)
         {
+            if (OnSaveRequest != null)
+            {
+                bool ok = (bool)OnSaveRequest?.Invoke(this);
+
+                if (!ok) return;
+            }
+
             Change.IsEnabled = true;
             Cancel.IsEnabled = false;
             Save.IsEnabled = false;
@@ -143,8 +150,6 @@ namespace EZAppMaker.Components
 
             OnPropertyChanged(nameof(Locked));
             OnPropertyChanged(nameof(ContentOpacity));
-
-            OnSaveRequest?.Invoke(this);
         }
 
         private void CascadeAction(Element element, StateFormAction action)

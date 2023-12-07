@@ -25,7 +25,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty DataProperty = BindableProperty.Create(nameof(Data), typeof(string), typeof(EZSignature), null, BindingMode.TwoWay);
         public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.Create(nameof(StrokeThickness), typeof(double), typeof(EZSignature), 2D);
 
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZSignature), defaultValueCreator: bindable => Default.Color("ezsignature_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZSignature), defaultValueCreator: bindable => Default.Brush("ezsignature_border"));
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZSignature), defaultValueCreator: bindable => Default.Color("ezsignature_label"));
         public static readonly BindableProperty StrokeProperty = BindableProperty.Create(nameof(Stroke), typeof(Brush), typeof(EZSignature), defaultValueCreator: bindable => Default.Brush("ezsignature_stroke"));
 
@@ -188,9 +188,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

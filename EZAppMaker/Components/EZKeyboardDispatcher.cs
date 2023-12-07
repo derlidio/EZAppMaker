@@ -21,7 +21,7 @@ namespace EZAppMaker.Components
         private readonly EZPathButton SearchButton;
 
         public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(EZKeyboardDispatcher), defaultValueCreator: bindable => Default.Color("ezkeyboarddispatcher_background"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZKeyboardDispatcher), defaultValueCreator: bindable => Default.Color("ezkeyboarddispatcher_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZKeyboardDispatcher), defaultValueCreator: bindable => Default.Brush("ezkeyboarddispatcher_border"));
         public static readonly BindableProperty ShadowColorProperty = BindableProperty.Create(nameof(ShadowColor), typeof(Brush), typeof(EZKeyboardDispatcher), defaultValueCreator: bindable => Default.Brush("ezkeyboarddispatcher_shadow"));
         public static readonly BindableProperty IconFillProperty = BindableProperty.Create(nameof(IconFill), typeof(Brush), typeof(EZKeyboardDispatcher), defaultValueCreator: bindable => Default.Brush("ezkeyboarddispatcher_icon"));
 
@@ -65,9 +65,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

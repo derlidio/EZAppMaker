@@ -20,11 +20,11 @@ namespace EZAppMaker.Components
         private bool initialized = false;
 
         public static readonly BindableProperty BalloonColorProperty = BindableProperty.Create(nameof(BalloonColor), typeof(Color), typeof(EZBalloon), defaultValueCreator: bindable => Default.Color("ezballoon_background"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZBalloon), defaultValueCreator: bindable => Default.Color("ezballoon_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZBalloon), defaultValueCreator: bindable => Default.Brush("ezballoon_border"));
         public static readonly BindableProperty ShadowColorProperty = BindableProperty.Create(nameof(ShadowColor), typeof(Brush), typeof(EZBalloon), defaultValueCreator: bindable => Default.Brush("ezballoon_shadow"));
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EZBalloon), defaultValueCreator: bindable => Default.Color("ezballoon_text"));
 
-        private Frame pointer;
+        private Border pointer;
         private int showing = 0;
         private int leave = 0;
 
@@ -38,7 +38,7 @@ namespace EZAppMaker.Components
 
             ControlTemplate = (ControlTemplate)EZDictionary.Resources["EZBalloonTemplate"];
 
-            pointer = (Frame)GetTemplateChild("EZBalloonPointer");
+            pointer = (Border)GetTemplateChild("EZBalloonPointer");
         }
 
         protected override void OnSizeAllocated(double width, double height)
@@ -69,9 +69,9 @@ namespace EZAppMaker.Components
             set => SetValue(BalloonColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

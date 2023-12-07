@@ -37,7 +37,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(nameof(HorizontalTextAlignment), typeof(TextAlignment), typeof(EZEntry), TextAlignment.Start);
 
         public static readonly BindableProperty BackColorProperty = BindableProperty.Create(nameof(BackColor), typeof(Color), typeof(EZEntry), defaultValueCreator: bindable => Default.Color("ezentry_back"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZEntry), defaultValueCreator: bindable => Default.Color("ezentry_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZEntry), defaultValueCreator: bindable => Default.Brush("ezentry_border"));
         public static readonly BindableProperty FocusedColorProperty = BindableProperty.Create(nameof(FocusedColor), typeof(Color), typeof(EZEntry), defaultValueCreator: bindable => Default.Color("ezentry_focused"));
         public static readonly BindableProperty FlashColorProperty = BindableProperty.Create(nameof(FlashColor), typeof(Color), typeof(EZEntry), defaultValueCreator: bindable => Default.Color("ezentry_flash"));
         public static readonly BindableProperty LabelColorProperty = BindableProperty.Create(nameof(LabelColor), typeof(Color), typeof(EZEntry), defaultValueCreator: bindable => Default.Color("ezentry_label"));
@@ -51,7 +51,7 @@ namespace EZAppMaker.Components
 
         private readonly Entry InternalEntry;
         private readonly Grid EntryTapper;
-        private readonly Frame EntryFrame;
+        private readonly Border EntryFrame;
         private readonly Grid ClearButton;
         private readonly Grid Password;
 
@@ -90,7 +90,7 @@ namespace EZAppMaker.Components
 
             ControlTemplate = (ControlTemplate)EZDictionary.Resources["EZEntryTemplate"];
 
-            EntryFrame = (Frame)GetTemplateChild("EntryFrame");
+            EntryFrame = (Border)GetTemplateChild("EntryFrame");
             InternalEntry = (EZEntryBridge)GetTemplateChild("InternalEntry");
             EntryTapper = (Grid)GetTemplateChild("EntryTapper");
             ClearButton = (Grid)GetTemplateChild("ClearButton");
@@ -114,7 +114,7 @@ namespace EZAppMaker.Components
             PlaceholderColor = Default.Color("ezentry_placeholder");
             IconFill = Default.Brush("ezentry_icon");
 
-            EntryFrame.BorderColor = BorderColor;
+            EntryFrame.Stroke = BorderColor;
             EntryFrame.BackgroundColor = focused ? FocusedColor : BackColor;
         }
 
@@ -308,9 +308,9 @@ namespace EZAppMaker.Components
             set => SetValue(BackColorProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

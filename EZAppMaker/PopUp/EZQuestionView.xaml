@@ -11,12 +11,14 @@
 
         <VerticalStackLayout StyleClass="EZVerticalStackStyle" VerticalOptions="Center">
 
-            <Frame Margin="25"
-                   Padding="10"
-                   CornerRadius="20"
-                   HasShadow="False"
-                   Background="{resource:BrushResource ezmodal_fill}"
-                   BorderColor="{resource:ColorResource ezmodal_border}">
+            <Border Margin="25"
+                    Padding="10"
+                    Background="{resource:BrushResource ezmodal_fill}"
+                    Stroke="{resource:BrushResource ezmodal_border}">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
 
                 <Grid StyleClass="EZGridStyle" VerticalOptions="Center" RowSpacing="5">
 
@@ -72,7 +74,7 @@
 
                 </Grid>
 
-            </Frame>
+            </Border>
 
         </VerticalStackLayout>
 

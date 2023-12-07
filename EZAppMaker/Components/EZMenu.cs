@@ -59,7 +59,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty IconStrokeThicknessProperty = BindableProperty.Create(nameof(IconStrokeThickness), typeof(double), typeof(EZMenu), 0D);
 
         public static readonly BindableProperty FillProperty = BindableProperty.Create(nameof(IconFill), typeof(Brush), typeof(EZMenu), defaultValueCreator: bindable => Default.Brush("ezmenu_fill"));
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(EZMenu), defaultValueCreator: bindable => Default.Color("ezmenu_border"));
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Brush), typeof(EZMenu), defaultValueCreator: bindable => Default.Brush("ezmenu_border"));
         public static readonly BindableProperty ItemsBackgroundColorProperty = BindableProperty.Create(nameof(ItemsBackgroundColor), typeof(Color), typeof(EZMenu), defaultValueCreator: bindable => Default.Color("ezmenu_items_background"));
         public static readonly BindableProperty ItemsColorProperty = BindableProperty.Create(nameof(ItemsColor), typeof(Color), typeof(EZMenu), defaultValueCreator: bindable => Default.Color("ezmenu_items"));
 
@@ -202,9 +202,9 @@ namespace EZAppMaker.Components
             set => SetValue(IconStrokeThicknessProperty, value);
         }
 
-        public Color BorderColor
+        public Brush BorderColor
         {
-            get => (Color)GetValue(BorderColorProperty);
+            get => (Brush)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 

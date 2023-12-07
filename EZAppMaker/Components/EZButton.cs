@@ -41,7 +41,7 @@ namespace EZAppMaker.Components
         public static readonly BindableProperty PathDataProperty = BindableProperty.Create(nameof(PathData), typeof(GeometryGroup), typeof(EZButton), null);
         public static readonly BindableProperty AutoDisableProperty = BindableProperty.Create(nameof(AutoDisable), typeof(bool), typeof(EZButton), false);
         public static readonly BindableProperty ContextOnTapProperty = BindableProperty.Create(nameof(ContextOnTap), typeof(string), typeof(EZButton), null);
-        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius), typeof(double), typeof(EZButton), 5D);
+        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius), typeof(double), typeof(EZButton), EZSettings.EZButtonCornerRadius);
 
         public delegate void OnTapHandler(EZButton button);
         public event OnTapHandler OnTap;
@@ -84,6 +84,9 @@ namespace EZAppMaker.Components
                 case "PathData":
                      OnPropertyChanged(nameof(HasPath));
                      break;
+                case "CornerRadius":
+                    System.Diagnostics.Debug.WriteLine($"EZButton CornerRadius set to: {CornerRadius}");
+                    break;
             }
         }
 
