@@ -238,9 +238,9 @@ namespace EZAppMaker.Components
 
                 if (ti != null)
                 {
-                    BoxView box = (BoxView)ti;
-                    var animation = new Animation(v => box.Opacity = v, 0, 1);
-                    animation.Commit(this, "TapAnimation", 10, 200, Easing.Linear, (v, c) => box.Opacity = 0, () => false);
+                    Border border = (Border)ti;
+                    var animation = new Animation(v => border.Opacity = v, 0, 1);
+                    animation.Commit(this, "TapAnimation", 10, 200, Easing.Linear, (v, c) => border.Opacity = 0, () => false);
                 }
 
                 EZApp.Container.HideKeyboard();

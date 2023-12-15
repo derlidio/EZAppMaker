@@ -108,8 +108,8 @@ namespace EZAppMaker.Components
         private void Handle_Change(EZButton button)
         {
             Change.IsEnabled = false;
-            Cancel.IsEnabled = true;
-            Save.IsEnabled = true;
+            Cancel.IsVisible = true;
+            Save.IsVisible = true;
 
             Blocker.IsVisible = false;
 
@@ -122,8 +122,8 @@ namespace EZAppMaker.Components
         private void Handle_Cancel(EZButton button)
         {
             Change.IsEnabled = true;
-            Cancel.IsEnabled = false;
-            Save.IsEnabled = false;
+            Cancel.IsVisible = false;
+            Save.IsVisible = false;
 
             Blocker.IsVisible = true;
 

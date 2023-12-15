@@ -86,7 +86,7 @@
         }
     },
     "ezframe_tag_shadow": {
-        "Color": "#00000000"
+        "Color": "#80000000"
     },
     "ezframe_label": {
         "Color": "#FFFFFFFF"

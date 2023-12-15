@@ -220,7 +220,7 @@
                 <Grid StyleClass="EZGridStyle" BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="12"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
@@ -237,9 +237,15 @@
                             StrokeThickness="1"
                             Opacity="{Binding FrameOpacity}"
                             Grid.Row="1">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="{Binding CornerRadius}" />
-                            </Border.StrokeShape>
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{Binding CornerRadius}" />
+                        </Border.StrokeShape>
+
+                        <Border.Shadow>
+                            <Shadow Brush="{Binding TagShadow}" Offset="5,5" Radius="5"/>
+                        </Border.Shadow>
+
                     </Border>
 
                     <!-- Body -->
@@ -248,24 +254,16 @@
 
                     <!-- Header -->
                     
-                    <Rectangle Fill="{Binding TagShadow}"
-                               HeightRequest="22"
-                               Margin="20,15,10,0"
-                               VerticalOptions="Start"
-                               Grid.Row="0"
-                               Grid.RowSpan="2"
-                               IsVisible="{Binding HasTagShadow}"
-                               RadiusX="{Binding TagCornerRadius}"
-                               RadiusY="{Binding TagCornerRadius}"/>
-
-                    <Rectangle Fill="{Binding TagFill}"
-                               HeightRequest="22"
-                               Margin="15,10,15,0"
-                               VerticalOptions="Start"
-                               Grid.Row="0"
-                               Grid.RowSpan="2"
-                               RadiusX="{Binding TagCornerRadius}"
-                               RadiusY="{Binding TagCornerRadius}"/>
+                    <Border Background="{Binding TagFill}"
+                            HeightRequest="24"
+                            Margin="15,0,15,0"
+                            VerticalOptions="Start"
+                            Grid.Row="0"
+                            Grid.RowSpan="2">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{Binding TagCornerRadius}"/>
+                        </Border.StrokeShape>
+                    </Border>
 
                     <Label Text="{Binding Label}"
                            FontFamily="OpenSansBold"
@@ -274,7 +272,7 @@
                            HorizontalTextAlignment="{Binding TagHorizontalTextAlignment}"
                            LineBreakMode="TailTruncation"
                            VerticalOptions="Start"
-                           Margin="25,10,25,0"
+                           Margin="25,2,25,0"
                            Grid.Row="0"
                            Grid.RowSpan="2"/>
                 </Grid>
@@ -328,8 +326,8 @@
                         <!-- appear when needed, but...                                                                   -->
 
                         <ez:EZButton x:Name="Change" Type="primary" WidthRequest="80"/>
-                        <ez:EZButton x:Name="Cancel" Type="danger" WidthRequest="80" IsEnabled="False"/>
-                        <ez:EZButton x:Name="Apply" Type="success" WidthRequest="80" IsEnabled="False"/>
+                        <ez:EZButton x:Name="Cancel" Type="danger" WidthRequest="80" IsVisible="False"/>
+                        <ez:EZButton x:Name="Apply" Type="success" WidthRequest="80" IsVisible="False"/>
 
                     </HorizontalStackLayout>
 
@@ -351,24 +349,18 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Rectangle HeightRequest="{Binding TagHeight}"
-                               Fill="{Binding ShadowColor}"
-                               Margin="5,5,0,0"
-                               VerticalOptions="Start"
-                               Grid.Row="0"
-                               Grid.RowSpan="2"
-                               IsVisible="{Binding HasShadow}"
-                               RadiusX="{Binding CornerRadius}"
-                               RadiusY="{Binding CornerRadius}"/>
-
-                    <Rectangle HeightRequest="{Binding TagHeight}"
-                               Fill="{Binding Fill}"
-                               Margin="0,0,5,0"
-                               VerticalOptions="Start"
-                               Grid.Row="0"
-                               Grid.RowSpan="2"
-                               RadiusX="{Binding CornerRadius}"
-                               RadiusY="{Binding CornerRadius}"/>
+                    <Border HeightRequest="{Binding TagHeight}"
+                            Background="{Binding Fill}"
+                            VerticalOptions="Start"
+                            Grid.Row="0"
+                            Grid.RowSpan="2">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{Binding CornerRadius}"/>
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="{Binding ShadowColor}" Offset="5,5" Radius="5"/>
+                        </Border.Shadow>
+                    </Border>
 
                     <Label HeightRequest="{Binding TagHeight}"
                            Text="{Binding Label}"
@@ -378,8 +370,8 @@
                            HorizontalTextAlignment="{Binding HorizontalTextAlignment}"
                            VerticalTextAlignment="Center"
                            LineBreakMode="TailTruncation"
+                           Margin="10,0,10,0"
                            VerticalOptions="Start"
-                           Margin="10,0,15,0"
                            Grid.Row="0"
                            Grid.RowSpan="2"/>
                 </Grid>
@@ -396,9 +388,17 @@
                         <RowDefinition Height="32"/>
                     </Grid.RowDefinitions>
 
-                    <BoxView Color="{Binding ButtonColor}" CornerRadius="{Binding CornerRadius}"/>
+                    <Border BackgroundColor="{Binding ButtonColor}" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{Binding CornerRadius}"/>
+                        </Border.StrokeShape>
+                    </Border>
 
-                    <BoxView x:Name="TapIndicator" CornerRadius="{Binding CornerRadius}" Color="{Binding TappedColor}" Opacity="0"/>
+                    <Border x:Name="TapIndicator" BackgroundColor="{Binding TappedColor}" StrokeThickness="0" Opacity="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{Binding CornerRadius}"/>
+                        </Border.StrokeShape>
+                    </Border>
 
                     <HorizontalStackLayout HeightRequest="32"
                                            Spacing="10"
